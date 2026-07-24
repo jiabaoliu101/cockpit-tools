@@ -1,7 +1,9 @@
 {
-  "name": "cockpit-tools",
+  "name": "devhangar",
   "private": true,
   "version": "1.3.14",
+  "description": "DevHangar — unified account, quota, and instance management for AI development tools.",
+  "author": "jiabaoliu101",
   "type": "module",
   "scripts": {
     "dev": "vite",
