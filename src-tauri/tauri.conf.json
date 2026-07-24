@@ -11,61 +11,9 @@
   },
   "app": {
     "macOSPrivateApi": true,
-    "windows": [
-      {
-        "label": "main",
-        "title": "DevHangar",
-        "width": 1280,
-        "height": 800,
-        "minWidth": 900,
-        "minHeight": 600,
-        "center": true,
-        "titleBarStyle": "Overlay",
-        "hiddenTitle": true,
-        "transparent": false,
-        "resizable": true
-      },
-      {
-        "label": "floating-card",
-        "title": "DevHangar",
-        "create": false,
-        "width": 250,
-        "height": 290,
-        "minWidth": 250,
-        "minHeight": 290,
-        "decorations": false,
-        "transparent": true,
-        "shadow": false,
-        "resizable": false,
-        "skipTaskbar": true,
-        "alwaysOnTop": false,
-        "visible": false
-      }
-    ],
-    "security": {
-      "csp": null
-    }
+    "windows": [{"label":"main","title":"DevHangar","width":1280,"height":800,"minWidth":900,"minHeight":600,"center":true,"titleBarStyle":"Overlay","hiddenTitle":true,"transparent":false,"resizable":true},{"label":"floating-card","title":"DevHangar","create":false,"width":250,"height":290,"minWidth":250,"minHeight":290,"decorations":false,"transparent":true,"shadow":false,"resizable":false,"skipTaskbar":true,"alwaysOnTop":false,"visible":false}],
+    "security":{"csp":null}
   },
-  "bundle": {
-    "active": true,
-    "targets": "all",
-    "createUpdaterArtifacts": true,
-    "externalBin": [
-      "../sidecars/cockpit-cliproxy/bin/cockpit-cliproxy"
-    ]
-  },
-  "plugins": {
-    "deep-link": {
-      "desktop": {
-        "schemes": ["devhangar", "zcode"]
-      }
-    },
-    "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkwMjE5MkQ5RENFNTE5QjQKUlBTN0dlWGMyWkloa05ua1NJSU1SWE5yTi9PSUx0RVdJa3RvaFNST1NYcElwb0NCVGpmRUhBT3UK",
-      "endpoints": [
-        "https://github.com/jiabaoliu101/cockpit-tools/releases/latest/download/latest-{{target}}.json",
-        "https://github.com/jiabaoliu101/cockpit-tools/releases/latest/download/latest.json"
-      ]
-    }
-  }
+  "bundle":{"active":true,"targets":"all","createUpdaterArtifacts":true,"externalBin":["../sidecars/cockpit-cliproxy/bin/cockpit-cliproxy"]},
+  "plugins":{"deep-link":{"desktop":{"schemes":["devhangar","zcode"]}},"updater":{"pubkey":"dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkwMjE5MkQ5RENFNTE5QjQKUldTMEdlWGMyWkloa05ua1NJSU1SWE5yTi9PSUx0RVdJa3RvaFNST1NYcElwb0NCVGpmRUhBT3UK","endpoints":["https://github.com/jiabaoliu101/cockpit-tools/releases/latest/download/latest-{{target}}.json","https://github.com/jiabaoliu101/cockpit-tools/releases/latest/download/latest.json"]}}
 }
