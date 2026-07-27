@@ -121,6 +121,8 @@ func Migrate() error {
 		redeemed_by UUID REFERENCES users(id) ON DELETE SET NULL,
 		redeemed_at TIMESTAMPTZ,
 		created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+		batch_name VARCHAR(100) NOT NULL DEFAULT '',
+		note VARCHAR(500) NOT NULL DEFAULT '',
 		created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	);
 
@@ -143,6 +145,8 @@ func Migrate() error {
 	CREATE INDEX IF NOT EXISTS idx_account_pool_ready ON account_pool(platform, status, created_at);
 	CREATE INDEX IF NOT EXISTS idx_assignments_user_status ON account_assignments(user_id, status);
 	CREATE INDEX IF NOT EXISTS idx_redemption_codes_status ON redemption_codes(status, expires_at);
+	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS batch_name VARCHAR(100) NOT NULL DEFAULT '';
+	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS note VARCHAR(500) NOT NULL DEFAULT '';
 	`
 	_, err := DB.Exec(schema)
 	if err != nil {

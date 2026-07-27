@@ -419,6 +419,9 @@ function CardCodesTab() {
   const [codes, setCodes] = useState<any[]>([]);
   const [planId, setPlanId] = useState('');
   const [count, setCount] = useState(1);
+  const [expiresAt, setExpiresAt] = useState('');
+  const [batchName, setBatchName] = useState('');
+  const [note, setNote] = useState('');
   const [creating, setCreating] = useState(false);
   const [newCodes, setNewCodes] = useState<string[]>([]);
 
@@ -439,13 +442,29 @@ function CardCodesTab() {
     if (!planId) return;
     setCreating(true);
     try {
-      const result = await apiPost('/admin/redemption-codes', { plan_id: planId, count });
+      const result = await apiPost('/admin/redemption-codes', {
+        plan_id: planId,
+        count,
+        batch_name: batchName,
+        note,
+        expires_at: expiresAt ? new Date(expiresAt).toISOString() : null,
+      });
       setNewCodes(result.codes || []);
       await load();
     } catch (e: any) {
       alert('生成卡密失败: ' + e.message);
     }
     setCreating(false);
+  };
+
+  const downloadCodes = () => {
+    const csv = `card_code\n${newCodes.map((code) => `"${code}"`).join('\n')}`;
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `aiswitch-cards-${new Date().toISOString().slice(0, 10)}.csv`;
+    anchor.click();
+    URL.revokeObjectURL(url);
   };
 
   const disable = async (id: string) => {
@@ -469,9 +488,17 @@ function CardCodesTab() {
               <span className="label-text text-xs mb-1">数量</span>
               <input className="input input-bordered input-sm" type="number" min={1} max={1000} value={count} onChange={(e) => setCount(Math.max(1, Math.min(1000, Number(e.target.value))))} />
             </label>
+            <label className="form-control w-full md:w-56">
+              <span className="label-text text-xs mb-1">有效期（可选）</span>
+              <input className="input input-bordered input-sm" type="datetime-local" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
+            </label>
             <button className="btn btn-primary btn-sm" disabled={creating || !planId} onClick={() => void generate()}>
               {creating ? <span className="loading loading-spinner loading-xs" /> : <Ticket className="w-4 h-4" />} 生成卡密
             </button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-3 mt-3">
+            <input className="input input-bordered input-sm" placeholder="批次名称（例如：7 月首批）" maxLength={100} value={batchName} onChange={(e) => setBatchName(e.target.value)} />
+            <input className="input input-bordered input-sm" placeholder="内部备注" maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} />
           </div>
         </div>
       </div>
@@ -480,20 +507,23 @@ function CardCodesTab() {
         <div className="alert alert-warning mb-5 block">
           <div className="font-semibold mb-2">请立即复制并保存：卡密明文仅显示这一次。</div>
           <textarea className="textarea textarea-bordered w-full font-mono text-sm" rows={Math.min(12, newCodes.length + 1)} readOnly value={newCodes.join('\n')} />
-          <button className="btn btn-sm mt-2" onClick={() => void navigator.clipboard.writeText(newCodes.join('\n'))}>复制全部</button>
+          <div className="flex gap-2 mt-2">
+            <button className="btn btn-sm" onClick={() => void navigator.clipboard.writeText(newCodes.join('\n'))}>复制全部</button>
+            <button className="btn btn-sm btn-outline" onClick={downloadCodes}>导出 CSV</button>
+          </div>
         </div>
       )}
 
       <div className="overflow-x-auto">
         <table className="table table-zebra">
-          <thead><tr><th>套餐</th><th>状态</th><th>兑换用户</th><th>兑换时间</th><th>创建时间</th><th>操作</th></tr></thead>
+          <thead><tr><th>套餐 / 批次</th><th>状态</th><th>兑换用户</th><th>兑换时间</th><th>到期</th><th>操作</th></tr></thead>
           <tbody>{codes.map((code) => (
             <tr key={code.id}>
-              <td>{code.plan_name}</td>
+              <td><div>{code.plan_name}</div><div className="text-xs text-base-content/50">{code.batch_name || code.note || '-'}</div></td>
               <td><span className={`badge badge-xs ${code.status === 'active' ? 'badge-success' : code.status === 'redeemed' ? 'badge-info' : 'badge-ghost'}`}>{code.status === 'active' ? '未使用' : code.status === 'redeemed' ? '已兑换' : '已作废'}</span></td>
               <td>{code.redeemed_by || '-'}</td>
               <td className="text-xs">{code.redeemed_at ? new Date(code.redeemed_at).toLocaleString('zh-CN') : '-'}</td>
-              <td className="text-xs">{new Date(code.created_at).toLocaleString('zh-CN')}</td>
+              <td className="text-xs">{code.expires_at ? new Date(code.expires_at).toLocaleString('zh-CN') : '永久有效'}</td>
               <td>{code.status === 'active' && <button className="btn btn-xs btn-ghost text-error" onClick={() => void disable(code.id)}>作废</button>}</td>
             </tr>
           ))}</tbody>

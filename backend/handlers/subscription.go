@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -11,6 +12,8 @@ import (
 	"github.com/jiabaoliu101/aiswitch/backend/database"
 	"github.com/jiabaoliu101/aiswitch/backend/models"
 )
+
+var ErrInsufficientInventory = errors.New("insufficient ready account inventory")
 
 // ── Subscription Handlers ──
 
@@ -227,6 +230,16 @@ func grantSubscriptionTx(tx *sql.Tx, userID, planID string) error {
 		userID,
 	).Scan(&assignedCount); err != nil {
 		return err
+	}
+	neededAccounts := maxAccounts - assignedCount
+	if neededAccounts > 0 {
+		var readyCount int
+		if err := tx.QueryRow(`SELECT COUNT(*) FROM account_pool WHERE platform = 'codex' AND status = 'ready'`).Scan(&readyCount); err != nil {
+			return err
+		}
+		if readyCount < neededAccounts {
+			return ErrInsufficientInventory
+		}
 	}
 
 	for assignedCount < maxAccounts {

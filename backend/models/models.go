@@ -123,6 +123,8 @@ type GenerateRedemptionCodesRequest struct {
 	PlanID    string     `json:"plan_id" binding:"required"`
 	Count     int        `json:"count" binding:"required,min=1,max=1000"`
 	ExpiresAt *time.Time `json:"expires_at"`
+	BatchName string     `json:"batch_name" binding:"max=100"`
+	Note      string     `json:"note" binding:"max=500"`
 }
 
 type UserAccountResponse struct {

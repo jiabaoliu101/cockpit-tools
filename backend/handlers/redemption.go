@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"math/big"
 	"net/http"
@@ -55,6 +56,8 @@ type redemptionCodeEntry struct {
 	RedeemedAt *time.Time `json:"redeemed_at"`
 	RedeemedBy string     `json:"redeemed_by"`
 	CreatedAt  time.Time  `json:"created_at"`
+	BatchName  string     `json:"batch_name"`
+	Note       string     `json:"note"`
 }
 
 func AdminGenerateRedemptionCodes(c *gin.Context) {
@@ -79,7 +82,7 @@ func AdminGenerateRedemptionCodes(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate card code"})
 			return
 		}
-		_, err = database.DB.Exec(`INSERT INTO redemption_codes (code_hash, plan_id, expires_at, created_by) VALUES ($1, $2, $3, $4)`, cardCodeHash(code), req.PlanID, req.ExpiresAt, c.GetString("user_id"))
+		_, err = database.DB.Exec(`INSERT INTO redemption_codes (code_hash, plan_id, expires_at, created_by, batch_name, note) VALUES ($1, $2, $3, $4, $5, $6)`, cardCodeHash(code), req.PlanID, req.ExpiresAt, c.GetString("user_id"), strings.TrimSpace(req.BatchName), strings.TrimSpace(req.Note))
 		if err != nil {
 			continue
 		}
@@ -89,7 +92,7 @@ func AdminGenerateRedemptionCodes(c *gin.Context) {
 }
 
 func AdminListRedemptionCodes(c *gin.Context) {
-	rows, err := database.DB.Query(`SELECT rc.id, sp.name, rc.status, rc.expires_at, rc.redeemed_at, COALESCE(u.email, ''), rc.created_at FROM redemption_codes rc JOIN subscription_plans sp ON sp.id = rc.plan_id LEFT JOIN users u ON u.id = rc.redeemed_by ORDER BY rc.created_at DESC LIMIT 500`)
+	rows, err := database.DB.Query(`SELECT rc.id, sp.name, rc.status, rc.expires_at, rc.redeemed_at, COALESCE(u.email, ''), rc.created_at, rc.batch_name, rc.note FROM redemption_codes rc JOIN subscription_plans sp ON sp.id = rc.plan_id LEFT JOIN users u ON u.id = rc.redeemed_by ORDER BY rc.created_at DESC LIMIT 500`)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
@@ -98,7 +101,7 @@ func AdminListRedemptionCodes(c *gin.Context) {
 	result := []redemptionCodeEntry{}
 	for rows.Next() {
 		var item redemptionCodeEntry
-		if err := rows.Scan(&item.ID, &item.PlanName, &item.Status, &item.ExpiresAt, &item.RedeemedAt, &item.RedeemedBy, &item.CreatedAt); err == nil {
+		if err := rows.Scan(&item.ID, &item.PlanName, &item.Status, &item.ExpiresAt, &item.RedeemedAt, &item.RedeemedBy, &item.CreatedAt, &item.BatchName, &item.Note); err == nil {
 			result = append(result, item)
 		}
 	}
@@ -151,6 +154,10 @@ func RedeemCode(c *gin.Context) {
 		return
 	}
 	if err := grantSubscriptionTx(tx, c.GetString("user_id"), planID); err != nil {
+		if errors.Is(err, ErrInsufficientInventory) {
+			c.JSON(http.StatusConflict, gin.H{"error": "This plan is temporarily out of stock. Please contact support."})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to activate subscription"})
 		return
 	}
