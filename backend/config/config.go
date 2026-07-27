@@ -11,6 +11,7 @@ type Config struct {
 	DatabaseURL    string
 	JWTSecret      string
 	CardCodePepper string
+	AllowedOrigins []string
 	Environment    string
 }
 
@@ -22,7 +23,19 @@ func Load() *Config {
 		Environment: strings.ToLower(getEnv("APP_ENV", "development")),
 	}
 	cfg.CardCodePepper = getEnv("CARD_CODE_PEPPER", cfg.JWTSecret)
+	cfg.AllowedOrigins = splitCSV(getEnv("CORS_ALLOWED_ORIGINS", "http://localhost:1420,tauri://localhost,https://tauri.localhost"))
 	return cfg
+}
+
+func splitCSV(value string) []string {
+	parts := strings.Split(value, ",")
+	result := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if item := strings.TrimSpace(part); item != "" {
+			result = append(result, item)
+		}
+	}
+	return result
 }
 
 // Validate rejects insecure defaults before a production server accepts users.

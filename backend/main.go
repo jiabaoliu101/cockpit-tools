@@ -33,6 +33,7 @@ func main() {
 
 	// Setup router
 	r := gin.Default()
+	r.Use(middleware.CORS(cfg.AllowedOrigins))
 
 	// Health check
 	r.GET("/health", func(c *gin.Context) {
