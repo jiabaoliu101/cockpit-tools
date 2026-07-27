@@ -69,12 +69,14 @@ func Migrate() error {
 	CREATE TABLE IF NOT EXISTS payments (
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 		user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+		plan_id UUID REFERENCES subscription_plans(id),
 		amount_cents INTEGER NOT NULL,
 		currency VARCHAR(10) DEFAULT 'CNY',
 		payment_method VARCHAR(50) DEFAULT '',
 		gateway_order_id VARCHAR(255) DEFAULT '',
 		status VARCHAR(20) DEFAULT 'pending',
 		paid_at TIMESTAMPTZ,
+		fulfilled_at TIMESTAMPTZ,
 		created_at TIMESTAMPTZ DEFAULT NOW()
 	);
 
@@ -117,6 +119,13 @@ func Migrate() error {
 		('Basic Yearly', 365, 1, 19999),
 		('Pro Yearly', 365, 3, 49999)
 	ON CONFLICT DO NOTHING;
+
+	-- Additive changes for databases created before payment plans were bound to orders.
+	ALTER TABLE payments ADD COLUMN IF NOT EXISTS plan_id UUID REFERENCES subscription_plans(id);
+	ALTER TABLE payments ADD COLUMN IF NOT EXISTS fulfilled_at TIMESTAMPTZ;
+	CREATE INDEX IF NOT EXISTS idx_payments_user_status ON payments(user_id, status);
+	CREATE INDEX IF NOT EXISTS idx_account_pool_available ON account_pool(platform, status, created_at);
+	CREATE INDEX IF NOT EXISTS idx_assignments_user_status ON account_assignments(user_id, status);
 	`
 	_, err := DB.Exec(schema)
 	if err != nil {

@@ -20,7 +20,11 @@ func GetMyAccounts(c *gin.Context) {
 		`SELECT ap.id, ap.platform, ap.email, ap.access_token_encrypted, ap.token_expiry
 		 FROM account_pool ap
 		 JOIN account_assignments aa ON ap.id = aa.account_id
-		 WHERE aa.user_id = $1 AND aa.status = 'active' AND ap.status = 'assigned'`,
+		 WHERE aa.user_id = $1 AND aa.status = 'active' AND ap.status = 'assigned'
+		 AND EXISTS (
+			SELECT 1 FROM user_subscriptions us
+			WHERE us.user_id = $1 AND us.status = 'active' AND us.expires_at > NOW()
+		 )`,
 		userID,
 	)
 	if err != nil {
@@ -51,7 +55,11 @@ func GetMyAccount(c *gin.Context) {
 		`SELECT ap.id, ap.platform, ap.email, ap.access_token_encrypted, ap.token_expiry
 		 FROM account_pool ap
 		 JOIN account_assignments aa ON ap.id = aa.account_id
-		 WHERE ap.id = $1 AND aa.user_id = $2 AND aa.status = 'active'`,
+		 WHERE ap.id = $1 AND aa.user_id = $2 AND aa.status = 'active'
+		 AND EXISTS (
+			SELECT 1 FROM user_subscriptions us
+			WHERE us.user_id = $2 AND us.status = 'active' AND us.expires_at > NOW()
+		 )`,
 		accountID, userID,
 	).Scan(&a.ID, &a.Platform, &a.Email, &a.AccessToken, &a.TokenExpiry)
 	if err != nil {
@@ -87,7 +95,11 @@ func Checkin(c *gin.Context) {
 		`SELECT ap.id, ap.platform, ap.email, ap.access_token_encrypted, ap.token_expiry
 		 FROM account_pool ap
 		 JOIN account_assignments aa ON ap.id = aa.account_id
-		 WHERE aa.user_id = $1 AND aa.status = 'active'`,
+		 WHERE aa.user_id = $1 AND aa.status = 'active'
+		 AND EXISTS (
+			SELECT 1 FROM user_subscriptions us
+			WHERE us.user_id = $1 AND us.status = 'active' AND us.expires_at > NOW()
+		 )`,
 		userID,
 	)
 	if err != nil {
