@@ -31,6 +31,16 @@ async function apiPost(path: string, body: any) {
   return res.json();
 }
 
+async function apiPut(path: string, body: any) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
 async function apiDelete(path: string) {
   const res = await fetch(`${API_BASE}${path}`, {
     method: 'DELETE',
@@ -91,7 +101,7 @@ function UsersTab() {
   useEffect(() => { load(); }, []);
 
   const toggleActive = async (id: string, isActive: boolean) => {
-    try { await apiPost(`/admin/users/${id}`, { is_active: !isActive }); load(); } catch {}
+    try { await apiPut(`/admin/users/${id}`, { is_active: !isActive }); load(); } catch {}
   };
 
   if (loading) return <div className="flex items-center justify-center p-12"><span className="loading loading-spinner loading-lg" /></div>;

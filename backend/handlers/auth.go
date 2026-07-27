@@ -147,7 +147,7 @@ func RefreshToken(c *gin.Context) {
 	rows, err := database.DB.Query(
 		`SELECT rt.id, rt.user_id, rt.token_hash, u.is_admin
 		 FROM refresh_tokens rt JOIN users u ON rt.user_id = u.id
-		 WHERE rt.expires_at > NOW()`,
+		 WHERE rt.expires_at > NOW() AND u.is_active = true`,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})

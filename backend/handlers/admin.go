@@ -51,7 +51,17 @@ func AdminUpdateUser(c *gin.Context) {
 	}
 
 	if req.IsActive != nil {
-		database.DB.Exec(`UPDATE users SET is_active = $1 WHERE id = $2`, *req.IsActive, userID)
+		if _, err := database.DB.Exec(`UPDATE users SET is_active = $1 WHERE id = $2`, *req.IsActive, userID); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
+			return
+		}
+		if !*req.IsActive {
+			// Existing access tokens are rejected by AuthRequired; revoke refresh tokens too.
+			if _, err := database.DB.Exec(`DELETE FROM refresh_tokens WHERE user_id = $1`, userID); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to revoke user sessions"})
+				return
+			}
+		}
 	}
 	if req.IsAdmin != nil {
 		database.DB.Exec(`UPDATE users SET is_admin = $1 WHERE id = $2`, *req.IsAdmin, userID)

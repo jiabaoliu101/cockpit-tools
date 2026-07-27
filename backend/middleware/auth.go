@@ -6,6 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+
+	"github.com/jiabaoliu101/aiswitch/backend/database"
 )
 
 var JWTSecret []byte
@@ -32,7 +34,7 @@ func AuthRequired() gin.HandlerFunc {
 		}
 
 		token, err := jwt.Parse(parts[1], func(t *jwt.Token) (interface{}, error) {
-			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			if t.Method != jwt.SigningMethodHS256 {
 				return nil, jwt.ErrSignatureInvalid
 			}
 			return JWTSecret, nil
@@ -51,8 +53,21 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("user_id", claims["sub"])
-		c.Set("is_admin", claims["is_admin"])
+		userID, ok := claims["sub"].(string)
+		if !ok || userID == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token subject"})
+			c.Abort()
+			return
+		}
+
+		var isActive bool
+		if err := database.DB.QueryRow(`SELECT is_active FROM users WHERE id = $1`, userID).Scan(&isActive); err != nil || !isActive {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Account is disabled or no longer exists"})
+			c.Abort()
+			return
+		}
+
+		c.Set("user_id", userID)
 		c.Next()
 	}
 }
@@ -60,8 +75,9 @@ func AuthRequired() gin.HandlerFunc {
 // AdminRequired ensures the user is an admin
 func AdminRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		isAdmin, _ := c.Get("is_admin")
-		if isAdmin != true {
+		userID := c.GetString("user_id")
+		var isAdmin bool
+		if err := database.DB.QueryRow(`SELECT is_admin FROM users WHERE id = $1 AND is_active = true`, userID).Scan(&isAdmin); err != nil || !isAdmin {
 			c.JSON(http.StatusForbidden, gin.H{"error": "Admin access required"})
 			c.Abort()
 			return

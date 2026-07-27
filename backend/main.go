@@ -13,6 +13,9 @@ import (
 
 func main() {
 	cfg := config.Load()
+	if err := cfg.Validate(); err != nil {
+		log.Fatalf("Invalid configuration: %v", err)
+	}
 
 	// Initialize JWT secret
 	middleware.SetJWTSecret(cfg.JWTSecret)
@@ -22,6 +25,9 @@ func main() {
 		log.Fatalf("Database connection failed: %v", err)
 	}
 	defer database.Close()
+	if err := database.Migrate(); err != nil {
+		log.Fatalf("Database migration failed: %v", err)
+	}
 
 	// Setup router
 	r := gin.Default()
