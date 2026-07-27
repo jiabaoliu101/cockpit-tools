@@ -160,6 +160,15 @@ function AccountsTab() {
     try { await apiDelete(`/admin/accounts/${id}`); load(); } catch {}
   };
 
+  const markReady = async (id: string) => {
+    try {
+      await apiPut(`/admin/accounts/${id}`, { status: 'ready' });
+      load();
+    } catch (e: any) {
+      alert('更新账号状态失败: ' + e.message);
+    }
+  };
+
   if (loading) return <div className="flex items-center justify-center p-12"><span className="loading loading-spinner loading-lg" /></div>;
 
   return (
@@ -194,13 +203,26 @@ function AccountsTab() {
                 <td><span className="badge">{a.platform}</span></td>
                 <td className="text-sm">{a.email || '-'}</td>
                 <td>
-                  {a.status === 'available' ? <span className="badge badge-success badge-xs">可用</span>
+                  {a.status === 'ready' ? <span className="badge badge-success badge-xs">待分配</span>
                    : a.status === 'assigned' ? <span className="badge badge-info badge-xs">已分配</span>
+                   : a.status === 'staging' ? <span className="badge badge-warning badge-xs">待校验</span>
+                   : a.status === 'expiring' ? <span className="badge badge-warning badge-xs">到期处理</span>
+                   : a.status === 'revoking' ? <span className="badge badge-warning badge-xs">撤销中</span>
+                   : a.status === 'quarantined' ? <span className="badge badge-error badge-xs">已隔离</span>
                    : <span className="badge badge-ghost badge-xs">{a.status}</span>}
                 </td>
                 <td className="text-xs">{a.token_expiry ? new Date(a.token_expiry * 1000).toLocaleDateString('zh-CN') : '-'}</td>
                 <td className="text-xs text-base-content/50">{a.created_at}</td>
                 <td>
+                  {(a.status === 'staging' || a.status === 'verified_revoked') && (
+                    <button
+                      className="btn btn-xs btn-ghost text-success mr-1"
+                      title="确认凭据有效且可安全分配后再入池"
+                      onClick={() => markReady(a.id)}
+                    >
+                      入池
+                    </button>
+                  )}
                   <button className="btn btn-xs btn-ghost text-error" onClick={() => handleDelete(a.id)}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>

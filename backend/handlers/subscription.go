@@ -220,7 +220,7 @@ func fulfillOrder(orderID string) error {
 		var accountID string
 		err := tx.QueryRow(
 			`SELECT id FROM account_pool
-			 WHERE platform = 'codex' AND status = 'available'
+			 WHERE platform = 'codex' AND status = 'ready'
 			 ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT 1`,
 		).Scan(&accountID)
 		if err == sql.ErrNoRows {

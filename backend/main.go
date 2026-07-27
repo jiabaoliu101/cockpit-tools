@@ -28,6 +28,7 @@ func main() {
 	if err := database.Migrate(); err != nil {
 		log.Fatalf("Database migration failed: %v", err)
 	}
+	handlers.StartLeaseExpirySweep()
 
 	// Setup router
 	r := gin.Default()

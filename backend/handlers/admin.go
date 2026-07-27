@@ -142,7 +142,7 @@ func AdminAddAccount(c *gin.Context) {
 	id := uuid.New().String()
 	_, err := database.DB.Exec(
 		`INSERT INTO account_pool (id, platform, email, access_token_encrypted, refresh_token_encrypted, token_expiry, metadata, status)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7, 'available')`,
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, 'staging')`,
 		id, req.Platform, req.Email, req.AccessToken, req.RefreshToken, req.TokenExpiry, metadataJSON,
 	)
 	if err != nil {
@@ -176,7 +176,7 @@ func AdminBulkAddAccounts(c *gin.Context) {
 		id := uuid.New().String()
 		_, err := database.DB.Exec(
 			`INSERT INTO account_pool (id, platform, email, access_token_encrypted, refresh_token_encrypted, token_expiry, metadata, status)
-			 VALUES ($1, $2, $3, $4, $5, $6, $7, 'available')`,
+			 VALUES ($1, $2, $3, $4, $5, $6, $7, 'staging')`,
 			id, acc.Platform, acc.Email, acc.AccessToken, acc.RefreshToken, acc.TokenExpiry, metadataJSON,
 		)
 		if err == nil {
@@ -280,8 +280,8 @@ func AdminAssignAccount(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Account not found"})
 		return
 	}
-	if status != "available" {
-		c.JSON(http.StatusConflict, gin.H{"error": "Account is not available"})
+	if status != "ready" {
+		c.JSON(http.StatusConflict, gin.H{"error": "Account is not ready for assignment"})
 		return
 	}
 
@@ -298,14 +298,15 @@ func AdminAssignAccount(c *gin.Context) {
 func AdminRevokeAssignment(c *gin.Context) {
 	assignmentID := c.Param("id")
 
-	// Get account_id, mark it available, revoke assignment
+	// A local credential may still be present on the subscriber's device. Do not
+	// put it straight back into stock; it must be revoked and verified first.
 	var accountID string
 	database.DB.QueryRow(
 		`SELECT account_id FROM account_assignments WHERE id = $1`, assignmentID,
 	).Scan(&accountID)
 
 	if accountID != "" {
-		database.DB.Exec(`UPDATE account_pool SET status = 'available', updated_at = NOW() WHERE id = $1`, accountID)
+		database.DB.Exec(`UPDATE account_pool SET status = 'revoking', updated_at = NOW() WHERE id = $1`, accountID)
 	}
 	database.DB.Exec(
 		`UPDATE account_assignments SET status = 'revoked', revoked_at = NOW() WHERE id = $1`,
@@ -325,7 +326,7 @@ func AdminDashboard(c *gin.Context) {
 		`SELECT COUNT(*) FROM user_subscriptions WHERE status = 'active' AND expires_at > NOW()`,
 	).Scan(&stats.ActiveSubscriptions)
 	database.DB.QueryRow(
-		`SELECT COUNT(*) FROM account_pool WHERE status = 'available'`,
+		`SELECT COUNT(*) FROM account_pool WHERE status = 'ready'`,
 	).Scan(&stats.AvailableAccounts)
 	database.DB.QueryRow(
 		`SELECT COUNT(*) FROM account_pool WHERE status = 'assigned'`,

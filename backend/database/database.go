@@ -88,7 +88,7 @@ func Migrate() error {
 		refresh_token_encrypted TEXT NOT NULL DEFAULT '',
 		token_expiry BIGINT DEFAULT 0,
 		metadata JSONB DEFAULT '{}',
-		status VARCHAR(20) DEFAULT 'available',
+		status VARCHAR(20) DEFAULT 'ready',
 		created_at TIMESTAMPTZ DEFAULT NOW(),
 		updated_at TIMESTAMPTZ DEFAULT NOW()
 	);
@@ -123,8 +123,12 @@ func Migrate() error {
 	-- Additive changes for databases created before payment plans were bound to orders.
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS plan_id UUID REFERENCES subscription_plans(id);
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS fulfilled_at TIMESTAMPTZ;
+	-- Existing pools used "available". New local-lease accounts must pass through
+	-- revocation verification before they may be returned to "ready".
+	UPDATE account_pool SET status = 'ready' WHERE status = 'available';
+	ALTER TABLE account_pool ALTER COLUMN status SET DEFAULT 'ready';
 	CREATE INDEX IF NOT EXISTS idx_payments_user_status ON payments(user_id, status);
-	CREATE INDEX IF NOT EXISTS idx_account_pool_available ON account_pool(platform, status, created_at);
+	CREATE INDEX IF NOT EXISTS idx_account_pool_ready ON account_pool(platform, status, created_at);
 	CREATE INDEX IF NOT EXISTS idx_assignments_user_status ON account_assignments(user_id, status);
 	`
 	_, err := DB.Exec(schema)
