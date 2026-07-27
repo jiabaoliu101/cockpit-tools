@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/useAuthStore';
-import { RefreshCw, Users, Database, CreditCard, BarChart3, Plus, Trash2 } from 'lucide-react';
+import { RefreshCw, Users, Database, CreditCard, BarChart3, Plus, Trash2, Ticket } from 'lucide-react';
 import { logout } from '../services/authService';
 
-type Tab = 'dashboard' | 'users' | 'accounts' | 'payments';
+type Tab = 'dashboard' | 'users' | 'accounts' | 'payments' | 'cards';
 
 const API_BASE = (typeof window !== 'undefined' && (window as any).__AISWITCH_API_BASE__)
   || import.meta.env.VITE_AISWITCH_API_BASE
@@ -414,6 +414,95 @@ function PaymentsTab() {
   );
 }
 
+function CardCodesTab() {
+  const [plans, setPlans] = useState<any[]>([]);
+  const [codes, setCodes] = useState<any[]>([]);
+  const [planId, setPlanId] = useState('');
+  const [count, setCount] = useState(1);
+  const [creating, setCreating] = useState(false);
+  const [newCodes, setNewCodes] = useState<string[]>([]);
+
+  const load = async () => {
+    try {
+      const [planData, codeData] = await Promise.all([
+        apiGet('/subscriptions/plans'),
+        apiGet('/admin/redemption-codes'),
+      ]);
+      setPlans(planData);
+      setCodes(codeData);
+      if (!planId && planData[0]?.id) setPlanId(planData[0].id);
+    } catch {}
+  };
+  useEffect(() => { void load(); }, []);
+
+  const generate = async () => {
+    if (!planId) return;
+    setCreating(true);
+    try {
+      const result = await apiPost('/admin/redemption-codes', { plan_id: planId, count });
+      setNewCodes(result.codes || []);
+      await load();
+    } catch (e: any) {
+      alert('生成卡密失败: ' + e.message);
+    }
+    setCreating(false);
+  };
+
+  const disable = async (id: string) => {
+    if (!confirm('确认作废此未使用卡密？')) return;
+    try { await apiDelete(`/admin/redemption-codes/${id}`); await load(); } catch (e: any) { alert('作废失败: ' + e.message); }
+  };
+
+  return (
+    <div>
+      <div className="card bg-base-100 shadow mb-5">
+        <div className="card-body">
+          <h2 className="card-title text-lg">生成套餐卡密</h2>
+          <div className="flex flex-col md:flex-row gap-3 items-end">
+            <label className="form-control flex-1">
+              <span className="label-text text-xs mb-1">套餐</span>
+              <select className="select select-bordered select-sm" value={planId} onChange={(e) => setPlanId(e.target.value)}>
+                {plans.map((plan) => <option key={plan.id} value={plan.id}>{plan.name}（¥{(plan.price_cents / 100).toFixed(2)}）</option>)}
+              </select>
+            </label>
+            <label className="form-control w-full md:w-32">
+              <span className="label-text text-xs mb-1">数量</span>
+              <input className="input input-bordered input-sm" type="number" min={1} max={1000} value={count} onChange={(e) => setCount(Math.max(1, Math.min(1000, Number(e.target.value))))} />
+            </label>
+            <button className="btn btn-primary btn-sm" disabled={creating || !planId} onClick={() => void generate()}>
+              {creating ? <span className="loading loading-spinner loading-xs" /> : <Ticket className="w-4 h-4" />} 生成卡密
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {newCodes.length > 0 && (
+        <div className="alert alert-warning mb-5 block">
+          <div className="font-semibold mb-2">请立即复制并保存：卡密明文仅显示这一次。</div>
+          <textarea className="textarea textarea-bordered w-full font-mono text-sm" rows={Math.min(12, newCodes.length + 1)} readOnly value={newCodes.join('\n')} />
+          <button className="btn btn-sm mt-2" onClick={() => void navigator.clipboard.writeText(newCodes.join('\n'))}>复制全部</button>
+        </div>
+      )}
+
+      <div className="overflow-x-auto">
+        <table className="table table-zebra">
+          <thead><tr><th>套餐</th><th>状态</th><th>兑换用户</th><th>兑换时间</th><th>创建时间</th><th>操作</th></tr></thead>
+          <tbody>{codes.map((code) => (
+            <tr key={code.id}>
+              <td>{code.plan_name}</td>
+              <td><span className={`badge badge-xs ${code.status === 'active' ? 'badge-success' : code.status === 'redeemed' ? 'badge-info' : 'badge-ghost'}`}>{code.status === 'active' ? '未使用' : code.status === 'redeemed' ? '已兑换' : '已作废'}</span></td>
+              <td>{code.redeemed_by || '-'}</td>
+              <td className="text-xs">{code.redeemed_at ? new Date(code.redeemed_at).toLocaleString('zh-CN') : '-'}</td>
+              <td className="text-xs">{new Date(code.created_at).toLocaleString('zh-CN')}</td>
+              <td>{code.status === 'active' && <button className="btn btn-xs btn-ghost text-error" onClick={() => void disable(code.id)}>作废</button>}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 // ── Main Admin Page ──
 
 export function AdminPage() {
@@ -425,6 +514,7 @@ export function AdminPage() {
     { id: 'users', label: '用户', icon: <Users className="w-4 h-4" /> },
     { id: 'accounts', label: '账号池', icon: <Database className="w-4 h-4" /> },
     { id: 'payments', label: '支付', icon: <CreditCard className="w-4 h-4" /> },
+    { id: 'cards', label: '卡密', icon: <Ticket className="w-4 h-4" /> },
   ];
 
   return (
@@ -460,6 +550,7 @@ export function AdminPage() {
         {tab === 'users' && <UsersTab />}
         {tab === 'accounts' && <AccountsTab />}
         {tab === 'payments' && <PaymentsTab />}
+        {tab === 'cards' && <CardCodesTab />}
       </div>
     </div>
   );

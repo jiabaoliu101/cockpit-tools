@@ -156,3 +156,10 @@ export async function createOrder(planId: string): Promise<any> {
 export async function checkOrderStatus(orderId: string): Promise<any> {
   return apiCall(`/subscriptions/status/${orderId}`);
 }
+
+export async function redeemCardCode(code: string): Promise<void> {
+  await apiCall('/redemption-codes/redeem', {
+    method: 'POST',
+    body: JSON.stringify({ code }),
+  });
+}

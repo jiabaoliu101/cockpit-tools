@@ -112,6 +112,18 @@ func Migrate() error {
 		created_at TIMESTAMPTZ DEFAULT NOW()
 	);
 
+	CREATE TABLE IF NOT EXISTS redemption_codes (
+		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+		code_hash VARCHAR(64) UNIQUE NOT NULL,
+		plan_id UUID NOT NULL REFERENCES subscription_plans(id),
+		status VARCHAR(20) NOT NULL DEFAULT 'active',
+		expires_at TIMESTAMPTZ,
+		redeemed_by UUID REFERENCES users(id) ON DELETE SET NULL,
+		redeemed_at TIMESTAMPTZ,
+		created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+		created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+	);
+
 	-- Default subscription plans (prices in CNY fen: 1999 = ¥19.99)
 	INSERT INTO subscription_plans (name, duration_days, max_accounts, price_cents) VALUES
 		('Basic Monthly', 30, 1, 1999),
@@ -130,6 +142,7 @@ func Migrate() error {
 	CREATE INDEX IF NOT EXISTS idx_payments_user_status ON payments(user_id, status);
 	CREATE INDEX IF NOT EXISTS idx_account_pool_ready ON account_pool(platform, status, created_at);
 	CREATE INDEX IF NOT EXISTS idx_assignments_user_status ON account_assignments(user_id, status);
+	CREATE INDEX IF NOT EXISTS idx_redemption_codes_status ON redemption_codes(status, expires_at);
 	`
 	_, err := DB.Exec(schema)
 	if err != nil {

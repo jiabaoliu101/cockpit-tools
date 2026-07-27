@@ -16,12 +16,12 @@ type User struct {
 
 // SubscriptionPlan defines a purchasable subscription tier
 type SubscriptionPlan struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	DurationDays int   `json:"duration_days"`
-	MaxAccounts int    `json:"max_accounts"`
-	PriceCents  int    `json:"price_cents"` // in CNY fen
-	IsActive    bool   `json:"is_active"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	DurationDays int    `json:"duration_days"`
+	MaxAccounts  int    `json:"max_accounts"`
+	PriceCents   int    `json:"price_cents"` // in CNY fen
+	IsActive     bool   `json:"is_active"`
 }
 
 // UserSubscription links a user to an active plan
@@ -37,38 +37,38 @@ type UserSubscription struct {
 
 // Payment records a payment transaction
 type Payment struct {
-	ID           string     `json:"id"`
-	UserID       string     `json:"user_id"`
-	AmountCents  int        `json:"amount_cents"`
-	Currency     string     `json:"currency"`
-	PaymentMethod string    `json:"payment_method"`
-	GatewayOrderID string   `json:"gateway_order_id"`
-	Status       string     `json:"status"` // pending, completed, failed, refunded
-	PaidAt       *time.Time `json:"paid_at"`
-	CreatedAt    time.Time  `json:"created_at"`
+	ID             string     `json:"id"`
+	UserID         string     `json:"user_id"`
+	AmountCents    int        `json:"amount_cents"`
+	Currency       string     `json:"currency"`
+	PaymentMethod  string     `json:"payment_method"`
+	GatewayOrderID string     `json:"gateway_order_id"`
+	Status         string     `json:"status"` // pending, completed, failed, refunded
+	PaidAt         *time.Time `json:"paid_at"`
+	CreatedAt      time.Time  `json:"created_at"`
 }
 
 // AccountPoolEntry is a pre-imported IDE account in the pool
 type AccountPoolEntry struct {
-	ID                   string    `json:"id"`
-	Platform             string    `json:"platform"`
-	Email                string    `json:"email"`
+	ID                    string    `json:"id"`
+	Platform              string    `json:"platform"`
+	Email                 string    `json:"email"`
 	AccessTokenEncrypted  string    `json:"-"`
 	RefreshTokenEncrypted string    `json:"-"`
-	TokenExpiry          int64     `json:"token_expiry"`
-	Metadata             string    `json:"metadata"` // JSON blob
-	Status               string    `json:"status"` // available, assigned, expired, disabled
-	CreatedAt            time.Time `json:"created_at"`
-	UpdatedAt            time.Time `json:"updated_at"`
+	TokenExpiry           int64     `json:"token_expiry"`
+	Metadata              string    `json:"metadata"` // JSON blob
+	Status                string    `json:"status"`   // available, assigned, expired, disabled
+	CreatedAt             time.Time `json:"created_at"`
+	UpdatedAt             time.Time `json:"updated_at"`
 }
 
 // AccountAssignment links a user to a pool account
 type AccountAssignment struct {
-	ID         string    `json:"id"`
-	UserID     string    `json:"user_id"`
-	AccountID  string    `json:"account_id"`
-	Status     string    `json:"status"` // active, revoked
-	AssignedAt time.Time `json:"assigned_at"`
+	ID         string     `json:"id"`
+	UserID     string     `json:"user_id"`
+	AccountID  string     `json:"account_id"`
+	Status     string     `json:"status"` // active, revoked
+	AssignedAt time.Time  `json:"assigned_at"`
 	RevokedAt  *time.Time `json:"revoked_at"`
 }
 
@@ -115,6 +115,16 @@ type OrderResponse struct {
 	Amount    int    `json:"amount_cents"`
 }
 
+type RedeemCodeRequest struct {
+	Code string `json:"code" binding:"required"`
+}
+
+type GenerateRedemptionCodesRequest struct {
+	PlanID    string     `json:"plan_id" binding:"required"`
+	Count     int        `json:"count" binding:"required,min=1,max=1000"`
+	ExpiresAt *time.Time `json:"expires_at"`
+}
+
 type UserAccountResponse struct {
 	ID          string `json:"id"`
 	Platform    string `json:"platform"`
@@ -124,9 +134,9 @@ type UserAccountResponse struct {
 }
 
 type DashboardStats struct {
-	TotalUsers        int `json:"total_users"`
+	TotalUsers          int `json:"total_users"`
 	ActiveSubscriptions int `json:"active_subscriptions"`
-	AvailableAccounts int `json:"available_accounts"`
-	AssignedAccounts  int `json:"assigned_accounts"`
-	MonthlyRevenue    int `json:"monthly_revenue_cents"`
+	AvailableAccounts   int `json:"available_accounts"`
+	AssignedAccounts    int `json:"assigned_accounts"`
+	MonthlyRevenue      int `json:"monthly_revenue_cents"`
 }

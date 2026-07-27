@@ -39,12 +39,12 @@ func GetSubscriptionPlans(c *gin.Context) {
 func GetCurrentSubscription(c *gin.Context) {
 	userID := c.GetString("user_id")
 	var sub struct {
-		ID          string    `json:"id"`
-		PlanName    string    `json:"plan_name"`
-		MaxAccounts int       `json:"max_accounts"`
-		Status      string    `json:"status"`
-		ExpiresAt   time.Time `json:"expires_at"`
-		AssignedCount int     `json:"assigned_count"`
+		ID            string    `json:"id"`
+		PlanName      string    `json:"plan_name"`
+		MaxAccounts   int       `json:"max_accounts"`
+		Status        string    `json:"status"`
+		ExpiresAt     time.Time `json:"expires_at"`
+		AssignedCount int       `json:"assigned_count"`
 	}
 	err := database.DB.QueryRow(
 		`SELECT us.id, sp.name, sp.max_accounts, us.status, us.expires_at
@@ -174,16 +174,29 @@ func fulfillOrder(orderID string) error {
 		return fmt.Errorf("order is not eligible for fulfillment")
 	}
 
+	if err := grantSubscriptionTx(tx, userID, planID.String); err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(`UPDATE payments SET fulfilled_at = NOW() WHERE id = $1`, orderID); err != nil {
+		return err
+	}
+	return tx.Commit()
+}
+
+// grantSubscriptionTx activates or renews a user's plan and allocates only
+// accounts that are ready. The caller owns the transaction and idempotency key.
+func grantSubscriptionTx(tx *sql.Tx, userID, planID string) error {
 	var durationDays, maxAccounts int
 	if err := tx.QueryRow(
-		`SELECT duration_days, max_accounts FROM subscription_plans WHERE id = $1 AND is_active = true`,
-		planID.String,
+		`SELECT duration_days, max_accounts FROM subscription_plans WHERE id = $1`,
+		planID,
 	).Scan(&durationDays, &maxAccounts); err != nil {
 		return err
 	}
 
 	var subscriptionID string
-	err = tx.QueryRow(
+	err := tx.QueryRow(
 		`SELECT id FROM user_subscriptions
 		 WHERE user_id = $1 AND status = 'active' AND expires_at > NOW()
 		 ORDER BY expires_at DESC LIMIT 1 FOR UPDATE`,
@@ -193,7 +206,7 @@ func fulfillOrder(orderID string) error {
 		if err := tx.QueryRow(
 			`INSERT INTO user_subscriptions (user_id, plan_id, status, expires_at)
 			 VALUES ($1, $2, 'active', NOW() + $3 * INTERVAL '1 day') RETURNING id`,
-			userID, planID.String, durationDays,
+			userID, planID, durationDays,
 		).Scan(&subscriptionID); err != nil {
 			return err
 		}
@@ -203,7 +216,7 @@ func fulfillOrder(orderID string) error {
 		`UPDATE user_subscriptions
 		 SET plan_id = $1, expires_at = expires_at + $2 * INTERVAL '1 day'
 		 WHERE id = $3`,
-		planID.String, durationDays, subscriptionID,
+		planID, durationDays, subscriptionID,
 	); err != nil {
 		return err
 	}
@@ -244,10 +257,7 @@ func fulfillOrder(orderID string) error {
 		assignedCount++
 	}
 
-	if _, err := tx.Exec(`UPDATE payments SET fulfilled_at = NOW() WHERE id = $1`, orderID); err != nil {
-		return err
-	}
-	return tx.Commit()
+	return nil
 }
 
 func itoa(i int) string {

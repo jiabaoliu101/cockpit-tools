@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/useAuthStore';
-import { fetchCurrentSubscription, fetchSubscriptionPlans, createOrder, checkOrderStatus } from '../services/authService';
-import { Crown, Clock, Users, RefreshCw, Loader2 } from 'lucide-react';
+import { fetchCurrentSubscription, fetchSubscriptionPlans, redeemCardCode } from '../services/authService';
+import { Crown, Clock, Users, Loader2 } from 'lucide-react';
 
 interface Props {
   onBack: () => void;
@@ -11,9 +11,8 @@ export function SubscriptionPage({ onBack }: Props) {
   const { subscription: cachedSub } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [plans, setPlans] = useState<any[]>([]);
-  const [ordering, setOrdering] = useState<string | null>(null);
-  const [orderResult, setOrderResult] = useState<any>(null);
-  const [pollingOrderId, setPollingOrderId] = useState<string | null>(null);
+  const [cardCode, setCardCode] = useState('');
+  const [redeeming, setRedeeming] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -29,37 +28,19 @@ export function SubscriptionPage({ onBack }: Props) {
     setLoading(false);
   };
 
-  const handleOrder = async (planId: string) => {
-    setOrdering(planId);
+  const handleRedeem = async () => {
+    if (!cardCode.trim()) return;
+    setRedeeming(true);
     try {
-      const result = await createOrder(planId);
-      setOrderResult(result);
-      setPollingOrderId(result.order_id);
+      await redeemCardCode(cardCode);
+      setCardCode('');
+      await loadData();
+      alert('兑换成功，订阅已生效');
     } catch (e: any) {
-      alert('创建订单失败: ' + (e.message || '未知错误'));
+      alert('兑换失败: ' + (e.message || '请检查卡密后重试'));
     }
-    setOrdering(null);
+    setRedeeming(false);
   };
-
-  // Poll payment status every 3 seconds when waiting for payment
-  useEffect(() => {
-    if (!pollingOrderId) return;
-    const timer = setInterval(async () => {
-      try {
-        const status = await checkOrderStatus(pollingOrderId);
-        if (status.status === 'completed') {
-          setPollingOrderId(null);
-          setOrderResult(null);
-          await loadData(); // Refresh subscription
-          alert('支付成功！您的订阅已激活');
-        } else if (status.status === 'failed') {
-          setPollingOrderId(null);
-          alert('支付失败，请重试');
-        }
-      } catch {}
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [pollingOrderId]);
 
   const sub = cachedSub?.subscription;
 
@@ -113,6 +94,26 @@ export function SubscriptionPage({ onBack }: Props) {
           </div>
         )}
 
+        <div className="card bg-base-100 shadow mb-6">
+          <div className="card-body">
+            <h2 className="card-title text-lg">兑换卡密</h2>
+            <p className="text-sm text-base-content/60">从管理员购买套餐卡密后，在这里兑换。卡密只能使用一次。</p>
+            <div className="flex flex-col sm:flex-row gap-2 mt-2">
+              <input
+                className="input input-bordered flex-1 uppercase"
+                placeholder="例如 AS-ABCDE-FGHIJ-KLMNP-QRSTU"
+                value={cardCode}
+                onChange={(event) => setCardCode(event.target.value)}
+                onKeyDown={(event) => { if (event.key === 'Enter') void handleRedeem(); }}
+              />
+              <button className="btn btn-primary" disabled={redeeming || !cardCode.trim()} onClick={() => void handleRedeem()}>
+                {redeeming && <Loader2 className="w-4 h-4 animate-spin" />}
+                兑换并开通
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Plan selection */}
         <h2 className="text-xl font-semibold mb-4">
           {sub ? '升级套餐' : '选择套餐'}
@@ -131,56 +132,11 @@ export function SubscriptionPage({ onBack }: Props) {
                     : `${plan.duration_days} 天`}
                   · 最多 {plan.max_accounts} 个账号
                 </div>
-                <button
-                  className="btn btn-primary mt-3"
-                  disabled={ordering === plan.id || !!pollingOrderId}
-                  onClick={() => handleOrder(plan.id)}
-                >
-                  {ordering === plan.id && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {sub?.plan_name === plan.name ? '续费' : '购买'}
-                </button>
+                <p className="text-sm mt-3 text-base-content/60">请联系管理员购买此套餐的卡密。</p>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Payment QR Code Modal */}
-        {orderResult && (
-          <div className="modal modal-open">
-            <div className="modal-box text-center">
-              <h3 className="text-lg font-bold mb-3">扫码支付</h3>
-              <p className="text-sm mb-2">金额: ¥{(orderResult.amount / 100).toFixed(2)}</p>
-              <div className="bg-base-200 p-4 rounded-lg inline-block mb-3">
-                <div className="w-48 h-48 bg-base-300 flex items-center justify-center mx-auto">
-                  <span className="text-base-content/40 text-sm">支付二维码</span>
-                </div>
-                <p className="text-xs text-base-content/50 mt-1">
-                  集成 PayJS 后将显示真实二维码
-                </p>
-              </div>
-              <p className="text-xs text-base-content/50 mb-3">
-                订单号: {orderResult.order_id}
-              </p>
-              {pollingOrderId && (
-                <div className="flex items-center justify-center gap-2 text-sm text-primary">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  等待支付...
-                </div>
-              )}
-              <div className="modal-action">
-                <button
-                  className="btn btn-ghost btn-sm"
-                  onClick={() => {
-                    setOrderResult(null);
-                    setPollingOrderId(null);
-                  }}
-                >
-                  取消
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

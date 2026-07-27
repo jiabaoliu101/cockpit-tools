@@ -19,6 +19,7 @@ func main() {
 
 	// Initialize JWT secret
 	middleware.SetJWTSecret(cfg.JWTSecret)
+	handlers.SetCardCodePepper(cfg.CardCodePepper)
 
 	// Connect to database
 	if err := database.Connect(cfg.DatabaseURL); err != nil {
@@ -62,6 +63,7 @@ func main() {
 			protected.GET("/subscriptions/current", handlers.GetCurrentSubscription)
 			protected.POST("/subscriptions/order", handlers.CreateOrder)
 			protected.GET("/subscriptions/status/:order_id", handlers.CheckOrderStatus)
+			protected.POST("/redemption-codes/redeem", handlers.RedeemCode)
 
 			// My accounts
 			protected.GET("/my-accounts", handlers.GetMyAccounts)
@@ -88,6 +90,9 @@ func main() {
 				admin.DELETE("/assignments/:id", handlers.AdminRevokeAssignment)
 
 				admin.GET("/payments", handlers.AdminListPayments)
+				admin.GET("/redemption-codes", handlers.AdminListRedemptionCodes)
+				admin.POST("/redemption-codes", handlers.AdminGenerateRedemptionCodes)
+				admin.DELETE("/redemption-codes/:id", handlers.AdminDisableRedemptionCode)
 				admin.GET("/dashboard", handlers.AdminDashboard)
 			}
 		}
