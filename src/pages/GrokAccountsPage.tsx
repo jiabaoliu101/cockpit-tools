@@ -779,7 +779,7 @@ export function GrokAccountsPage() {
         "本地范围：可读取默认 ~/.grok/auth.json 用于导入；仅在开关开启且默认实例切换 OAuth 账号时写入该文件，API Key 不会覆盖官方登录。",
       networkKey: "grok.flowNotice.network",
       networkDefault:
-        "网络范围：OAuth 授权、凭据刷新及账号用量查询；不会上传凭据到 Cockpit 服务。",
+        "网络范围：OAuth 授权、凭据刷新及账号用量查询；不会上传凭据到 aiswitch 服务。",
     },
     noAccountsKey: "grok.empty",
     noAccountsDefault: "暂无 Grok CLI 账号",

@@ -675,7 +675,7 @@ function gatewayModeLabel(
   return t("codex.apiService.logs.gatewayModeUnknown", "模式未知");
 }
 
-/** 与后端写入 x-cockpit-instance-id 一致：profile 目录 basename */
+/** 与后端写入 x-aiswitch-instance-id 一致：profile 目录 basename */
 function clientInstanceIdFromUserDataDir(userDataDir: string): string {
   const normalized = userDataDir.trim().replace(/[/\\]+$/, "");
   if (!normalized) return "";

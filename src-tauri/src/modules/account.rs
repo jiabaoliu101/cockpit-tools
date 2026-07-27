@@ -27,11 +27,11 @@ static LIST_ACCOUNTS_LOAD_LOCK: std::sync::LazyLock<Mutex<()>> =
 const QUOTA_ALERT_COOLDOWN_SECONDS: i64 = 300;
 const LIST_ACCOUNTS_CACHE_TTL_MS: u64 = 800;
 
-// 使用与 AntigravityCockpit 插件相同的数据目录
-const DATA_DIR: &str = ".antigravity_cockpit";
-const DEV_DATA_DIR: &str = ".antigravity_cockpit_dev";
-const DATA_DIR_ENV: &str = "COCKPIT_TOOLS_DATA_DIR";
-const PROFILE_ENV: &str = "COCKPIT_TOOLS_PROFILE";
+// 使用与 Antigravityaiswitch 插件相同的数据目录
+const DATA_DIR: &str = ".aiswitch";
+const DEV_DATA_DIR: &str = ".aiswitch_dev";
+const DATA_DIR_ENV: &str = "AISWITCH_DATA_DIR";
+const PROFILE_ENV: &str = "AISWITCH_PROFILE";
 
 const ACCOUNTS_INDEX: &str = "accounts.json";
 const ACCOUNTS_DIR: &str = "accounts";
@@ -258,11 +258,11 @@ pub fn resolve_data_dir() -> Result<PathBuf, String> {
 
 pub fn get_data_dir() -> Result<PathBuf, String> {
     // #816: tests can isolate storage via env without touching real user data.
-    // Prefer COCKPIT_TOOLS_TEST_DATA_DIR (community PR name); keep COCKPIT_TEST_DATA_DIR alias.
+    // Prefer AISWITCH_TEST_DATA_DIR (community PR name); keep aiswitch_TEST_DATA_DIR alias.
     for key in [
-        "COCKPIT_TOOLS_TEST_DATA_DIR",
-        "COCKPIT_TEST_DATA_DIR",
-        "COCKPIT_TOOLS_DATA_DIR",
+        "AISWITCH_TEST_DATA_DIR",
+        "aiswitch_TEST_DATA_DIR",
+        "AISWITCH_DATA_DIR",
     ] {
         if let Ok(override_dir) = std::env::var(key) {
             let override_dir = override_dir.trim();

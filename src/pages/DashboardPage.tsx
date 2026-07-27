@@ -2318,7 +2318,7 @@ export function DashboardPage({
               {usageMode === 'new_api' ? (
                 <div className="mini-quota-row-stacked">
                   <div className="mini-quota-header">
-                    <span className="model-name">{t('codex.cockpitApi.balance', '额度')}</span>
+                    <span className="model-name">{t('codex.aiswitchApi.balance', '额度')}</span>
                     <span className="model-pct high">
                       {isUnlimited
                         ? t('codex.newApi.quota.unlimited', '不限量')

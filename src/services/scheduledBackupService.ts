@@ -104,7 +104,7 @@ function buildManagedBackupFileName(
   date: Date,
 ): string {
   const mode = selectionToAutoBackupMode(selection);
-  return `cockpit_${trigger}_backup_${mode}_${formatTimestampForFileName(date)}.json`;
+  return `aiswitch_${trigger}_backup_${mode}_${formatTimestampForFileName(date)}.json`;
 }
 
 function normalizeDate(value: string | null | undefined): Date | null {

@@ -463,7 +463,7 @@ function resolveProviderApiKeyLabel(
 }
 
 const DEFAULT_PROVIDER_PREVIEW_PATHS: ProviderPreviewPaths = {
-  providerStorePath: "~/.antigravity_cockpit/codex_model_providers.json",
+  providerStorePath: "~/.aiswitch/codex_model_providers.json",
   codexConfigPath: "~/.codex/config.toml",
   codexAuthPath: "~/.codex/auth.json",
 };
@@ -1026,7 +1026,7 @@ export function CodexModelProviderManager({
         const home = await homeDir();
         const [providerStorePath, codexConfigPath, codexAuthPath] =
           await Promise.all([
-            join(home, ".antigravity_cockpit", "codex_model_providers.json"),
+            join(home, ".aiswitch", "codex_model_providers.json"),
             join(home, ".codex", "config.toml"),
             join(home, ".codex", "auth.json"),
           ]);
@@ -3522,7 +3522,7 @@ export function CodexModelProviderManager({
                     <div className="codex-api-key-usage-panel">
                       <div
                         className="quota-item codex-api-key-quota-item new-api"
-                        title={`${t("codex.cockpitApi.balance", "额度")}：${
+                        title={`${t("codex.aiswitchApi.balance", "额度")}：${
                           usageSummary?.quotaUnlimited
                             ? t("codex.newApi.quota.unlimited", "不限量")
                             : totalAvailable != null && totalGranted != null
@@ -3535,7 +3535,7 @@ export function CodexModelProviderManager({
                         <div className="quota-header">
                           <Database size={14} />
                           <span className="quota-label">
-                            {t("codex.cockpitApi.balance", "额度")}
+                            {t("codex.aiswitchApi.balance", "额度")}
                           </span>
                           <span className="quota-pct high">
                             {usageSummary?.quotaUnlimited
@@ -5652,7 +5652,7 @@ export function CodexModelProviderManager({
             detailMetrics={detailMetrics}
             actions={actions}
             onClose={() => setProviderDetailId(null)}
-            emptyDetailText={t("codex.cockpitApi.noStats", "暂无统计")}
+            emptyDetailText={t("codex.aiswitchApi.noStats", "暂无统计")}
           />
         );
       })()}

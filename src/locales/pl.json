@@ -226,7 +226,7 @@
       "desc": "Ten obszar jest przypięty w prawym górnym rogu na wszystkich stronach i nadaje się do kampanii lub reklam marki.",
       "action": "Zobacz szczegóły"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "Zwiń",
     "confirmDelete": "Potwierdź usunięcie",
     "confirmDeleteTag": "Potwierdź usunięcie tagu",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "Sponsorzy",
-    "pageDesc": "Dziękujemy tym sponsorom za wsparcie Cockpit Tools.",
+    "pageDesc": "Dziękujemy tym sponsorom za wsparcie AISwitch.",
     "loading": "Ładowanie sponsorów...",
     "emptyTitle": "Brak sponsorów",
     "emptyDesc": "Zdalny moduł sponsorów jest obecnie wyłączony.",
     "listAriaLabel": "Lista sponsorów",
-    "defaultDescription": "Dziękujemy za wsparcie Cockpit Tools.",
+    "defaultDescription": "Dziękujemy za wsparcie AISwitch.",
     "openSponsor": "Otwórz"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "Ustawienia aplikacji",
-    "subtitle": "Dostosuj działanie narzędzi Cockpit Tools.",
+    "subtitle": "Dostosuj działanie narzędzi AISwitch.",
     "tabs": {
       "general": "Ogólne",
       "network": "Sieć",
@@ -655,7 +655,7 @@
       "codexSyncWsl": "Synchronizuj Codex z WSL",
       "codexSyncWslDesc": "Po przełączeniu domyślnego konta Codex pliki auth.json i config.toml są też zapisywane w katalogu Codex w WSL.",
       "codexAppUiInjection": "Limit usługi API",
-      "codexAppUiInjectionDesc": "Po ponownym uruchomieniu instancji Codex pokaż pod kompozytorem liczbę kont oraz tygodniowy i 5-godzinny limit usługi API Cockpit Tools. Cockpit Tools musi działać w tle; aktualizacje zatrzymują się po całkowitym zamknięciu aplikacji lub przy braku sieci.",
+      "codexAppUiInjectionDesc": "Po ponownym uruchomieniu instancji Codex pokaż pod kompozytorem liczbę kont oraz tygodniowy i 5-godzinny limit usługi API AISwitch. AISwitch musi działać w tle; aktualizacje zatrzymują się po całkowitym zamknięciu aplikacji lub przy braku sieci.",
       "codexAppUiInjectionPoolLabel": "Konta",
       "codexAppUiInjectionWeeklyLabel": "Tydzień",
       "codexAppUiInjectionFiveHourLabel": "5 godz.",
@@ -749,7 +749,7 @@
       "sideNavLayoutClassic": "Układ klasyczny",
       "antigravityDualSwitchNoRestart": "Podwójne przełączanie bez restartu",
       "antigravityDualSwitchNoRestartDesc": "Podczas przełączania konta zapis lokalnych danych i płynne przełączenie przez rozszerzenie są wykonywane w jednym przebiegu, bez restartu Antigravity IDE.",
-      "appAutoLaunch": "Uruchamiaj Cockpit Tools po zalogowaniu",
+      "appAutoLaunch": "Uruchamiaj AISwitch po zalogowaniu",
       "appAutoLaunchDesc": "Automatycznie uruchamiaj aplikację po zalogowaniu do systemu",
       "startupWakeupDisabled": "Wyłączone",
       "startupWakeupImmediate": "Wybudź natychmiast",
@@ -883,7 +883,7 @@
       "firewallHint": "Jeśli URL jest niedostępny, sprawdź ustawienia zapory systemowej.",
       "proxyTitle": "Globalny serwer proxy",
       "proxyEnabled": "Włącz globalny serwer proxy",
-      "proxyEnabledDesc": "Wstrzykuje zmienne środowiskowe proxy do zarządzanych procesów platform uruchamianych przez Cockpit.",
+      "proxyEnabledDesc": "Wstrzykuje zmienne środowiskowe proxy do zarządzanych procesów platform uruchamianych przez aiswitch.",
       "proxyUrl": "Adres URL proxy",
       "proxyUrlDesc": "Przykład: http://127.0.0.1:7890 lub socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "np. http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "Adres URL proxy nie może być pusty, gdy globalny proxy jest włączony."
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "Profesjonalne rozwiązanie do zarządzania kontami",
       "author": "Autor",
       "wechat": "WeChat​",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "Zapisano; pozostaw puste, aby zachować",
       "clearPassword": "Wyczyść",
       "remoteDirTitle": "Katalog zdalny",
-      "remoteDirDesc": "Zarządzane są tylko pliki kopii zapasowych Cockpit w tym katalogu.",
+      "remoteDirDesc": "Zarządzane są tylko pliki kopii zapasowych aiswitch w tym katalogu.",
       "statusTitle": "Status synchronizacji",
       "statusDesc": "Przywracanie zdalne wymaga ręcznego wyboru i nigdy nie nadpisuje cicho danych lokalnych.",
       "lastUpload": "Ostatnie przesłanie: {{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "Synchronizuj konfigurację",
       "syncLatestConfirm": "Czy na pewno chcesz pobrać najnowszą zdalną kopię zapasową {{name}} i zsynchronizować ją lokalnie? Spowoduje to nadpisanie istniejących danych lokalnych.",
       "remoteListTitle": "Kopie zapasowe zdalne",
-      "remoteListDesc": "Wyświetlane są tylko pliki JSON i ZIP pasujące do nazw automatycznych/ręcznych kopii zapasowych Cockpit.",
+      "remoteListDesc": "Wyświetlane są tylko pliki JSON i ZIP pasujące do nazw automatycznych/ręcznych kopii zapasowych aiswitch.",
       "emptyTitle": "Brak zdalnych kopii zapasowych",
       "emptyDesc": "Zapisz ustawienia, a następnie utwórz i prześlij kopię zapasową.",
       "unknownTime": "Nieznany",
@@ -1409,7 +1409,7 @@
       "importBtn": "Importuj",
       "oauthAction": "Autoryzacja OAuth",
       "fromExtension": "Import z wtyczki",
-      "syncBadge": "Synchronizuj konta wtyczki Antigravity Cockpit",
+      "syncBadge": "Synchronizuj konta wtyczki Antigravity aiswitch",
       "fromLocalDB": "Import z lokalnej bazy danych",
       "localDBDesc": "Odczytaj konta logowania z klienta Antigravity IDE na tym urządzeniu",
       "toolsDescMigrate": "Migracja kont z ~/.antigravity_tools/",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "Format eksportu",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "Format sub2api",
       "cpa": "Format cpa",
-      "agentIdentityCpaUnsupported": "Kont Agent Identity nie można eksportować w formacie cpa. Użyj Cockpit Tools lub sub2api.",
+      "agentIdentityCpaUnsupported": "Kont Agent Identity nie można eksportować w formacie cpa. Użyj AISwitch lub sub2api.",
       "agentIdentityPrivateKeyNotice": "Ten eksport zawiera klucz prywatny Agent Identity, który umożliwia odtworzenie konta na innym urządzeniu. Chroń go jak hasło.",
       "downloadAll": "Pobierz wszystko",
       "cpaCardTitle": "Konto {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "Usługa jest osiągalna, ale uwierzytelnianie nie powiodło się: {{detail}}. Sprawdź klucz usługi API lub stan logowania konta.",
       "testServiceUnavailable": "Usługa jest osiągalna, ale obecnie niedostępna: {{detail}}. Sprawdź, czy usługa jest włączona, kolekcja kont nie jest pusta i konta są używalne.",
       "gatewayErrors": {
-        "authUnavailable": "Obecnie nie ma konta dostępnego do routingu. Konto może być w czasie oczekiwania, bez autoryzacji lub ograniczone limitem. Sprawdź jego stan w usłudze API Cockpit Tools.",
-        "authNotFound": "W puli kont nie skonfigurowano użytecznego konta. Dodaj lub włącz konto w usłudze API Cockpit Tools."
+        "authUnavailable": "Obecnie nie ma konta dostępnego do routingu. Konto może być w czasie oczekiwania, bez autoryzacji lub ograniczone limitem. Sprawdź jego stan w usłudze API AISwitch.",
+        "authNotFound": "W puli kont nie skonfigurowano użytecznego konta. Dodaj lub włącz konto w usłudze API AISwitch."
       },
       "testRateLimited": "Usługa jest osiągalna, ale upstream jest ograniczony lub limit został wyczerpany: {{detail}}.",
       "testHttpFailed": "Usługa jest osiągalna, ale żądanie zwróciło HTTP {{status}}: {{detail}}.",
@@ -2745,7 +2745,7 @@
         "placeholder": "Wpisz jeden identyfikator modelu w każdym wierszu lub rozdziel identyfikatory przecinkami.",
         "editHint": "Pobrane modele trafią tylko do tej wersji roboczej. Sprawdź i edytuj je przed zapisaniem.",
         "syncToggle": "Synchronizuj modele dostawcy z Codex",
-        "syncDescription": "Po zapisaniu ta lista posłuży do utworzenia katalogu modeli Codex zarządzanego przez Cockpit. Własne katalogi nie zostaną nadpisane.",
+        "syncDescription": "Po zapisaniu ta lista posłuży do utworzenia katalogu modeli Codex zarządzanego przez aiswitch. Własne katalogi nie zostaną nadpisane.",
         "fetchCredentialsRequired": "Najpierw wpisz API Key i Base URL.",
         "fetchEmpty": "Dostawca nie zwrócił żadnych modeli. Zachowano bieżącą listę.",
         "fetchFailed": "Nie udało się pobrać modeli dostawcy: {{error}}",
@@ -2825,8 +2825,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "Notatka konta zapisana",
       "saveFailed": "Nie udało się zapisać notatki konta: {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Panel usługi Cockpit Api",
+    "aiswitchApi": {
+      "panelTitle": "Panel usługi aiswitch Api",
       "servicePanel": "Panel usługi",
       "balance": "Saldo",
       "requests": "Żądania",
@@ -4885,14 +4885,14 @@
     "search": "Szukaj kont ZCode...",
     "flowNotice": {
       "title": "Informacje o kontach ZCode",
-      "desc": "Cockpit odczytuje i zapisuje zaszyfrowane lokalne dane logowania ZCode w celu rzeczywistej zmiany konta i powiązania instancji.",
+      "desc": "aiswitch odczytuje i zapisuje zaszyfrowane lokalne dane logowania ZCode w celu rzeczywistej zmiany konta i powiązania instancji.",
       "permission": "Zakres lokalny: ~/.zcode/v2/credentials.json oraz katalogi zarządzanych instancji.",
-      "network": "Zakres sieciowy: API OAuth, użytkownika, subskrypcji i limitów. Konta nie są wysyłane do usługi Cockpit."
+      "network": "Zakres sieciowy: API OAuth, użytkownika, subskrypcji i limitów. Konta nie są wysyłane do usługi aiswitch."
     },
     "empty": "Brak kont ZCode",
     "addAccount": "Dodaj konto ZCode",
     "oauth": {
-      "desc": "Zamknij ZCode i zaloguj się w oknie autoryzacji Cockpit; Cockpit odbierze wywołanie zwrotne bezpośrednio.",
+      "desc": "Zamknij ZCode i zaloguj się w oknie autoryzacji aiswitch; aiswitch odbierze wywołanie zwrotne bezpośrednio.",
       "title": "OAuth ZCode",
       "item1": "Oficjalne logowanie Z.ai i BigModel.",
       "item2": "Zapisuje konto oraz odświeża plan i limity modeli.",
@@ -4904,7 +4904,7 @@
       "success": "Logowanie OAuth ZCode powiodło się"
     },
     "token": {
-      "desc": "Wklej JSON konta ZCode wyeksportowany przez Cockpit."
+      "desc": "Wklej JSON konta ZCode wyeksportowany przez aiswitch."
     },
     "apiKey": {
       "tab": "Klucz API",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "Wróć",
       "switchToThisAccount": "Przełącz",
       "openDetails": "Otwórz szczegóły",
-      "openCockpitTools": "Otwórz Cockpit Tools"
+      "openaiswitchTools": "Otwórz AISwitch"
     },
     "empty": {
       "title": "Brak kont",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "Ekskluzywny relay",
-    "pageDesc": "Partnerska usługa API dla użytkowników Cockpit Tools, dostępna dla kont Codex API Key.",
+    "pageDesc": "Partnerska usługa API dla użytkowników AISwitch, dostępna dla kont Codex API Key.",
     "loading": "Ładowanie relay...",
     "emptyTitle": "Relay wyłączony",
     "emptyDesc": "Zdalna konfiguracja nie włączyła ekskluzywnego relay.",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "Pośrednik",
     "title": "Relay APIKEY.FUN",
-    "description": "Oficjalny partnerski relay Cockpit zapewnia stabilny, otwarty i opłacalny dostęp API do dużych modeli. Obsługuje główne modele, takie jak Claude, OpenAI i Gemini, i nadaje się do jednolitej konfiguracji w Codex, Gemini CLI, Claude Code oraz innych narzędziach deweloperskich. Rejestrując się przez ekskluzywny link Cockpit, możesz uzyskać stałą zniżkę do 5% na doładowania.",
+    "description": "Oficjalny partnerski relay aiswitch zapewnia stabilny, otwarty i opłacalny dostęp API do dużych modeli. Obsługuje główne modele, takie jak Claude, OpenAI i Gemini, i nadaje się do jednolitej konfiguracji w Codex, Gemini CLI, Claude Code oraz innych narzędziach deweloperskich. Rejestrując się przez ekskluzywny link aiswitch, możesz uzyskać stałą zniżkę do 5% na doładowania.",
     "register": "Link ekskluzywny",
     "docs": "Oficjalna dokumentacja",
     "viewNow": "Zobacz teraz",
@@ -5311,7 +5311,7 @@
       "title": "Zarządzanie kontami Grok CLI",
       "desc": "Domyślnie używane są oddzielne katalogi GROK_HOME. Przy włączonej synchronizacji zmiana konta OAuth w instancji domyślnej zapisuje ~/.grok/auth.json; dodatkowe instancje pozostają odizolowane.",
       "permission": "Zakres lokalny: ~/.grok/auth.json może być odczytany podczas importu i jest zapisywany tylko przy włączonej synchronizacji podczas zmiany OAuth instancji domyślnej. Klucze API nie nadpisują oficjalnego logowania.",
-      "network": "Zakres sieciowy: autoryzacja OAuth, odnawianie poświadczeń i sprawdzanie użycia konta. Poświadczenia nie są wysyłane do usług Cockpit."
+      "network": "Zakres sieciowy: autoryzacja OAuth, odnawianie poświadczeń i sprawdzanie użycia konta. Poświadczenia nie są wysyłane do usług aiswitch."
     },
     "empty": "Brak kont Grok CLI",
     "addAccount": "Dodaj konto Grok CLI",

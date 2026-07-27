@@ -100,7 +100,7 @@ pub fn rebuild_thread_metadata(codex_home: &Path) -> Result<(), String> {
                 "id": 1,
                 "params": {
                     "clientInfo": {
-                        "name": "cockpit-tools",
+                        "name": "aiswitch",
                         "version": env!("CARGO_PKG_VERSION"),
                     },
                     "capabilities": null,

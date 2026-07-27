@@ -29,8 +29,8 @@ static CODEX_BATCH_IMPORT_SESSIONS: std::sync::LazyLock<
 const CODEX_QUOTA_ALERT_COOLDOWN_SECONDS: i64 = 300;
 const ACCOUNT_CHECK_URL: &str = "https://chatgpt.com/backend-api/wham/accounts/check";
 const API_KEY_LOGIN_PLAN_TYPE: &str = "API_KEY";
-const COCKPIT_API_LOGIN_PLAN_TYPE: &str = "Cockpit Api";
-const COCKPIT_API_DEFAULT_ACCOUNT_NAME: &str = "Codex API";
+const aiswitch_API_LOGIN_PLAN_TYPE: &str = "aiswitch Api";
+const aiswitch_API_DEFAULT_ACCOUNT_NAME: &str = "Codex API";
 const API_KEY_EMAIL_PREFIX: &str = "api-key";
 const API_KEY_AUTH_MODE: &str = "apikey";
 const CODEX_ACCOUNT_GROUPS_FILE: &str = "codex_account_groups.json";
@@ -43,18 +43,18 @@ const CODEX_CONFIG_EXPERIMENTAL_BEARER_TOKEN_KEY: &str = "experimental_bearer_to
 const CODEX_CONFIG_HTTP_HEADERS_KEY: &str = "http_headers";
 const CODEX_CONFIG_MODEL_CONTEXT_WINDOW_KEY: &str = "model_context_window";
 const CODEX_CONFIG_MODEL_AUTO_COMPACT_TOKEN_LIMIT_KEY: &str = "model_auto_compact_token_limit";
-const CODEX_MANAGED_MODEL_CATALOG_FILE: &str = "cockpit-provider-model-catalog.json";
+const CODEX_MANAGED_MODEL_CATALOG_FILE: &str = "aiswitch-provider-model-catalog.json";
 const CODEX_AUTO_REVIEW_MODEL_ID: &str = "codex-auto-review";
 const CODEX_IMAGE_MODEL_ID: &str = "gpt-image-2";
 const CODEX_IMAGEGEN_ACTOR_HEADER: &str = "x-openai-actor-authorization";
-const CODEX_IMAGEGEN_ACTOR_HEADER_VALUE: &str = "cockpit-tools";
+const CODEX_IMAGEGEN_ACTOR_HEADER_VALUE: &str = "aiswitch";
 const CODEX_DISABLE_HOSTED_IMAGE_GENERATION_HEADER: &str = "x-agtools-disable-image-generation";
 const CODEX_DISABLE_HOSTED_IMAGE_GENERATION_HEADER_VALUE: &str = "chat";
 /// 本地 API 服务多开实例标识：Codex 请求会带上此 header，便于请求日志区分来源实例。
-pub(crate) const CODEX_CLIENT_INSTANCE_ID_HEADER: &str = "x-cockpit-instance-id";
+pub(crate) const CODEX_CLIENT_INSTANCE_ID_HEADER: &str = "x-aiswitch-instance-id";
 const CODEX_DEFAULT_OPENAI_BASE_URL: &str = "https://api.openai.com/v1";
-const CODEX_COCKPIT_API_BASE_URL: &str = "https://chongcodex.cn/v1";
-const CODEX_COCKPIT_API_PROVIDER_ID: &str = "cockpit_api";
+const CODEX_aiswitch_API_BASE_URL: &str = "https://chongcodex.cn/v1";
+const CODEX_aiswitch_API_PROVIDER_ID: &str = "aiswitch_api";
 const CODEX_OPENAI_PROVIDER_ID: &str = "openai";
 const CODEX_RUNTIME_MODEL_PROVIDER_ID: &str = "codex_local_access";
 const CODEX_LEGACY_API_KEY_OPENAI_PROVIDER_ID: &str = "openai_api_key";
@@ -74,8 +74,8 @@ const CODEX_AUTHORIZATION_STATUS_PENDING: &str = "pending";
 const CODEX_MISSING_REFRESH_TOKEN_REAUTH_REASON: &str =
     "Codex 登录授权缺少 refresh_token，无法自动续期；当前 access_token 已不可用，请重新登录。";
 const CODEX_PROACTIVE_REFRESH_INTERVAL_SECONDS: i64 = 8 * 24 * 60 * 60;
-const CODEX_AUTH_PROJECTION_FILE_NAME: &str = ".cockpit_codex_auth.json";
-const CODEX_AUTH_PROJECTION_WRITER: &str = "cockpit";
+const CODEX_AUTH_PROJECTION_FILE_NAME: &str = ".aiswitch_codex_auth.json";
+const CODEX_AUTH_PROJECTION_WRITER: &str = "aiswitch";
 const CODEX_BATCH_IMPORT_SESSIONS_DIR: &str = "codex_batch_import_sessions";
 const CODEX_TOKEN_REFRESH_FILE_LOCK_TIMEOUT_SECONDS: u64 = 120;
 const CODEX_TOKEN_REFRESH_FILE_LOCK_STALE_SECONDS: u64 = 10 * 60;
@@ -131,11 +131,11 @@ fn normalize_api_base_url_for_match(raw: Option<&str>) -> Option<String> {
     Some(format!("{}://{}{}{}", parsed.scheme(), host, port, path).to_ascii_lowercase())
 }
 
-fn is_cockpit_api_base_url(raw: Option<&str>) -> bool {
+fn is_aiswitch_api_base_url(raw: Option<&str>) -> bool {
     let Some(actual) = normalize_api_base_url_for_match(raw) else {
         return false;
     };
-    let Some(expected) = normalize_api_base_url_for_match(Some(CODEX_COCKPIT_API_BASE_URL)) else {
+    let Some(expected) = normalize_api_base_url_for_match(Some(CODEX_aiswitch_API_BASE_URL)) else {
         return false;
     };
     actual == expected
@@ -524,14 +524,14 @@ fn apply_api_key_fields(
     api_model_vision_support: std::collections::HashMap<String, bool>,
     api_vision_routing_model: Option<String>,
 ) {
-    let is_cockpit_api = provider_config
+    let is_aiswitch_api = provider_config
         .provider_id
         .as_deref()
-        .map(|value| value.eq_ignore_ascii_case(CODEX_COCKPIT_API_PROVIDER_ID))
+        .map(|value| value.eq_ignore_ascii_case(CODEX_aiswitch_API_PROVIDER_ID))
         .unwrap_or(false)
-        || is_cockpit_api_base_url(provider_config.base_url.as_deref());
-    let plan_type = if is_cockpit_api {
-        COCKPIT_API_LOGIN_PLAN_TYPE
+        || is_aiswitch_api_base_url(provider_config.base_url.as_deref());
+    let plan_type = if is_aiswitch_api {
+        aiswitch_API_LOGIN_PLAN_TYPE
     } else {
         API_KEY_LOGIN_PLAN_TYPE
     };
@@ -552,8 +552,8 @@ fn apply_api_key_fields(
     account.api_model_vision_support = normalize_api_model_vision_support(api_model_vision_support);
     account.api_vision_routing_model = normalize_optional_value(api_vision_routing_model);
     account.email = build_api_key_email(api_key);
-    if is_cockpit_api && normalize_optional_ref(account.account_name.as_deref()).is_none() {
-        account.account_name = Some(COCKPIT_API_DEFAULT_ACCOUNT_NAME.to_string());
+    if is_aiswitch_api && normalize_optional_ref(account.account_name.as_deref()).is_none() {
+        account.account_name = Some(aiswitch_API_DEFAULT_ACCOUNT_NAME.to_string());
     }
     account.plan_type = Some(plan_type.to_string());
     account.tokens = CodexTokens {
@@ -1283,7 +1283,7 @@ fn cleanup_managed_model_catalog_for_dir(base_dir: &Path) -> Result<bool, String
 fn collect_managed_api_key_provider_ids() -> HashSet<String> {
     let mut ids = HashSet::from([
         CODEX_RUNTIME_MODEL_PROVIDER_ID.to_string(),
-        CODEX_COCKPIT_API_PROVIDER_ID.to_string(),
+        CODEX_aiswitch_API_PROVIDER_ID.to_string(),
         CODEX_LEGACY_API_KEY_OPENAI_PROVIDER_ID.to_string(),
     ]);
 
@@ -1540,11 +1540,11 @@ pub(crate) fn client_instance_id_for_profile_dir(base_dir: &Path) -> String {
         .to_string()
 }
 
-/// 旧版数据目录（~/Library/Application Support/com.antigravity.cockpit-tools/）
+/// 旧版数据目录（~/Library/Application Support/com.antigravity.aiswitch/）
 fn get_old_codex_data_dir() -> PathBuf {
     dirs::data_local_dir()
         .unwrap_or_else(|| dirs::home_dir().expect("无法获取用户目录"))
-        .join("com.antigravity.cockpit-tools")
+        .join("com.antigravity.aiswitch")
 }
 
 /// 将旧目录中的 codex 数据迁移到新目录（一次性，迁移成功后删除旧文件）
@@ -1616,24 +1616,24 @@ fn migrate_codex_data_if_needed(new_data_dir: &PathBuf) {
     }
 }
 
-/// 获取我们的多账号存储路径（统一使用 ~/.antigravity_cockpit/）
+/// 获取我们的多账号存储路径（统一使用 ~/.aiswitch/）
 fn get_accounts_storage_path() -> PathBuf {
     let data_dir = account::get_data_dir().unwrap_or_else(|_| {
         dirs::home_dir()
             .expect("无法获取用户目录")
-            .join(".antigravity_cockpit")
+            .join(".aiswitch")
     });
     fs::create_dir_all(&data_dir).ok();
     migrate_codex_data_if_needed(&data_dir);
     data_dir.join("codex_accounts.json")
 }
 
-/// 获取账号详情存储目录（统一使用 ~/.antigravity_cockpit/codex_accounts/）
+/// 获取账号详情存储目录（统一使用 ~/.aiswitch/codex_accounts/）
 fn get_accounts_dir() -> PathBuf {
     let data_dir = account::get_data_dir().unwrap_or_else(|_| {
         dirs::home_dir()
             .expect("无法获取用户目录")
-            .join(".antigravity_cockpit")
+            .join(".aiswitch")
     });
     let accounts_dir = data_dir.join("codex_accounts");
     fs::create_dir_all(&accounts_dir).ok();
@@ -4281,7 +4281,7 @@ pub fn sync_managed_projection_from_auth_dir(
     base_dir: &Path,
 ) -> Result<CodexAccount, String> {
     let projection = read_managed_projection_from_dir(base_dir)
-        .ok_or_else(|| "目标目录不是 Cockpit 受管 Codex 投影，已拒绝反向同步".to_string())?;
+        .ok_or_else(|| "目标目录不是 aiswitch 受管 Codex 投影，已拒绝反向同步".to_string())?;
     if projection.account_id != account_id {
         return Err(format!(
             "受管投影账号不匹配: expected={}, actual={}",
@@ -4506,7 +4506,7 @@ fn build_auth_file_value(account: &CodexAccount) -> Result<serde_json::Value, St
             access_token: account.tokens.access_token.clone(),
             // Codex CLI's auth.json parser requires the refresh_token key to
             // exist even for access-token-only accounts. Use an empty string so
-            // Cockpit can switch short-lived opaque `at-...` credentials without
+            // aiswitch can switch short-lived opaque `at-...` credentials without
             // inventing a refresh token that would be sent to OAuth refresh.
             refresh_token: Some(
                 normalize_optional_ref(account.tokens.refresh_token.as_deref()).unwrap_or_default(),
@@ -5000,7 +5000,7 @@ pub(crate) fn build_projection_bundle_for_remote(
     existing_config_toml: Option<&str>,
 ) -> Result<CodexAccountProjectionBundle, String> {
     let temp_dir = std::env::temp_dir().join(format!(
-        "cockpit-codex-remote-bundle-{}-{}",
+        "aiswitch-codex-remote-bundle-{}-{}",
         std::process::id(),
         chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
     ));
@@ -7787,7 +7787,7 @@ fn next_codex_batch_import_session_id() -> String {
 fn get_codex_batch_import_sessions_dir() -> PathBuf {
     let data_dir = account::get_data_dir()
         .or_else(|_| account::resolve_data_dir())
-        .unwrap_or_else(|_| PathBuf::from(".antigravity_cockpit"));
+        .unwrap_or_else(|_| PathBuf::from(".aiswitch"));
     data_dir.join(CODEX_BATCH_IMPORT_SESSIONS_DIR)
 }
 
@@ -9413,7 +9413,7 @@ mod tests {
             }]
         });
         let path = std::env::temp_dir().join(format!(
-            "cockpit-agent-identity-{}.json",
+            "aiswitch-agent-identity-{}.json",
             uuid::Uuid::new_v4()
         ));
         fs::write(
@@ -9784,19 +9784,19 @@ mod tests {
         fn new(prefix: &str) -> Self {
             let home_dir = make_temp_dir(prefix);
             let codex_home = home_dir.join(".codex");
-            let test_data_dir = home_dir.join(".antigravity_cockpit");
+            let test_data_dir = home_dir.join(".aiswitch");
             fs::create_dir_all(&codex_home).expect("create codex home");
             fs::create_dir_all(&test_data_dir).expect("create test data dir");
 
             let previous_home = std::env::var("HOME").ok();
             let previous_codex_home = std::env::var("CODEX_HOME").ok();
-            let previous_data_dir = std::env::var("COCKPIT_TOOLS_TEST_DATA_DIR")
+            let previous_data_dir = std::env::var("AISWITCH_TEST_DATA_DIR")
                 .ok()
-                .or_else(|| std::env::var("COCKPIT_TOOLS_DATA_DIR").ok());
+                .or_else(|| std::env::var("AISWITCH_DATA_DIR").ok());
             std::env::set_var("HOME", &home_dir);
             std::env::set_var("CODEX_HOME", &codex_home);
-            std::env::set_var("COCKPIT_TOOLS_TEST_DATA_DIR", &test_data_dir);
-            std::env::set_var("COCKPIT_TOOLS_DATA_DIR", &test_data_dir);
+            std::env::set_var("AISWITCH_TEST_DATA_DIR", &test_data_dir);
+            std::env::set_var("AISWITCH_DATA_DIR", &test_data_dir);
 
             Self {
                 home_dir,
@@ -9823,12 +9823,12 @@ mod tests {
             }
             match self.previous_data_dir.as_ref() {
                 Some(value) => {
-                    std::env::set_var("COCKPIT_TOOLS_TEST_DATA_DIR", value);
-                    std::env::set_var("COCKPIT_TOOLS_DATA_DIR", value);
+                    std::env::set_var("AISWITCH_TEST_DATA_DIR", value);
+                    std::env::set_var("AISWITCH_DATA_DIR", value);
                 }
                 None => {
-                    std::env::remove_var("COCKPIT_TOOLS_TEST_DATA_DIR");
-                    std::env::remove_var("COCKPIT_TOOLS_DATA_DIR");
+                    std::env::remove_var("AISWITCH_TEST_DATA_DIR");
+                    std::env::remove_var("AISWITCH_DATA_DIR");
                 }
             }
             let _ = fs::remove_dir_all(&self.home_dir);
@@ -11579,7 +11579,7 @@ mod tests {
             &config_path,
             r#"model_provider = "codex_local_access"
 openai_base_url = "https://legacy.example.com/v1"
-model_catalog_json = "cockpit-provider-model-catalog.json"
+model_catalog_json = "aiswitch-provider-model-catalog.json"
 model_context_window = 1000000
 
 [model_providers.codex_local_access]
@@ -11589,8 +11589,8 @@ wire_api = "responses"
 requires_openai_auth = true
 experimental_bearer_token = "sk-history"
 
-[model_providers.cockpit_api]
-name = "Cockpit Api"
+[model_providers.aiswitch_api]
+name = "aiswitch Api"
 base_url = "https://chongcodex.cn/v1"
 wire_api = "responses"
 requires_openai_auth = false
@@ -11623,7 +11623,7 @@ requires_openai_auth = false
         assert!(!content.contains("model_provider = "));
         assert!(!content.contains("[model_providers.codex_local_access]"));
         assert!(!content.contains("experimental_bearer_token = \"sk-history\""));
-        assert!(!content.contains("[model_providers.cockpit_api]"));
+        assert!(!content.contains("[model_providers.aiswitch_api]"));
         assert!(!content.contains("[model_providers.openai_api_key]"));
         assert!(content.contains("[model_providers.user_manual_provider_not_managed]"));
         assert!(!content.contains("model_catalog_json"));
@@ -12046,7 +12046,7 @@ base_url = "https://relay.example.com/v1"
 wire_api = "responses"
 requires_openai_auth = false
 experimental_bearer_token = "sk-old"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch" }
 supports_websockets = false
 "#,
         )
@@ -12493,7 +12493,7 @@ supports_websockets = false
         write_account_bundle_to_dir(&base_dir, &account).expect("write account bundle");
 
         let config = fs::read_to_string(base_dir.join("config.toml")).expect("read config");
-        assert!(config.contains("model_catalog_json = \"cockpit-provider-model-catalog.json\""));
+        assert!(config.contains("model_catalog_json = \"aiswitch-provider-model-catalog.json\""));
         assert!(config.contains("model = \"gpt-5.6-sol\""));
         let catalog: serde_json::Value = serde_json::from_str(
             &fs::read_to_string(base_dir.join(super::CODEX_MANAGED_MODEL_CATALOG_FILE))
@@ -12572,7 +12572,7 @@ supports_websockets = false
         write_account_bundle_to_dir(&profile_dir, &updated)
             .expect("write multi-instance account projection");
         let config = fs::read_to_string(profile_dir.join("config.toml")).expect("read config");
-        assert!(config.contains("model_catalog_json = \"cockpit-provider-model-catalog.json\""));
+        assert!(config.contains("model_catalog_json = \"aiswitch-provider-model-catalog.json\""));
         assert!(config.contains("model = \"gpt-5.6-sol\""));
         assert!(profile_dir
             .join(super::CODEX_MANAGED_MODEL_CATALOG_FILE)
@@ -12891,7 +12891,7 @@ supports_websockets = false
             &config_path,
             r#"model_provider = "mimo"
 openai_base_url = "https://legacy.example.com/v1"
-model_catalog_json = "cockpit-provider-model-catalog.json"
+model_catalog_json = "aiswitch-provider-model-catalog.json"
 model_context_window = 1000000
 
 [model_providers.mimo]
@@ -12900,8 +12900,8 @@ base_url = "https://mimo.example.com/v1"
 wire_api = "responses"
 requires_openai_auth = true
 
-[model_providers.cockpit_api]
-name = "Cockpit Api"
+[model_providers.aiswitch_api]
+name = "aiswitch Api"
 base_url = "https://chongcodex.cn/v1"
 wire_api = "responses"
 requires_openai_auth = false
@@ -12956,10 +12956,10 @@ multi_agent = true
         assert!(content.contains("experimental_bearer_token = \"sk-test\""));
         assert!(content.contains("custom_flag = \"keep-me\""));
         assert!(content.contains("[model_providers.mimo]"));
-        assert!(content.contains("[model_providers.cockpit_api]"));
+        assert!(content.contains("[model_providers.aiswitch_api]"));
         assert!(content.contains("[model_providers.openai_api_key]"));
         assert!(content.contains("[model_providers.relay]"));
-        assert!(content.contains("model_catalog_json = \"cockpit-provider-model-catalog.json\""));
+        assert!(content.contains("model_catalog_json = \"aiswitch-provider-model-catalog.json\""));
         assert!(content.contains("openai_base_url = \"https://legacy.example.com/v1\""));
         assert!(content.contains("model_context_window = 1000000"));
         assert!(content.contains("[features]"));

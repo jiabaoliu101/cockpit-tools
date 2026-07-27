@@ -74,7 +74,7 @@ fn resolve_provider_and_page(value: &str) -> Option<(&'static str, &'static str)
 }
 
 fn is_supported_scheme(scheme: &str) -> bool {
-    matches!(scheme, "cockpit-tools" | "cockpittools")
+    matches!(scheme, "aiswitch" | "aiswitch")
 }
 
 fn is_import_action(url: &Url) -> bool {
@@ -303,9 +303,9 @@ fn emit_external_import_payload<R: Runtime>(
 /// Skip argv[0] (the executable name) for sources where the first argument
 /// is guaranteed to be the process path rather than a deep link.
 /// On Linux/WSL the single-instance callback and startup args always include
-/// the binary name as the first element (e.g. `["cockpit-tools",
-/// "cockpit-tools://import?..."]`).  Consuming it wastes a log line, can
-/// mislead diagnostics (`is_deep_link=false, candidate='cockpit-tools'`),
+/// the binary name as the first element (e.g. `["aiswitch",
+/// "aiswitch://import?..."]`).  Consuming it wastes a log line, can
+/// mislead diagnostics (`is_deep_link=false, candidate='aiswitch'`),
 /// and on WSL where D-Bus is unreliable it is the *only* element received,
 /// causing an "未发现 Deep Link 参数" dead-end.
 fn should_skip_argv0(source: &str) -> bool {
@@ -333,7 +333,7 @@ pub fn handle_external_import_args<R: Runtime>(
             continue;
         }
         let candidate_is_deep_link =
-            candidate.starts_with("cockpit-tools://") || candidate.starts_with("cockpittools://");
+            candidate.starts_with("aiswitch://") || candidate.starts_with("aiswitch://");
         if candidate_is_deep_link {
             saw_deep_link = true;
         }
@@ -412,7 +412,7 @@ mod tests {
 
     #[test]
     fn parse_basic_import_link() {
-        let raw = "cockpit-tools://import?provider=codex&token=abc123";
+        let raw = "aiswitch://import?provider=codex&token=abc123";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codex");
         assert_eq!(payload.page, "codex");
@@ -426,7 +426,7 @@ mod tests {
     #[test]
     fn parse_alias_and_boolean() {
         let raw =
-            "cockpit-tools://provider-import?platform=codebuddy-cn&payload=%7B%7D&auto_import=true";
+            "aiswitch://provider-import?platform=codebuddy-cn&payload=%7B%7D&auto_import=true";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codebuddy_cn");
         assert_eq!(payload.page, "codebuddy-cn");
@@ -439,7 +439,7 @@ mod tests {
 
     #[test]
     fn parse_grok_import_link() {
-        let raw = "cockpit-tools://import?provider=grok&token=%7B%7D";
+        let raw = "aiswitch://import?provider=grok&token=%7B%7D";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "grok");
         assert_eq!(payload.page, "grok");
@@ -448,7 +448,7 @@ mod tests {
 
     #[test]
     fn parse_antigravity_overview_alias() {
-        let raw = "cockpittools://account-import?page=overview&token=1%2F%2F0gTokenDemo";
+        let raw = "aiswitch://account-import?page=overview&token=1%2F%2F0gTokenDemo";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "antigravity");
         assert_eq!(payload.page, "overview");
@@ -461,7 +461,7 @@ mod tests {
 
     #[test]
     fn parse_import_url_link() {
-        let raw = "cockpit-tools://import?provider=codex&import_url=https%3A%2F%2Fexample.com%2Fuser%2Fapi%2FtoolsImport%2Ffetch%3Fid%3Dabc%26token%3Ddef&auto_import=true";
+        let raw = "aiswitch://import?provider=codex&import_url=https%3A%2F%2Fexample.com%2Fuser%2Fapi%2FtoolsImport%2Ffetch%3Fid%3Dabc%26token%3Ddef&auto_import=true";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codex");
         assert_eq!(payload.page, "codex");
@@ -477,7 +477,7 @@ mod tests {
 
     #[test]
     fn parse_import_link_with_api_base_url() {
-        let raw = "cockpit-tools://provider-import?platform=codex&import_url=https%3A%2F%2Fchongflow.cn%2Fapi%2Fcockpit-tools%2Fimport%2Fabc&api_base_url=https%3A%2F%2Fchongflow.cn%2Fv1&auto_import=true";
+        let raw = "aiswitch://provider-import?platform=codex&import_url=https%3A%2F%2Fchongflow.cn%2Fapi%2Faiswitch%2Fimport%2Fabc&api_base_url=https%3A%2F%2Fchongflow.cn%2Fv1&auto_import=true";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codex");
         assert_eq!(
@@ -488,7 +488,7 @@ mod tests {
 
     #[test]
     fn parse_activate_flag() {
-        let raw = "cockpit-tools://provider-import?platform=codex&import_url=https%3A%2F%2Fexample.com%2Fbundle&auto_import=true&activate=true";
+        let raw = "aiswitch://provider-import?platform=codex&import_url=https%3A%2F%2Fexample.com%2Fbundle&auto_import=true&activate=true";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codex");
         assert!(payload.auto_import);
@@ -497,7 +497,7 @@ mod tests {
 
     #[test]
     fn parse_min_app_version() {
-        let raw = "cockpit-tools://import?provider=codex&token=abc123&min_app_version=v0.22.21";
+        let raw = "aiswitch://import?provider=codex&token=abc123&min_app_version=v0.22.21";
         let payload = parse_external_import_url(raw).expect("payload");
         assert_eq!(payload.provider_id, "codex");
         assert_eq!(payload.min_app_version, Some("0.22.21".to_string()));

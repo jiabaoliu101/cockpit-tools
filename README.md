@@ -1,11 +1,11 @@
-# Cockpit Tools
+# AISwitch
 
 [English](README.en.md) · [Portuguese (BR)](README.pt-br.md) · 简体中文
 
-[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/cockpit-tools?style=flat&color=gold)](https://github.com/jlcodes99/cockpit-tools)
-[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/cockpit-tools/total?style=flat&color=blue)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/cockpit-tools?style=flat)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/cockpit-tools)](https://github.com/jlcodes99/cockpit-tools/issues)
+[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/aiswitch?style=flat&color=gold)](https://github.com/jlcodes99/aiswitch)
+[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/aiswitch/total?style=flat&color=blue)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/aiswitch?style=flat)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/aiswitch)](https://github.com/jlcodes99/aiswitch/issues)
 
 一款**通用的 AI IDE 账号管理工具**，目前支持 **Antigravity IDE**、**Codex**、**GitHub Copilot**、**Windsurf**、**Kiro**、**Cursor**、**Grok CLI**、**CodeBuddy**、**CodeBuddy CN**、**Qoder**、**Trae**、**TRAE SOLO**、**Trae CN**、**TRAE SOLO CN**、**Zed** 和 **ZCode**，并支持多账号多实例并行运行。
 
@@ -27,12 +27,12 @@
 <table>
   <tr>
     <td width="120" align="center">
-      <a href="https://apikey.fun/register?aff=COCKPIT">
+      <a href="https://apikey.fun/register?aff=aiswitch">
         <img src="src/assets/icons/apikey-fun.png" alt="APIKEY.FUN" width="72" />
       </a>
     </td>
     <td>
-      <a href="https://apikey.fun/register?aff=COCKPIT"><strong>APIKEY.FUN</strong></a> 是一家专业的企业级 AI 中转站，致力于为企业和个人开发者提供稳定、高效、低成本的 AI 模型 API 接入服务。平台支持 Claude、OpenAI、Gemini 等主流热门模型，价格低至官方原价的 7%。通过本项目 <a href="https://apikey.fun/register?aff=COCKPIT"><strong>专属链接</strong></a> 注册，还可享受最高 <strong>充值永久 95 折</strong> 专属优惠。
+      <a href="https://apikey.fun/register?aff=aiswitch"><strong>APIKEY.FUN</strong></a> 是一家专业的企业级 AI 中转站，致力于为企业和个人开发者提供稳定、高效、低成本的 AI 模型 API 接入服务。平台支持 Claude、OpenAI、Gemini 等主流热门模型，价格低至官方原价的 7%。通过本项目 <a href="https://apikey.fun/register?aff=aiswitch"><strong>专属链接</strong></a> 注册，还可享受最高 <strong>充值永久 95 折</strong> 专属优惠。
     </td>
   </tr>
   <tr>
@@ -42,7 +42,7 @@
       </a>
     </td>
     <td>
-      <a href="https://roxybrowser.cn?code=0326VTDA"><strong>RoxyBrowser（Roxy浏览器）</strong></a> 是面向多账号运营与 AI 自动化场景的指纹浏览器，支持独立浏览器指纹环境、Cookie / 存储隔离、Roxy 原生住宅 IP、团队协作与 API / MCP 自动化能力，适合需要管理 AI 账号矩阵、降低账号关联风险、提升长期使用稳定性的用户。通过 Cockpit <a href="https://roxybrowser.cn?code=0326VTDA"><strong>邀请链接</strong></a> 注册或购买，可享受 10% 粉丝折扣。
+      <a href="https://roxybrowser.cn?code=0326VTDA"><strong>RoxyBrowser（Roxy浏览器）</strong></a> 是面向多账号运营与 AI 自动化场景的指纹浏览器，支持独立浏览器指纹环境、Cookie / 存储隔离、Roxy 原生住宅 IP、团队协作与 API / MCP 自动化能力，适合需要管理 AI 账号矩阵、降低账号关联风险、提升长期使用稳定性的用户。通过 aiswitch <a href="https://roxybrowser.cn?code=0326VTDA"><strong>邀请链接</strong></a> 注册或购买，可享受 10% 粉丝折扣。
     </td>
   </tr>
 </table>
@@ -88,7 +88,7 @@
 - **专属支持**：专为 Codex 优化的账号管理体验
 - **配额展示**：清晰展示 Hourly 和 Weekly 配额状态
 - **计划识别**：自动识别账号 Plan 类型 (Basic, Plus, Team 等)
-- **API 服务**：本地 Codex API 服务由内置 CLIProxyAPI sidecar 驱动，Cockpit Tools 负责账号同步、配置投影、状态与用量统计；Base URL、API Key 与用户操作方式保持不变。
+- **API 服务**：本地 Codex API 服务由内置 CLIProxyAPI sidecar 驱动，AISwitch 负责账号同步、配置投影、状态与用量统计；Base URL、API Key 与用户操作方式保持不变。
 
 > ![Codex Accounts](docs/images/codex_list.png)
 
@@ -250,7 +250,7 @@ Grok CLI 默认实例直接沿用官方 `~/.grok` 目录，启动时不设置 `G
 
 ### 14. ZCode 账号管理
 
-- **官方登录**：关闭 ZCode 后，可在 Cockpit 内置授权窗口完成 Z.ai 或 BigModel OAuth；窗口直接拦截 `zcode://` 官方回调并保存账号
+- **官方登录**：关闭 ZCode 后，可在 aiswitch 内置授权窗口完成 Z.ai 或 BigModel OAuth；窗口直接拦截 `zcode://` 官方回调并保存账号
 - **导入导出**：支持读取本机 `~/.zcode/v2/credentials.json` 加密凭据、JSON 导入导出与账号备份
 - **配额视图**：查询订阅套餐与按模型拆分的额度，并保留套餐原始值
 - **批量管理**：支持标签、搜索、套餐筛选、导出与批量删除/刷新
@@ -279,15 +279,15 @@ Grok CLI 默认实例直接沿用官方 `~/.grok` 目录，启动时不设置 `G
 
 - **这是本地桌面工具**：不需要单独注册平台账号，也不依赖项目自建云端来存你的账号列表。
 - **数据主要保存在本机**：
-  - `~/.antigravity_cockpit`：Antigravity IDE 账号、配置、WebSocket 状态等
+  - `~/.aiswitch`：Antigravity IDE 账号、配置、WebSocket 状态等
   - `~/.codex`：Codex 官方当前登录 `auth.json`
   - `~/.grok`：Grok CLI 官方默认实例与当前登录 `auth.json`
   - `~/.zcode/v2`：ZCode 官方当前登录加密凭据与配额缓存
-  - 系统本地应用数据目录下 `com.antigravity.cockpit-tools`：Codex / GitHub Copilot / Windsurf / Kiro / Cursor / Grok CLI / CodeBuddy / CodeBuddy CN / Qoder / Trae 套件 / Zed / ZCode 多账号数据等；Grok CLI 的账号详情、受管 profile 与实例配置也保存在此
+  - 系统本地应用数据目录下 `com.antigravity.aiswitch`：Codex / GitHub Copilot / Windsurf / Kiro / Cursor / Grok CLI / CodeBuddy / CodeBuddy CN / Qoder / Trae 套件 / Zed / ZCode 多账号数据等；Grok CLI 的账号详情、受管 profile 与实例配置也保存在此
 - **Grok CLI 凭据不加密**：access token/refresh token 以明文 JSON 保存在本机，主要依赖操作系统账号隔离与本地文件权限保护；Unix 系统上凭据目录设为 `0700`、凭据文件设为 `0600`。脱敏导出不包含 token，不能作为登录备份
 - **WebSocket 默认仅本机访问**：监听 `127.0.0.1`，默认端口 `19528`，可在设置中关闭或改端口。
 - **什么时候会联网**：OAuth 登录、Token 刷新、配额查询、版本更新检查等官方接口请求。
-- **macOS 隐私权限弹窗说明**：在 Cockpit Tools 中启动 Codex/agent 后，如果 agent 执行的 shell 命令访问桌面、文稿、下载、照片等受保护目录，macOS 可能会把权限请求显示为“Cockpit Tools 想要访问……”。这是因为这些命令是 Cockpit Tools 启动的子进程，系统会把权限归因到宿主应用；这不等同于 Cockpit Tools 主程序主动扫描这些目录。是否允许取决于你是否信任当前 agent 任务和它将要执行的命令；不确定时可以选择拒绝，或先把项目放在普通工作目录中运行。
+- **macOS 隐私权限弹窗说明**：在 AISwitch 中启动 Codex/agent 后，如果 agent 执行的 shell 命令访问桌面、文稿、下载、照片等受保护目录，macOS 可能会把权限请求显示为“AISwitch 想要访问……”。这是因为这些命令是 AISwitch 启动的子进程，系统会把权限归因到宿主应用；这不等同于 AISwitch 主程序主动扫描这些目录。是否允许取决于你是否信任当前 agent 任务和它将要执行的命令；不确定时可以选择拒绝，或先把项目放在普通工作目录中运行。
 - **实用安全建议**：
   1. 不使用插件联动时，可关闭 WebSocket 服务。
   2. 不要把用户目录直接打包分享；备份前注意脱敏 token 文件。
@@ -344,7 +344,7 @@ Grok CLI 默认实例直接沿用官方 `~/.grok` 目录，启动时不设置 `G
 
 ### 选项 A: 手动下载 (推荐)
 
-前往 [GitHub Releases](https://github.com/jlcodes99/cockpit-tools/releases) 下载对应系统的安装包：
+前往 [GitHub Releases](https://github.com/jlcodes99/aiswitch/releases) 下载对应系统的安装包：
 
 *   **macOS**: `.dmg` (Apple Silicon & Intel)
 *   **Windows**: `.msi` (推荐) 或 `.exe`
@@ -355,27 +355,27 @@ Grok CLI 默认实例直接沿用官方 `~/.grok` 目录，启动时不设置 `G
 > 需要先安装 Homebrew。
 
 ```bash
-brew tap jlcodes99/cockpit-tools https://github.com/jlcodes99/cockpit-tools
-brew install --cask cockpit-tools
+brew tap jlcodes99/aiswitch https://github.com/jlcodes99/aiswitch
+brew install --cask aiswitch
 ```
 
 如果遇到 macOS “应用已损坏”或无法打开，也可以使用 `--no-quarantine` 安装：
 
 ```bash
-brew install --cask --no-quarantine cockpit-tools
+brew install --cask --no-quarantine aiswitch
 ```
 
-如果提示已存在应用（例如：`already an App at '/Applications/Cockpit Tools.app'`），请先删除旧版本再安装：
+如果提示已存在应用（例如：`already an App at '/Applications/AISwitch.app'`），请先删除旧版本再安装：
 
 ```bash
-rm -rf "/Applications/Cockpit Tools.app"
-brew install --cask cockpit-tools
+rm -rf "/Applications/AISwitch.app"
+brew install --cask aiswitch
 ```
 
 或者直接强制覆盖安装：
 
 ```bash
-brew install --cask --force cockpit-tools
+brew install --cask --force aiswitch
 ```
 
 ### 🛠️ 常见问题排查 (Troubleshooting)
@@ -386,7 +386,7 @@ brew install --cask --force cockpit-tools
 1.  **命令行修复** (推荐):
     打开终端，执行以下命令：
     ```bash
-    sudo xattr -rd com.apple.quarantine "/Applications/Cockpit Tools.app"
+    sudo xattr -rd com.apple.quarantine "/Applications/AISwitch.app"
     ```
     > **注意**: 如果您修改了应用名称，请在命令中相应调整路径。
 
@@ -424,7 +424,7 @@ npm run tauri build
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=jlcodes99/cockpit-tools&type=Date)](https://star-history.com/#jlcodes99/cockpit-tools&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=jlcodes99/aiswitch&type=Date)](https://star-history.com/#jlcodes99/aiswitch&Date)
 
 ---
 
@@ -460,8 +460,8 @@ QQ 交流群、微信群或新建的 Telegram 畅聊群都可以加入。
 - Codex、Claude CLI 与 Claude Desktop Gateway 第三方供应商预设和模型映射方向参考：[CC Switch](https://github.com/farion1231/cc-switch)
 - Codex 模型目录与前端模型显示思路参考：[CodexPlusPlus](https://github.com/BigPizzaV3/CodexPlusPlus)
 - Claude 可选登录 helper 运行时基于：[Electron](https://github.com/electron/electron)
-- 感谢 [@longwQaQ](https://github.com/longwQaQ) 贡献 Codex 模型供应商 Responses WebSocket 配置能力（[#1512](https://github.com/jlcodes99/cockpit-tools/pull/1512)）。
-- 感谢 [@sqmw](https://github.com/sqmw) 在 Trae CN 账号支持方向上的贡献（OAuth/本机导入、pay v2 配额与速通展示、CN 产品类型等实现思路），已整合进统一 Trae 套件（[#1281](https://github.com/jlcodes99/cockpit-tools/pull/1281)）。
+- 感谢 [@longwQaQ](https://github.com/longwQaQ) 贡献 Codex 模型供应商 Responses WebSocket 配置能力（[#1512](https://github.com/jlcodes99/aiswitch/pull/1512)）。
+- 感谢 [@sqmw](https://github.com/sqmw) 在 Trae CN 账号支持方向上的贡献（OAuth/本机导入、pay v2 配额与速通展示、CN 产品类型等实现思路），已整合进统一 Trae 套件（[#1281](https://github.com/jlcodes99/aiswitch/pull/1281)）。
 
 感谢项目作者的开源贡献！如果这些项目对你有帮助，也请给他们点个 ⭐ Star 支持一下！
 

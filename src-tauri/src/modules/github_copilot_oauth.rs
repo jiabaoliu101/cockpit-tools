@@ -32,7 +32,7 @@ const GITHUB_OAUTH_GET_STARTED_WITH: &str = "copilot-vscode";
 const GITHUB_API_VERSION: &str = "2025-04-01";
 const OAUTH_TIMEOUT_SECONDS: i64 = 300;
 const OAUTH_POLL_INTERVAL_MS: u64 = 200;
-const APP_USER_AGENT: &str = "antigravity-cockpit-tools";
+const APP_USER_AGENT: &str = "antigravity-aiswitch";
 
 #[derive(Debug, Clone)]
 struct PendingOAuthLogin {

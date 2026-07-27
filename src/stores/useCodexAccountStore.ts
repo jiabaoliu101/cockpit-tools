@@ -14,7 +14,7 @@ import {
 import * as codexService from '../services/codexService';
 import { emitAccountsChanged, emitCurrentAccountChanged } from '../utils/accountSyncEvents';
 
-const APP_PROFILE = (import.meta.env.VITE_COCKPIT_TOOLS_PROFILE || '').trim();
+const APP_PROFILE = (import.meta.env.VITE_AISWITCH_PROFILE || '').trim();
 const STORAGE_PROFILE_SUFFIX =
   APP_PROFILE && APP_PROFILE !== 'prod' ? `.${APP_PROFILE}` : '';
 const SHOULD_PRESERVE_CACHE_ON_EMPTY_LIST = !STORAGE_PROFILE_SUFFIX;

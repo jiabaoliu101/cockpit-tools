@@ -299,7 +299,7 @@ function getFastRequestUsage(rawUsage: unknown): {
   const roots = collectUsageRoots(rawUsage);
   const dashboardPayload = roots.some(
     (root) =>
-      root._cockpit_source === 'user_current_entitlement_list' &&
+      root._aiswitch_source === 'user_current_entitlement_list' &&
       toArray(root.user_entitlement_pack_list) != null,
   );
 

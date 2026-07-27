@@ -28,5 +28,5 @@ Todo apoio me motiva a continuar aprimorando este projeto. Obrigado pela sua gen
 
 - As doações são totalmente voluntárias e não afetam sua capacidade de usar nenhum recurso deste projeto.
 
-- Se você tiver alguma dúvida ou sugestão, sinta-se à vontade para enviar seu feedback através de [GitHub Issues](https://github.com/jlcodes99/cockpit-tools/issues).
+- Se você tiver alguma dúvida ou sugestão, sinta-se à vontade para enviar seu feedback através de [GitHub Issues](https://github.com/jlcodes99/aiswitch/issues).
 

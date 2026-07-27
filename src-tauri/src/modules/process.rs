@@ -89,7 +89,7 @@ fn parse_env_bool(value: &str) -> Option<bool> {
 }
 
 fn command_trace_enabled() -> bool {
-    if let Ok(value) = std::env::var("COCKPIT_COMMAND_TRACE") {
+    if let Ok(value) = std::env::var("aiswitch_COMMAND_TRACE") {
         if let Some(enabled) = parse_env_bool(&value) {
             return enabled;
         }
@@ -1519,13 +1519,13 @@ exit 0
 }
 
 fn should_detach_child() -> bool {
-    if let Ok(value) = std::env::var("COCKPIT_CHILD_LOGS") {
+    if let Ok(value) = std::env::var("aiswitch_CHILD_LOGS") {
         let lowered = value.trim().to_lowercase();
         if matches!(lowered.as_str(), "1" | "true" | "yes" | "on") {
             return false;
         }
     }
-    if let Ok(value) = std::env::var("COCKPIT_CHILD_DETACH") {
+    if let Ok(value) = std::env::var("aiswitch_CHILD_DETACH") {
         let lowered = value.trim().to_lowercase();
         if matches!(lowered.as_str(), "0" | "false" | "no" | "off") {
             return false;
@@ -1536,7 +1536,7 @@ fn should_detach_child() -> bool {
 
 #[cfg(target_os = "macos")]
 fn sanitize_macos_gui_launch_env(cmd: &mut Command) {
-    // Avoid inheriting Cockpit bundle identity into child GUI apps.
+    // Avoid inheriting aiswitch bundle identity into child GUI apps.
     cmd.env_remove("__CFBundleIdentifier");
     cmd.env_remove("XPC_SERVICE_NAME");
 }
@@ -8644,7 +8644,7 @@ fn is_legacy_platform_adapter_executable(executable: &str) -> bool {
         return false;
     };
 
-    file_name.starts_with("cockpit-") && file_name.ends_with("-adapter")
+    file_name.starts_with("aiswitch-") && file_name.ends_with("-adapter")
 }
 
 fn orphaned_legacy_platform_adapter_pid_from_ps_line(line: &str, current_pid: u32) -> Option<u32> {
@@ -9675,7 +9675,7 @@ pub fn start_codex_with_args(codex_home: &str, extra_args: &[String]) -> Result<
         let args = build_codex_app_launch_args(extra_args);
 
         // 通过 LaunchServices 启动 GUI 应用，避免直接执行 ChatGPT 主程序时
-        // 被 macOS 以 Cockpit Tools 为 responsible process，导致偶发长时间停在
+        // 被 macOS 以 AISwitch 为 responsible process，导致偶发长时间停在
         // dyld/AppKit 初始化阶段。当前 macOS 的 `open` 支持 --env，因此
         // CODEX_HOME 与独立 Electron user-data-dir 都可以随启动请求传入。
         if !codex_home_trimmed.is_empty() {
@@ -10510,7 +10510,7 @@ pub fn close_codex_instances(codex_homes: &[String], timeout_secs: u64) -> Resul
             }
         }
         if includes_default
-            && std::env::var("COCKPIT_CODEX_CLOSE_RESOURCE_CLEANUP")
+            && std::env::var("aiswitch_CODEX_CLOSE_RESOURCE_CLEANUP")
                 .ok()
                 .as_deref()
                 == Some("1")
@@ -13002,7 +13002,7 @@ mod legacy_platform_adapter_cleanup_tests {
 
     #[test]
     fn matches_orphaned_legacy_platform_adapter() {
-        let line = " 1359     1 /Users/jieli/.antigravity_cockpit/platform-packages/codex/current/adapter/macos/cockpit-codex-adapter";
+        let line = " 1359     1 /Users/jieli/.aiswitch/platform-packages/codex/current/adapter/macos/aiswitch-codex-adapter";
         assert_eq!(
             orphaned_legacy_platform_adapter_pid_from_ps_line(line, 99999),
             Some(1359)
@@ -13011,13 +13011,13 @@ mod legacy_platform_adapter_cleanup_tests {
 
     #[test]
     fn ignores_non_orphaned_or_current_processes() {
-        let line = " 1359 1805 /Users/jieli/.antigravity_cockpit/platform-packages/codex/current/adapter/macos/cockpit-codex-adapter";
+        let line = " 1359 1805 /Users/jieli/.aiswitch/platform-packages/codex/current/adapter/macos/aiswitch-codex-adapter";
         assert_eq!(
             orphaned_legacy_platform_adapter_pid_from_ps_line(line, 99999),
             None
         );
 
-        let current_line = " 1359 1 /Users/jieli/.antigravity_cockpit/platform-packages/codex/current/adapter/macos/cockpit-codex-adapter";
+        let current_line = " 1359 1 /Users/jieli/.aiswitch/platform-packages/codex/current/adapter/macos/aiswitch-codex-adapter";
         assert_eq!(
             orphaned_legacy_platform_adapter_pid_from_ps_line(current_line, 1359),
             None
@@ -13027,7 +13027,7 @@ mod legacy_platform_adapter_cleanup_tests {
     #[test]
     fn ignores_current_sidecar_and_official_apps() {
         let sidecar =
-            " 64680 1805 /Applications/Cockpit Tools.app/Contents/MacOS/cockpit-cliproxy --parent-pid 1805";
+            " 64680 1805 /Applications/AISwitch.app/Contents/MacOS/aiswitch-proxy --parent-pid 1805";
         assert_eq!(
             orphaned_legacy_platform_adapter_pid_from_ps_line(sidecar, 99999),
             None

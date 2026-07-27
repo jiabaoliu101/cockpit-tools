@@ -153,7 +153,7 @@ impl WebdavSyncClient {
         bytes: Vec<u8>,
     ) -> Result<WebdavBackupFileEntry, String> {
         if !is_backup_file_name(file_name) {
-            return Err("WebDAV 只允许上传 Cockpit 备份文件".to_string());
+            return Err("WebDAV 只允许上传 aiswitch 备份文件".to_string());
         }
         self.ensure_remote_dir().await?;
 
@@ -192,7 +192,7 @@ impl WebdavSyncClient {
 
     pub async fn read_remote_backup_bytes(&self, file_name: &str) -> Result<Vec<u8>, String> {
         if !is_backup_file_name(file_name) {
-            return Err("WebDAV 只允许读取 Cockpit 备份文件".to_string());
+            return Err("WebDAV 只允许读取 aiswitch 备份文件".to_string());
         }
         let path = format!("{}/{}", self.remote_dir, file_name);
         let response = self
@@ -210,7 +210,7 @@ impl WebdavSyncClient {
 
     pub async fn delete_remote_backup(&self, file_name: &str) -> Result<(), String> {
         if !is_backup_file_name(file_name) {
-            return Err("WebDAV 只允许删除 Cockpit 备份文件".to_string());
+            return Err("WebDAV 只允许删除 aiswitch 备份文件".to_string());
         }
         let path = format!("{}/{}", self.remote_dir, file_name);
 
@@ -346,8 +346,8 @@ pub fn is_backup_file_name(file_name: &str) -> bool {
     if trimmed != file_name || trimmed.contains('/') || trimmed.contains('\\') {
         return false;
     }
-    let matches_prefix = trimmed.starts_with("cockpit_auto_backup_")
-        || trimmed.starts_with("cockpit_manual_backup_");
+    let matches_prefix = trimmed.starts_with("aiswitch_auto_backup_")
+        || trimmed.starts_with("aiswitch_manual_backup_");
     let matches_suffix = trimmed.ends_with(".json") || trimmed.ends_with(".zip");
     matches_prefix && matches_suffix
 }
@@ -480,7 +480,7 @@ mod tests {
         assert!(normalize_base_url("").is_err());
         assert!(normalize_base_url("ftp://dav.example.com/dav/").is_err());
         assert!(normalize_remote_dir("../backups").is_err());
-        assert!(normalize_remote_dir("CockpitTools\\backups").is_err());
+        assert!(normalize_remote_dir("aiswitchTools\\backups").is_err());
     }
 
     #[test]
@@ -490,8 +490,8 @@ mod tests {
             "https://dav.jianguoyun.com/dav/"
         );
         assert_eq!(
-            normalize_remote_dir(" /cockpit-tools/ ").unwrap(),
-            "cockpit-tools"
+            normalize_remote_dir(" /aiswitch/ ").unwrap(),
+            "aiswitch"
         );
     }
 }

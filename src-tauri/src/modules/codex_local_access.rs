@@ -94,14 +94,14 @@ const CODEX_LOCAL_ACCESS_SIDECAR_API_KEY_PRIORITY_FILE: &str = "api-key-prioriti
 const CODEX_LOCAL_ACCESS_SIDECAR_QUOTA_RESERVE_FILE: &str = "quota-reserve.json";
 const CODEX_LOCAL_ACCESS_SIDECAR_QUOTA_POOL_FILE: &str = "quota-pool-state.json";
 const CODEX_LOCAL_ACCESS_SIDECAR_AUTHS_DIR: &str = "auths";
-const CODEX_LOCAL_ACCESS_SIDECAR_BIN_NAME: &str = "cockpit-cliproxy";
+const CODEX_LOCAL_ACCESS_SIDECAR_BIN_NAME: &str = "aiswitch-proxy";
 const SIDECAR_SERVICE_TIER_SUPPORTED_MODEL_PATTERN: &str = "*";
 const SIDECAR_SERVICE_TIER_SUPPORTED_PAYLOAD_FORMATS: &[&str] =
     &["codex", "openai", "openai-response"];
 const CODEX_LOCAL_ACCESS_LOCALHOST_BIND_HOST: &str = "127.0.0.1";
 const CODEX_LOCAL_ACCESS_LAN_BIND_HOST: &str = "0.0.0.0";
 const CODEX_LOCAL_ACCESS_DEFAULT_CLIENT_URL_HOST: &str = "localhost";
-const CODEX_LOCAL_ACCESS_API_PORT_ENV: &str = "COCKPIT_TOOLS_API_PORT";
+const CODEX_LOCAL_ACCESS_API_PORT_ENV: &str = "AISWITCH_API_PORT";
 const CODEX_LOCAL_ACCESS_DEV_DEFAULT_PORT: u16 = 1456;
 const CODEX_LOCAL_ACCESS_TAKEOVER_BACKUP_VERSION: u32 = 1;
 const CODEX_LOCAL_ACCESS_RUNTIME_PROVIDER_ID: &str = "codex_local_access";
@@ -112,11 +112,11 @@ const CODEX_LOCAL_ACCESS_DISABLE_HOSTED_IMAGE_GENERATION_HEADER: &str =
 const CODEX_LOCAL_ACCESS_DISABLE_HOSTED_IMAGE_GENERATION_HEADER_VALUE: &str = "chat";
 const CODEX_PROFILE_AUTH_FILE: &str = "auth.json";
 const CODEX_PROFILE_CONFIG_FILE: &str = "config.toml";
-const CODEX_LOCAL_ACCESS_AUTH_PROJECTION_FILE: &str = ".cockpit_codex_auth.json";
-const CODEX_LOCAL_ACCESS_MODEL_CATALOG_FILE: &str = "cockpit-local-access-model-catalog.json";
-const CODEX_PROVIDER_MODEL_CATALOG_FILE: &str = "cockpit-provider-model-catalog.json";
+const CODEX_LOCAL_ACCESS_AUTH_PROJECTION_FILE: &str = ".aiswitch_codex_auth.json";
+const CODEX_LOCAL_ACCESS_MODEL_CATALOG_FILE: &str = "aiswitch-local-access-model-catalog.json";
+const CODEX_PROVIDER_MODEL_CATALOG_FILE: &str = "aiswitch-provider-model-catalog.json";
 const CODEX_MODEL_CACHE_FILE: &str = "models_cache.json";
-const CODEX_PROVIDER_MODEL_BACKUP_FILE: &str = ".cockpit-provider-model-backup.json";
+const CODEX_PROVIDER_MODEL_BACKUP_FILE: &str = ".aiswitch-provider-model-backup.json";
 const MAX_HTTP_REQUEST_BYTES: usize = 256 * 1024 * 1024;
 const DEFAULT_REQUEST_READ_TIMEOUT: Duration = Duration::from_secs(15);
 const MAX_REQUEST_RETRY_ATTEMPTS: usize = 1;
@@ -8854,7 +8854,7 @@ fn is_codex_local_access_config_for_api_key(config_text: &str, api_key: &str) ->
         == Some(api_key.trim())
 }
 
-fn is_cockpit_managed_local_access_config(config_text: &str) -> bool {
+fn is_aiswitch_managed_local_access_config(config_text: &str) -> bool {
     let Ok(doc) = crate::modules::codex_config_format::read_codex_config_doc_from_str(config_text)
     else {
         return false;
@@ -9450,7 +9450,7 @@ fn save_profile_takeover_backup(profile_dir: &Path, api_key: &str) -> Result<(),
         .as_deref()
         .map(|content| {
             is_codex_local_access_config_for_api_key(content, api_key)
-                || is_cockpit_managed_local_access_config(content)
+                || is_aiswitch_managed_local_access_config(content)
         })
         .unwrap_or(false)
     {
@@ -9530,7 +9530,7 @@ fn restore_profile_takeover_backup(
         .as_deref()
         .map(|content| {
             is_codex_local_access_config_for_api_key(content, api_key)
-                || (allow_rotated_managed_key && is_cockpit_managed_local_access_config(content))
+                || (allow_rotated_managed_key && is_aiswitch_managed_local_access_config(content))
         })
         .unwrap_or(false);
     let auth_is_managed = current_auth
@@ -9567,7 +9567,7 @@ fn cleanup_profile_takeover_without_backup(
 
     if let Some(config_text) = read_optional_profile_file(&config_path)? {
         if is_codex_local_access_config_for_api_key(&config_text, api_key)
-            || (allow_rotated_managed_key && is_cockpit_managed_local_access_config(&config_text))
+            || (allow_rotated_managed_key && is_aiswitch_managed_local_access_config(&config_text))
         {
             managed = true;
             let cleaned = remove_codex_local_access_config(&config_text)?;
@@ -9884,7 +9884,7 @@ fn provider_gateway_lifecycle_lock() -> &'static TokioMutex<()> {
 }
 
 fn sidecar_binary_file_names() -> Vec<String> {
-    let target = env!("COCKPIT_RUST_TARGET");
+    let target = env!("aiswitch_RUST_TARGET");
     if cfg!(target_os = "windows") {
         vec![
             format!("{CODEX_LOCAL_ACCESS_SIDECAR_BIN_NAME}.exe"),
@@ -9914,7 +9914,7 @@ fn sidecar_binary_candidates() -> Result<Vec<PathBuf>, String> {
         .ok_or_else(|| format!("当前程序路径缺少父目录: {}", exe.display()))?;
     let mut candidates = Vec::new();
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let dev_sidecar_dir = manifest_dir.join("../sidecars/cockpit-cliproxy/bin");
+    let dev_sidecar_dir = manifest_dir.join("../sidecars/aiswitch-proxy/bin");
 
     if cfg!(debug_assertions) {
         push_sidecar_binary_candidates(&mut candidates, &dev_sidecar_dir);
@@ -10632,7 +10632,7 @@ fn sync_sidecar_auth_file_for_account_with_task_source(
     harden_sidecar_auth_file_permissions(&auth_path)?;
     invalidate_prepared_account_if_unlocked(&account.id);
     logger::log_codex_api_info(&format!(
-        "[CodexLocalAccess][sidecar] 已写穿 Cockpit Token Authority 凭证: account_id={}",
+        "[CodexLocalAccess][sidecar] 已写穿 aiswitch Token Authority 凭证: account_id={}",
         account.id
     ));
     Ok(())
@@ -10848,7 +10848,7 @@ fn parse_http_url_host_port(raw: &str) -> Option<(String, u16)> {
     Some((host, port))
 }
 
-/// True when `raw` is the Cockpit API Service client URL (gateway), not a real upstream.
+/// True when `raw` is the aiswitch API Service client URL (gateway), not a real upstream.
 fn is_local_access_gateway_base_url(raw: &str, collection: &CodexLocalAccessCollection) -> bool {
     if profile_base_url_matches(Some(raw), &build_collection_base_url(collection)) {
         return true;
@@ -10879,7 +10879,7 @@ fn normalize_upstream_base_url_string(raw: &str) -> Option<String> {
     Some(trimmed.trim_end_matches('/').to_string())
 }
 
-/// Look up real provider Base URL from a Cockpit data directory store.
+/// Look up real provider Base URL from a aiswitch data directory store.
 fn lookup_codex_model_provider_base_url_in_dir(
     data_dir: &Path,
     provider_id: Option<&str>,
@@ -10931,7 +10931,7 @@ fn lookup_codex_model_provider_base_url_in_dir(
     None
 }
 
-/// Look up real provider Base URL from Cockpit's model-provider store.
+/// Look up real provider Base URL from aiswitch's model-provider store.
 fn lookup_codex_model_provider_base_url(
     provider_id: Option<&str>,
     provider_name: Option<&str>,
@@ -11856,7 +11856,7 @@ pub async fn recover_local_access_accounts(
 
     let client = build_localhost_http_client(Duration::from_secs(10), "账号调度恢复")?;
     let url = format!(
-        "http://{}:{}/v1/cockpit/auth/reset",
+        "http://{}:{}/v1/aiswitch/auth/reset",
         CODEX_LOCAL_ACCESS_DEFAULT_CLIENT_URL_HOST, port
     );
     let response = client
@@ -25120,7 +25120,7 @@ mod tests {
         DEFAULT_SESSION_AFFINITY_TTL_MS, MAX_HTTP_REQUEST_BYTES,
     };
     use super::{
-        is_cockpit_managed_local_access_config, restore_profile_takeover_backup,
+        is_aiswitch_managed_local_access_config, restore_profile_takeover_backup,
         CodexLocalAccessProfileTakeoverBackup, CODEX_LOCAL_ACCESS_AUTH_PROJECTION_FILE,
         CODEX_MODEL_CACHE_FILE,
     };
@@ -25399,7 +25399,7 @@ mod tests {
     fn sidecar_preparation_stops_after_lifecycle_generation_changes() {
         let collection = test_local_access_collection(vec!["account-1".to_string()]);
         let dir = std::env::temp_dir().join(format!(
-            "cockpit-sidecar-cancel-test-{}",
+            "aiswitch-sidecar-cancel-test-{}",
             uuid::Uuid::new_v4()
         ));
         let current_generation = super::current_gateway_lifecycle_generation();
@@ -26067,7 +26067,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
     #[test]
     fn provider_gateway_writes_static_catalog_for_chat_completions_models() {
         let profile_dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-model-override-state-test-{}",
+            "aiswitch-provider-model-override-state-test-{}",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&profile_dir).expect("create temp profile");
@@ -26129,7 +26129,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
     #[test]
     fn provider_gateway_cleanup_removes_managed_model_override() {
         let profile_dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-model-cleanup-test-{}",
+            "aiswitch-provider-model-cleanup-test-{}",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&profile_dir).expect("create temp profile");
@@ -26162,7 +26162,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
     #[test]
     fn provider_gateway_cleanup_restores_previous_official_model() {
         let profile_dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-model-restore-test-{}",
+            "aiswitch-provider-model-restore-test-{}",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&profile_dir).expect("create temp profile");
@@ -26196,7 +26196,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
     #[test]
     fn provider_gateway_cleanup_restores_previous_model_without_catalog_file() {
         let profile_dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-model-restore-no-catalog-test-{}",
+            "aiswitch-provider-model-restore-no-catalog-test-{}",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&profile_dir).expect("create temp profile");
@@ -26234,9 +26234,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings
     }
 
     #[test]
-    fn provider_gateway_cleanup_keeps_non_cockpit_model_catalog() {
+    fn provider_gateway_cleanup_keeps_non_aiswitch_model_catalog() {
         let profile_dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-model-keep-external-catalog-test-{}",
+            "aiswitch-provider-model-keep-external-catalog-test-{}",
             chrono::Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&profile_dir).expect("create temp profile");
@@ -27293,7 +27293,7 @@ wire_api = "responses"
             "at@example.com".to_string(),
             CodexTokens {
                 id_token: String::new(),
-                access_token: "at-cockpit-team-token".to_string(),
+                access_token: "at-aiswitch-team-token".to_string(),
                 refresh_token: None,
             },
         );
@@ -27317,11 +27317,11 @@ wire_api = "responses"
             auth_json
                 .get("personal_access_token")
                 .and_then(Value::as_str),
-            Some("at-cockpit-team-token")
+            Some("at-aiswitch-team-token")
         );
         assert_eq!(
             auth_json.get("at_token").and_then(Value::as_str),
-            Some("at-cockpit-team-token")
+            Some("at-aiswitch-team-token")
         );
         assert_eq!(
             auth_json.get("refresh_token").and_then(Value::as_str),
@@ -27336,7 +27336,7 @@ wire_api = "responses"
             "at@example.com".to_string(),
             CodexTokens {
                 id_token: String::new(),
-                access_token: "at-cockpit-team-token".to_string(),
+                access_token: "at-aiswitch-team-token".to_string(),
                 refresh_token: None,
             },
         );
@@ -28203,7 +28203,7 @@ wire_api = "responses"
     #[test]
     fn removes_only_codex_local_access_provider_config() {
         let input = r#"model_provider = "codex_local_access"
-model_catalog_json = "cockpit-local-access-model-catalog.json"
+model_catalog_json = "aiswitch-local-access-model-catalog.json"
 model_context_window = 1000000
 
 [model_providers.codex_local_access]
@@ -28214,7 +28214,7 @@ requires_openai_auth = false
 experimental_bearer_token = "agt_codex_test"
 supports_websockets = false
 custom_user_option = "keep-me"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools", "x-agtools-disable-image-generation" = "chat", "x-cockpit-instance-id" = "default", "X-Custom" = "keep-me" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch", "x-agtools-disable-image-generation" = "chat", "x-aiswitch-instance-id" = "default", "X-Custom" = "keep-me" }
 
 [model_providers.manual]
 name = "Manual"
@@ -28281,8 +28281,8 @@ experimental_bearer_token = "sk-user-custom"
             input,
             "local-api-key"
         ));
-        assert!(!is_cockpit_managed_local_access_config(input));
-        assert!(is_cockpit_managed_local_access_config(
+        assert!(!is_aiswitch_managed_local_access_config(input));
+        assert!(is_aiswitch_managed_local_access_config(
             &input.replace("sk-user-custom", "agt_codex_managed")
         ));
     }
@@ -28325,7 +28325,7 @@ experimental_bearer_token = "agt_codex_provider_gateway"
     fn takeover_backup_restore_preserves_current_plugin_config() {
         let current = r#"model_provider = "codex_local_access"
 model = "gpt-user-current"
-model_catalog_json = "cockpit-local-access-model-catalog.json"
+model_catalog_json = "aiswitch-local-access-model-catalog.json"
 
 [plugins."browser@openai-bundled"]
 enabled = true
@@ -28343,7 +28343,7 @@ wire_api = "responses"
 requires_openai_auth = true
 experimental_bearer_token = "agt_codex_test"
 custom_user_option = "keep-current"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools", "X-Custom" = "keep-current" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch", "X-Custom" = "keep-current" }
 "#;
         let backup = r#"model = "gpt-5"
 model_provider = "manual"
@@ -28414,7 +28414,7 @@ wire_api = "responses"
         let dir = make_temp_dir("codex-local-access-restore-auth-artifacts");
         let current_config = r#"model_provider = "codex_local_access"
 model = "gpt-current"
-model_catalog_json = "cockpit-local-access-model-catalog.json"
+model_catalog_json = "aiswitch-local-access-model-catalog.json"
 
 [model_providers.codex_local_access]
 name = "Codex API Service"
@@ -28520,7 +28520,7 @@ base_url = "http://localhost:14998/v1"
 wire_api = "responses"
 requires_openai_auth = false
 experimental_bearer_token = "agt_codex_test"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch" }
 supports_websockets = false
 "#;
 
@@ -28578,7 +28578,7 @@ base_url = "http://localhost:14998/v1"
 wire_api = "responses"
 requires_openai_auth = true
 experimental_bearer_token = "agt_codex_test"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools", "x-agtools-disable-image-generation" = "chat" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch", "x-agtools-disable-image-generation" = "chat" }
 supports_websockets = false
 "#;
 
@@ -28605,7 +28605,7 @@ base_url = "http://localhost:14998/v1"
 wire_api = "responses"
 requires_openai_auth = true
 experimental_bearer_token = "local-api-key"
-http_headers = { "x-openai-actor-authorization" = "cockpit-tools", "x-agtools-disable-image-generation" = "chat" }
+http_headers = { "x-openai-actor-authorization" = "aiswitch", "x-agtools-disable-image-generation" = "chat" }
 supports_websockets = false
 "#;
         fs::write(dir.join(CODEX_PROFILE_CONFIG_FILE), config).expect("write config");
@@ -28637,7 +28637,7 @@ base_url = "http://127.0.0.1:14998/v1"
 wire_api = "responses"
 requires_openai_auth = false
 experimental_bearer_token = "agt_codex_old"
-http_headers = { "X-OpenAI-Actor-Authorization" = "cockpit-tools" }
+http_headers = { "X-OpenAI-Actor-Authorization" = "aiswitch" }
 supports_websockets = false
 "#;
 
@@ -31865,7 +31865,7 @@ data: {"error":{"code":"server_error","type":"upstream","message":"stream aborte
             lookup_codex_model_provider_base_url_in_dir(&data_dir, Some("relay"), None).as_deref(),
             Some("https://relay.example/v1")
         );
-        // Avoid mutating process-global COCKPIT_TOOLS_DATA_DIR (races other tests).
+        // Avoid mutating process-global AISWITCH_DATA_DIR (races other tests).
         let resolved = resolve_sidecar_upstream_base_url_with(&account, &collection, |id, name| {
             lookup_codex_model_provider_base_url_in_dir(&data_dir, id, name)
         });

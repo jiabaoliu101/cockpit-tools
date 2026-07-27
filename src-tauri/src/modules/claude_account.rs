@@ -4640,7 +4640,7 @@ fn download_electron_runtime_zip(
     ));
 
     let client = reqwest::blocking::Client::builder()
-        .user_agent("Cockpit-Tools")
+        .user_agent("aiswitch-Tools")
         .timeout(Duration::from_secs(15 * 60))
         .build()
         .map_err(|e| format!("创建 Electron runtime 下载客户端失败: {}", e))?;
@@ -6076,7 +6076,7 @@ async fn exchange_oauth_code_for_tokens(
         .post(CLAUDE_OAUTH_TOKEN_URL)
         .header(CONTENT_TYPE, "application/json")
         .header(ACCEPT, "application/json, text/plain, */*")
-        .header(USER_AGENT, "antigravity-cockpit-tools")
+        .header(USER_AGENT, "antigravity-aiswitch")
         .json(&json!({
             "grant_type": "authorization_code",
             "client_id": CLAUDE_OAUTH_CLIENT_ID,
@@ -6115,7 +6115,7 @@ async fn request_oauth_profile(access_token: &str) -> Result<Value, String> {
                 .map_err(|e| format!("构造 Claude profile Authorization 失败: {}", e))?,
         )
         .header(CONTENT_TYPE, "application/json")
-        .header(USER_AGENT, "antigravity-cockpit-tools")
+        .header(USER_AGENT, "antigravity-aiswitch")
         .send()
         .await
         .map_err(|e| format!("请求 Claude OAuth profile 失败: {}", e))?;
@@ -8209,7 +8209,7 @@ async fn refresh_oauth_credentials(credentials: &Value) -> Result<Option<Value>,
     let resp = client
         .post(CLAUDE_OAUTH_TOKEN_URL)
         .header(CONTENT_TYPE, "application/json")
-        .header(USER_AGENT, "antigravity-cockpit-tools")
+        .header(USER_AGENT, "antigravity-aiswitch")
         .json(&json!({
             "grant_type": "refresh_token",
             "refresh_token": refresh_token,
@@ -8275,7 +8275,7 @@ async fn request_usage(access_token: &str) -> Result<Value, String> {
     );
     headers.insert(
         USER_AGENT,
-        HeaderValue::from_static("antigravity-cockpit-tools"),
+        HeaderValue::from_static("antigravity-aiswitch"),
     );
 
     let client = reqwest::Client::builder()
@@ -8895,14 +8895,14 @@ mod tests {
         let snapshot_id = "claude_desktop_0b1d3d4df02c2376d62a623bb8c67332";
         assert_eq!(
             desktop_profile_snapshot_id_from_path(Path::new(
-                r"C:\Users\Lenovo\.antigravity_cockpit\claude_desktop_profiles\claude_desktop_0b1d3d4df02c2376d62a623bb8c67332"
+                r"C:\Users\Lenovo\.aiswitch\claude_desktop_profiles\claude_desktop_0b1d3d4df02c2376d62a623bb8c67332"
             ))
             .as_deref(),
             Some(snapshot_id)
         );
         assert_eq!(
             desktop_profile_snapshot_id_from_path(Path::new(
-                r"C:\Users\Lenovo.antigravity_cockpit\claude_desktop_profiles\claude_desktop_0b1d3d4df02c2376d62a623bb8c67332"
+                r"C:\Users\Lenovo.aiswitch\claude_desktop_profiles\claude_desktop_0b1d3d4df02c2376d62a623bb8c67332"
             ))
             .as_deref(),
             Some(snapshot_id)

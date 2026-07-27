@@ -166,7 +166,7 @@ export interface CodexResetCreditsSnapshot {
   next_expires_at?: number;
 }
 
-const COCKPIT_API_BASE_URL = "https://chongcodex.cn/v1";
+const aiswitch_API_BASE_URL = "https://chongcodex.cn/v1";
 
 function normalizeCodexApiBaseUrlForMatch(rawValue?: string | null): string {
   const trimmed = (rawValue || "").trim();
@@ -184,10 +184,10 @@ function normalizeCodexApiBaseUrlForMatch(rawValue?: string | null): string {
   }
 }
 
-export function isCodexCockpitApiBaseUrl(rawValue?: string | null): boolean {
+export function isCodexaiswitchApiBaseUrl(rawValue?: string | null): boolean {
   return (
     normalizeCodexApiBaseUrlForMatch(rawValue) ===
-    normalizeCodexApiBaseUrlForMatch(COCKPIT_API_BASE_URL)
+    normalizeCodexApiBaseUrlForMatch(aiswitch_API_BASE_URL)
   );
 }
 
@@ -789,10 +789,10 @@ export function isCodexNewApiAccount(account: CodexAccount): boolean {
   const planType = (account.plan_type || "").trim().toUpperCase();
   return (
     isCodexApiKeyAccount(account) &&
-    (providerId === "cockpit_api" ||
+    (providerId === "aiswitch_api" ||
       providerId === "new_api" ||
-      isCodexCockpitApiBaseUrl(account.api_base_url) ||
-      planType === "COCKPIT API" ||
+      isCodexaiswitchApiBaseUrl(account.api_base_url) ||
+      planType === "aiswitch API" ||
       planType === "NEW_API_EXCLUSIVE")
   );
 }
@@ -867,7 +867,7 @@ function normalizeCodexAuthFilePlanType(
 
 function getCodexPlanBadgeLabel(account: CodexAccount): string {
   if (isCodexNewApiAccount(account)) {
-    return account.plan_type?.trim() || "Cockpit Api";
+    return account.plan_type?.trim() || "aiswitch Api";
   }
   if (isCodexApiKeyAccount(account)) {
     return "API";

@@ -1,4 +1,4 @@
-//! Codex/ChatGPT renderer 的 Cockpit Tools API 服务可选额度显示注入。
+//! Codex/ChatGPT renderer 的 AISwitch API 服务可选额度显示注入。
 //!
 //! 该模块只连接实例自己的 loopback CDP 端口，不修改官方 app.asar，
 //! 也不修改官方额度或速度逻辑。额度以独立的小字段显示在 composer 操作栏下方。
@@ -208,9 +208,9 @@ fn local_quota_url(base_url: &str) -> Option<String> {
     }
     let path = url.path().trim_end_matches('/');
     let next_path = if path.ends_with("/v1") {
-        format!("{}/cockpit/quota", path)
+        format!("{}/aiswitch/quota", path)
     } else {
-        format!("{}/v1/cockpit/quota", path)
+        format!("{}/v1/aiswitch/quota", path)
     };
     url.set_path(&next_path);
     url.set_query(None);
@@ -400,7 +400,7 @@ fn injection_script(
       const refreshInProgress = {refresh_in_progress};
       const handledRefreshToken = {handled_refresh_token};
       const hostHeartbeatTimeoutMs = 8000;
-      const root = window.__cockpitCodexInjection || (window.__cockpitCodexInjection = {{}});
+      const root = window.__aiswitchCodexInjection || (window.__aiswitchCodexInjection = {{}});
       root.hostHeartbeatAt = Date.now();
       root.hostAvailable = true;
       root.providerName = providerName;
@@ -412,12 +412,12 @@ fn injection_script(
       root.refreshing = refreshInProgress || Boolean(pendingRefreshToken);
       if (handledRefreshToken && root.refreshRequestToken === handledRefreshToken) root.refreshRequestToken = null;
       const render = () => {{
-        let host = document.querySelector('[data-cockpit-quota-footer]');
+        let host = document.querySelector('[data-aiswitch-quota-footer]');
         const permissions = document.querySelector('[data-composer-navigation-target="permissions"]');
         const footer = permissions?.closest('._footer_1qb5a_2') || permissions?.parentElement?.parentElement?.parentElement;
         if (!footer || !permissions) {{
           if (host) host.style.display = 'none';
-          const details = document.querySelector('[data-cockpit-quota-details]');
+          const details = document.querySelector('[data-aiswitch-quota-details]');
           if (details) details.style.display = 'none';
           root.quotaDetailsOpen = false;
           if (root.layoutObserver) root.layoutObserver.disconnect();
@@ -427,7 +427,7 @@ fn injection_script(
         }}
         if (!host) {{
           host = document.createElement('div');
-          host.setAttribute('data-cockpit-quota-footer', 'true');
+          host.setAttribute('data-aiswitch-quota-footer', 'true');
         }}
         if (host.parentElement !== document.body) document.body.appendChild(host);
         if ('ResizeObserver' in window) {{
@@ -461,17 +461,17 @@ fn injection_script(
         }};
         const detailCardStyle = 'position:fixed;z-index:4;width:min(260px,calc(100vw - 24px));box-sizing:border-box;padding:9px 11px;border:1px solid var(--color-token-border-subtle,rgba(127,127,127,.16));border-radius:10px;background:var(--color-token-main-surface-primary,#fff);color:var(--color-token-text-secondary,#737373);box-shadow:0 4px 14px rgba(0,0,0,.09);font-family:inherit;font-size:12px;line-height:1.3;letter-spacing:normal;pointer-events:auto;';
         const fields = [];
-        if (Number.isFinite(accountCount) && accountCount >= 0) fields.push('<button type="button" data-cockpit-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#8b5cf6;box-shadow:0 0 0 2px rgba(139,92,246,.14)"></span>' + accountPoolLabel + ' ' + Math.round(accountCount) + '</button>');
-        if (Number.isFinite(fiveHourPercent)) fields.push('<button type="button" data-cockpit-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.14)"></span>' + fiveHourLabel + ' ' + Math.round(fiveHourPercent) + '%</button>');
-        if (Number.isFinite(weeklyPercent)) fields.push('<button type="button" data-cockpit-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#10b981;box-shadow:0 0 0 2px rgba(16,185,129,.14)"></span>' + weeklyLabel + ' ' + Math.round(weeklyPercent) + '%</button>');
-        if (fields.length) fields.push('<button type="button" data-cockpit-quota-refresh style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--color-token-border-subtle,rgba(127,127,127,.20));border-radius:999px;padding:0;background:var(--color-token-main-surface-primary,rgba(127,127,127,.10));color:inherit;box-shadow:0 1px 2px rgba(0,0,0,.08);backdrop-filter:blur(8px);cursor:pointer;pointer-events:auto;transition:color .15s ease,border-color .15s ease,background .15s ease,opacity .15s ease"><svg data-cockpit-quota-refresh-icon viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6v5h-5"></path><path d="M4 18v-5h5"></path><path d="M6.1 9a7 7 0 0 1 11.6-2.6L20 11"></path><path d="M4 13l2.3 4.6A7 7 0 0 0 17.9 15"></path></svg></button>');
+        if (Number.isFinite(accountCount) && accountCount >= 0) fields.push('<button type="button" data-aiswitch-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#8b5cf6;box-shadow:0 0 0 2px rgba(139,92,246,.14)"></span>' + accountPoolLabel + ' ' + Math.round(accountCount) + '</button>');
+        if (Number.isFinite(fiveHourPercent)) fields.push('<button type="button" data-aiswitch-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.14)"></span>' + fiveHourLabel + ' ' + Math.round(fiveHourPercent) + '%</button>');
+        if (Number.isFinite(weeklyPercent)) fields.push('<button type="button" data-aiswitch-quota-open style="' + badgeStyle + '"><span style="width:6px;height:6px;border-radius:999px;background:#10b981;box-shadow:0 0 0 2px rgba(16,185,129,.14)"></span>' + weeklyLabel + ' ' + Math.round(weeklyPercent) + '%</button>');
+        if (fields.length) fields.push('<button type="button" data-aiswitch-quota-refresh style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--color-token-border-subtle,rgba(127,127,127,.20));border-radius:999px;padding:0;background:var(--color-token-main-surface-primary,rgba(127,127,127,.10));color:inherit;box-shadow:0 1px 2px rgba(0,0,0,.08);backdrop-filter:blur(8px);cursor:pointer;pointer-events:auto;transition:color .15s ease,border-color .15s ease,background .15s ease,opacity .15s ease"><svg data-aiswitch-quota-refresh-icon viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6v5h-5"></path><path d="M4 18v-5h5"></path><path d="M6.1 9a7 7 0 0 1 11.6-2.6L20 11"></path><path d="M4 13l2.3 4.6A7 7 0 0 0 17.9 15"></path></svg></button>');
         const nextHtml = fields.join('');
         if (host.innerHTML !== nextHtml) host.innerHTML = nextHtml;
         host.style.display = fields.length ? 'flex' : 'none';
-        let details = document.querySelector('[data-cockpit-quota-details]');
+        let details = document.querySelector('[data-aiswitch-quota-details]');
         if (!details) {{
           details = document.createElement('div');
-          details.setAttribute('data-cockpit-quota-details', 'true');
+          details.setAttribute('data-aiswitch-quota-details', 'true');
           document.body.appendChild(details);
         }}
         details.style.cssText = detailCardStyle;
@@ -481,15 +481,15 @@ fn injection_script(
         details.style.display = root.quotaDetailsOpen ? 'block' : 'none';
         if (root.quotaDetailsOpen) {{
           const planRows = plans.map(renderPlan).join('');
-          const detailsHtml = '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 4px;padding-bottom:6px;border-bottom:1px solid var(--color-token-border-subtle,rgba(127,127,127,.10));"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--color-token-text-secondary,#737373);"><i style="width:6px;height:6px;border-radius:999px;background:#8b5cf6;box-shadow:0 0 0 2px rgba(139,92,246,.12);"></i>' + escapeHtml(accountPoolTitle) + '</span><button type="button" data-cockpit-quota-close aria-label="' + escapeHtml(closeLabel) + '" title="' + escapeHtml(closeLabel) + '" style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:0;border-radius:4px;background:transparent;color:var(--color-token-text-secondary,#737373);font:inherit;font-size:14px;line-height:1;cursor:pointer;padding:0;opacity:.72;">×</button></div>' + '<div>' + (planRows || '<div style="padding:6px 0;color:var(--color-token-text-secondary,#737373);opacity:.72;">' + escapeHtml(quotaEmptyLabel) + '</div>') + '</div>' + '<div style="display:flex;justify-content:space-between;gap:10px;padding-top:7px;color:var(--color-token-text-secondary,#737373);font-size:11px;opacity:.78;"><span>' + escapeHtml(availableText) + '</span><span>' + escapeHtml(issueText) + '</span></div>';
+          const detailsHtml = '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 4px;padding-bottom:6px;border-bottom:1px solid var(--color-token-border-subtle,rgba(127,127,127,.10));"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--color-token-text-secondary,#737373);"><i style="width:6px;height:6px;border-radius:999px;background:#8b5cf6;box-shadow:0 0 0 2px rgba(139,92,246,.12);"></i>' + escapeHtml(accountPoolTitle) + '</span><button type="button" data-aiswitch-quota-close aria-label="' + escapeHtml(closeLabel) + '" title="' + escapeHtml(closeLabel) + '" style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:0;border-radius:4px;background:transparent;color:var(--color-token-text-secondary,#737373);font:inherit;font-size:14px;line-height:1;cursor:pointer;padding:0;opacity:.72;">×</button></div>' + '<div>' + (planRows || '<div style="padding:6px 0;color:var(--color-token-text-secondary,#737373);opacity:.72;">' + escapeHtml(quotaEmptyLabel) + '</div>') + '</div>' + '<div style="display:flex;justify-content:space-between;gap:10px;padding-top:7px;color:var(--color-token-text-secondary,#737373);font-size:11px;opacity:.78;"><span>' + escapeHtml(availableText) + '</span><span>' + escapeHtml(issueText) + '</span></div>';
           if (details.innerHTML !== detailsHtml) details.innerHTML = detailsHtml;
         }}
-        host.querySelectorAll('[data-cockpit-quota-open]').forEach((button) => {{
+        host.querySelectorAll('[data-aiswitch-quota-open]').forEach((button) => {{
           button.onclick = () => {{ root.quotaDetailsOpen = !root.quotaDetailsOpen; root.render(); }};
         }});
-        const closeButton = details.querySelector('[data-cockpit-quota-close]');
+        const closeButton = details.querySelector('[data-aiswitch-quota-close]');
         if (closeButton) closeButton.onclick = () => {{ root.quotaDetailsOpen = false; root.render(); }};
-        const refreshButton = host.querySelector('[data-cockpit-quota-refresh]');
+        const refreshButton = host.querySelector('[data-aiswitch-quota-refresh]');
         if (refreshButton) {{
           const refreshDisabled = root.refreshing || root.hostAvailable === false;
           refreshButton.title = refreshLabel;
@@ -497,8 +497,8 @@ fn injection_script(
           refreshButton.disabled = refreshDisabled;
           refreshButton.style.cursor = root.refreshing ? 'wait' : (root.hostAvailable === false ? 'not-allowed' : 'pointer');
           refreshButton.style.opacity = root.refreshing ? '.7' : (root.hostAvailable === false ? '.45' : '1');
-          const refreshIcon = refreshButton.querySelector('[data-cockpit-quota-refresh-icon]');
-          if (refreshIcon) refreshIcon.style.animation = root.refreshing ? 'cockpit-quota-spin .8s linear infinite' : 'none';
+          const refreshIcon = refreshButton.querySelector('[data-aiswitch-quota-refresh-icon]');
+          if (refreshIcon) refreshIcon.style.animation = root.refreshing ? 'aiswitch-quota-spin .8s linear infinite' : 'none';
           refreshButton.onclick = () => {{
             if (root.refreshing || root.hostAvailable === false) return;
             root.refreshRequestToken = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
@@ -519,17 +519,17 @@ fn injection_script(
       }}
       if (!root.observer) {{
         root.observer = new MutationObserver((mutations) => {{
-          const host = document.querySelector('[data-cockpit-quota-footer]');
-          const details = document.querySelector('[data-cockpit-quota-details]');
+          const host = document.querySelector('[data-aiswitch-quota-footer]');
+          const details = document.querySelector('[data-aiswitch-quota-details]');
           if (host && mutations.every((mutation) => mutation.target === host || host.contains(mutation.target) || (details && (mutation.target === details || details.contains(mutation.target))))) return;
           root.scheduleRender();
         }});
         root.observer.observe(document.documentElement, {{childList:true,subtree:true}});
       }}
-      if (!document.querySelector('[data-cockpit-quota-style]')) {{
+      if (!document.querySelector('[data-aiswitch-quota-style]')) {{
         const style = document.createElement('style');
-        style.setAttribute('data-cockpit-quota-style', 'true');
-        style.textContent = '@keyframes cockpit-quota-spin{{to{{transform:rotate(360deg)}}}}';
+        style.setAttribute('data-aiswitch-quota-style', 'true');
+        style.textContent = '@keyframes aiswitch-quota-spin{{to{{transform:rotate(360deg)}}}}';
         document.head.appendChild(style);
       }}
       if (!root.watchdogTimer) {{
@@ -831,7 +831,7 @@ mod tests {
         assert!(script.contains("const accountCount = 14"));
         assert!(script.contains("const weeklyLabel = \"周\""));
         assert!(script.contains("const fiveHourLabel = \"5h\""));
-        assert!(script.contains("data-cockpit-quota-footer"));
+        assert!(script.contains("data-aiswitch-quota-footer"));
         assert!(script.contains("document.body.appendChild(host)"));
         assert!(script.contains("position:fixed"));
         assert!(script.contains("footerRect.left + footerRect.width / 2"));
@@ -843,10 +843,10 @@ mod tests {
         assert!(script.contains("window.addEventListener('resize'"));
         assert!(script.contains("requestAnimationFrame"));
         assert!(script.contains("root.render()"));
-        assert!(script.contains("data-cockpit-quota-refresh"));
-        assert!(script.contains("data-cockpit-quota-open"));
-        assert!(script.contains("data-cockpit-quota-details"));
-        assert!(script.contains("data-cockpit-quota-close"));
+        assert!(script.contains("data-aiswitch-quota-refresh"));
+        assert!(script.contains("data-aiswitch-quota-open"));
+        assert!(script.contains("data-aiswitch-quota-details"));
+        assert!(script.contains("data-aiswitch-quota-close"));
         assert!(script.contains("const plans = [{\"plan\":\"PLUS\",\"count\":14"));
         assert!(script.contains("const availableText = \"可用 12/14\""));
         assert!(script.contains("const issueText = \"异常 2 · 冷却 0\""));
@@ -861,7 +861,7 @@ mod tests {
         assert!(!script.contains("modal-overlay"));
         assert!(!script.contains("common.shared.refreshQuota"));
         assert!(script.contains("root.refreshRequestToken"));
-        assert!(script.contains("cockpit-quota-spin"));
+        assert!(script.contains("aiswitch-quota-spin"));
         assert!(script.contains("pointer-events:auto"));
         assert!(script.contains("root.hostHeartbeatAt = Date.now()"));
         assert!(script.contains("root.watchdogTimer"));
@@ -871,7 +871,7 @@ mod tests {
         assert!(!script.contains("justify-content:flex-end"));
         assert!(!script.contains("grid-row:3"));
         assert!(!script.contains("min-height:18px"));
-        assert!(!script.contains("data-cockpit-fast-mode"));
+        assert!(!script.contains("data-aiswitch-fast-mode"));
         assert!(!script.contains("Debugger"));
     }
 

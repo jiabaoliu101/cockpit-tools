@@ -22,7 +22,7 @@ const CODEX_SHARED_RULES_DIR_NAME: &str = "rules";
 const CODEX_SHARED_AGENTS_FILE_NAME: &str = "AGENTS.md";
 const CODEX_SHARED_VENDOR_IMPORTS_SKILLS_DIR: &str = "vendor_imports/skills";
 #[cfg(target_os = "windows")]
-const CODEX_SHARED_COPY_MARKER_FILE_NAME: &str = ".cockpit-tools-shared-copy";
+const CODEX_SHARED_COPY_MARKER_FILE_NAME: &str = ".aiswitch-shared-copy";
 #[cfg(target_os = "windows")]
 const CODEX_WINDOWS_APP_DATA_DIR_NAME: &str = "codex-app-data";
 #[cfg(target_os = "macos")]
@@ -171,7 +171,7 @@ fn legacy_hardcoded_instances_root_dir() -> Result<Option<PathBuf>, String> {
     #[cfg(target_os = "macos")]
     {
         let home = dirs::home_dir().ok_or("无法获取用户主目录")?;
-        return Ok(Some(home.join(".antigravity_cockpit/instances/codex")));
+        return Ok(Some(home.join(".aiswitch/instances/codex")));
     }
 
     #[cfg(target_os = "windows")]
@@ -179,7 +179,7 @@ fn legacy_hardcoded_instances_root_dir() -> Result<Option<PathBuf>, String> {
         let appdata =
             std::env::var("APPDATA").map_err(|_| "无法获取 APPDATA 环境变量".to_string())?;
         return Ok(Some(
-            PathBuf::from(appdata).join(".antigravity_cockpit\\instances\\codex"),
+            PathBuf::from(appdata).join(".aiswitch\\instances\\codex"),
         ));
     }
 
@@ -363,7 +363,7 @@ fn prepare_directory_copy_fallback_target(target: &Path) -> Result<(), String> {
 fn mark_directory_copy_fallback(target: &Path) -> Result<(), String> {
     fs::write(
         target.join(CODEX_SHARED_COPY_MARKER_FILE_NAME),
-        "cockpit-tools-shared-copy-v1\n",
+        "aiswitch-shared-copy-v1\n",
     )
     .map_err(|e| format!("写入目录复制 fallback 标记失败: {}", e))
 }

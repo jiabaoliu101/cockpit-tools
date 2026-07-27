@@ -2,7 +2,7 @@
 
 简体中文 · [English](CHANGELOG.md)
 
-本文件记录 Cockpit Tools 的所有重要变更。
+本文件记录 AISwitch 的所有重要变更。
 
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
 
@@ -46,9 +46,9 @@
 
 ### 修复
 
-- **修复 Windows 重启时偶发 PowerShell `0xc0000142` 弹窗的问题**：Cockpit Tools 会提前监听系统关机通知，在 Windows 结束会话前暂停后台注入并禁止再创建 PowerShell 等后台子进程；若关机被取消则恢复正常运行，同时不改变开机自启动设置。
+- **修复 Windows 重启时偶发 PowerShell `0xc0000142` 弹窗的问题**：AISwitch 会提前监听系统关机通知，在 Windows 结束会话前暂停后台注入并禁止再创建 PowerShell 等后台子进程；若关机被取消则恢复正常运行，同时不改变开机自启动设置。
 - **修复多开实例页面重复进入或操作后闪回加载状态的问题**：实例列表现在优先显示已加载或本地缓存的数据，后台刷新完成后静默替换；仅在首次没有任何可展示数据时显示加载状态。
-- **停用 Codex API 服务时会恢复受管 Codex profile 文件**：Cockpit Tools 仅移除 `config.toml` 中由 API 服务写入的字段，恢复接管前的 `auth.json`，删除注入的 profile 文件和模型缓存，同时保留用户其他设置与其他网关备份；仍绑定 API 服务的实例启动时也不会再静默重新启用已停用的服务。
+- **停用 Codex API 服务时会恢复受管 Codex profile 文件**：AISwitch 仅移除 `config.toml` 中由 API 服务写入的字段，恢复接管前的 `auth.json`，删除注入的 profile 文件和模型缓存，同时保留用户其他设置与其他网关备份；仍绑定 API 服务的实例启动时也不会再静默重新启用已停用的服务。
 
 ---
 ## [1.3.10] - 2026-07-19
@@ -72,27 +72,27 @@
 
 ### 变更
 
-- **Trae CN / TRAE SOLO CN 配额与套餐逻辑对齐官方 v2 与社区方案（#1281）**：CN 账号刷新优先调用 pay v2（`ide_user_pay_status` / `ide_user_ent_usage`），并补充 `user_current_entitlement_list` 兜底；识别 `CNExpress(100)`、`Pro+ Pack(5)` 等 CN 产品类型；展示速通可用次数与 Solo 权益并发，有数据但算不出剩余时显示「已同步，剩余额待确认」，不猜测免费剩余；CN 添加账号页明确仅支持完整 JSON、不鼓励裸 Token。感谢 @sqmw（[#1281](https://github.com/jlcodes99/cockpit-tools/pull/1281)）。
+- **Trae CN / TRAE SOLO CN 配额与套餐逻辑对齐官方 v2 与社区方案（#1281）**：CN 账号刷新优先调用 pay v2（`ide_user_pay_status` / `ide_user_ent_usage`），并补充 `user_current_entitlement_list` 兜底；识别 `CNExpress(100)`、`Pro+ Pack(5)` 等 CN 产品类型；展示速通可用次数与 Solo 权益并发，有数据但算不出剩余时显示「已同步，剩余额待确认」，不猜测免费剩余；CN 添加账号页明确仅支持完整 JSON、不鼓励裸 Token。感谢 @sqmw（[#1281](https://github.com/jlcodes99/aiswitch/pull/1281)）。
 
 ### 修复
 
-- **修复 Windows 当前用户级 NSIS 更新意外申请管理员权限的问题（#1642）**：Tauri 无法识别安装包类型时，更新器会对可写的用户级安装选择 NSIS，并对受保护目录继续保守回退 MSI；已明确识别的 NSIS/MSI 类型仍具有最高优先级，真正的系统级 MSI 安装保持原有更新行为。感谢 @xdd666t（[#1642](https://github.com/jlcodes99/cockpit-tools/pull/1642)）。
-- **修复 Codex Responses Lite 丢失带命名空间的协作工具问题（#1647）**：现在会保留顶层 `tools`、嵌套 `input[].additional_tools`、payload override 以及 namespace `tool_choice` 中的命名空间工具定义；派生 GPT 会话可再次使用 `spawn_agent`、`wait_agent`、`send_message`、`followup_task`、`interrupt_agent` 和 `list_agents`，并将派生请求中的 Sol / Terra / Luna 简写规范化为准确的 GPT-5.6 模型 ID。（[#1647](https://github.com/jlcodes99/cockpit-tools/issues/1647)）
-- **修复过期或残留的 Codex 账号删除后仍显示的问题（#1646）**：删除账号不再同步等待 API 服务网关重启，也不会仅因账号池同步暂时不可用而失败；账号池引用会先持久化清理，网关随后在后台同步，本地账号继续删除，因此无需再添加一个正常账号才能让问题账号消失。（[#1646](https://github.com/jlcodes99/cockpit-tools/issues/1646)）
-- **修复 HTTP 200 Responses 流内过载被当作不可重试 `400` 的问题（#1651）**：`server_is_overloaded` / `service_unavailable_error` 现在会让当前凭据短暂冷却，并仅在尚未输出内容时安全切换账号；`model_at_capacity` 会按可重试容量限制处理；最终失败时保留合法的 `response.failed` SSE 事件，使 Codex 展示真实上游错误，不再误报流提前断开。（[#1651](https://github.com/jlcodes99/cockpit-tools/issues/1651)）
+- **修复 Windows 当前用户级 NSIS 更新意外申请管理员权限的问题（#1642）**：Tauri 无法识别安装包类型时，更新器会对可写的用户级安装选择 NSIS，并对受保护目录继续保守回退 MSI；已明确识别的 NSIS/MSI 类型仍具有最高优先级，真正的系统级 MSI 安装保持原有更新行为。感谢 @xdd666t（[#1642](https://github.com/jlcodes99/aiswitch/pull/1642)）。
+- **修复 Codex Responses Lite 丢失带命名空间的协作工具问题（#1647）**：现在会保留顶层 `tools`、嵌套 `input[].additional_tools`、payload override 以及 namespace `tool_choice` 中的命名空间工具定义；派生 GPT 会话可再次使用 `spawn_agent`、`wait_agent`、`send_message`、`followup_task`、`interrupt_agent` 和 `list_agents`，并将派生请求中的 Sol / Terra / Luna 简写规范化为准确的 GPT-5.6 模型 ID。（[#1647](https://github.com/jlcodes99/aiswitch/issues/1647)）
+- **修复过期或残留的 Codex 账号删除后仍显示的问题（#1646）**：删除账号不再同步等待 API 服务网关重启，也不会仅因账号池同步暂时不可用而失败；账号池引用会先持久化清理，网关随后在后台同步，本地账号继续删除，因此无需再添加一个正常账号才能让问题账号消失。（[#1646](https://github.com/jlcodes99/aiswitch/issues/1646)）
+- **修复 HTTP 200 Responses 流内过载被当作不可重试 `400` 的问题（#1651）**：`server_is_overloaded` / `service_unavailable_error` 现在会让当前凭据短暂冷却，并仅在尚未输出内容时安全切换账号；`model_at_capacity` 会按可重试容量限制处理；最终失败时保留合法的 `response.failed` SSE 事件，使 Codex 展示真实上游错误，不再误报流提前断开。（[#1651](https://github.com/jlcodes99/aiswitch/issues/1651)）
 
 ---
 ## [1.3.8] - 2026-07-17
 
 ### 新增
 
-- **已有 Codex 账号可直接加入 Codex API 服务（#1628）**：已导入 Cockpit 的符合条件账号，现在可在卡片、列表或表格视图中直接加入 API 服务，无需离开当前页面；操作复用增量加入账号池流程，并继续遵守 Free 账号、待授权账号和不兼容 API Key 的限制。感谢 @Ac-spider。
+- **已有 Codex 账号可直接加入 Codex API 服务（#1628）**：已导入 aiswitch 的符合条件账号，现在可在卡片、列表或表格视图中直接加入 API 服务，无需离开当前页面；操作复用增量加入账号池流程，并继续遵守 Free 账号、待授权账号和不兼容 API Key 的限制。感谢 @Ac-spider。
 - **Kiro 支持 AWS IAM Identity Center 登录**：添加账号弹框新增 AWS Builder ID 与企业账号设备授权；企业账号可填写 AWS Region 和 IAM Identity Center Start URL，授权成功后会保留客户端注册上下文并写入官方 AWS SSO 缓存文件，保证 Token 刷新与 Kiro 真实切号继续可用。
 
 ### 修复
 
 - **修复第三方纯文本模型因图片工具结果中断 Codex 对话的问题**：Provider Gateway 现在按模型真实能力声明图片输入；模型不支持图片且没有有效视觉路由时，会将 `view_image` 结果及历史图片替换为明确的省略说明并继续使用当前模型，配置有效视觉路由时仍会自动切换处理图片，同时图片路由配置在应用重启后不再丢失。
-- **修复 macOS Codex 受管实例在窗口尚未就绪时被误报为已启动的问题**：实例现在通过 LaunchServices 的 `open -n -a` 启动，同时保留 `CODEX_HOME`、`CODEX_ELECTRON_USER_DATA_PATH` 和独立的 `--user-data-dir`；Cockpit 会匹配真实 ChatGPT 主进程 PID，不再保存临时 `open` launcher PID 或僵尸进程。
+- **修复 macOS Codex 受管实例在窗口尚未就绪时被误报为已启动的问题**：实例现在通过 LaunchServices 的 `open -n -a` 启动，同时保留 `CODEX_HOME`、`CODEX_ELECTRON_USER_DATA_PATH` 和独立的 `--user-data-dir`；aiswitch 会匹配真实 ChatGPT 主进程 PID，不再保存临时 `open` launcher PID 或僵尸进程。
 - **修复 macOS 官方客户端迁移到 `/Applications/ChatGPT.app` 后，Codex 启动仍停留在旧 `/Applications/Codex.app` 路径的问题**：解析应用根目录前，会通过受保护的配置更新迁移精确匹配的官方旧路径；自定义安装位置以及未检测到 ChatGPT 应用的环境保持不变。（#1631）感谢 @jackychanisnotme。
 - **修复 Responses 流式响应提前输出半段 JSON 或合并多个事件的问题**：网络分片会先缓存到完整事件边界，符合严格条件的连续 JSON 事件会拆成独立 SSE 帧，避免客户端解析失败和后续事件丢失。（#1632）感谢 @Ac-spider。
 - **修复关闭历史存储时，长对话回放可能因 `Item with id not found` 失败的问题**：回放前清理缺少有效加密内容的孤立 reasoning ID，保留有效签名和明确启用 `store=true` 的请求，并将大型历史改为单次重建。（#1634）感谢 @Ac-spider。
@@ -278,7 +278,7 @@
 - **Codex 模型供应商 API Key 可显式重命名**：复用同一 Key 时不再覆盖已保存名称。
 - **CodeBuddy 本机会话文件管理**：账号页可扫描并打开本机会话相关文件位置。感谢 @eye-gu 提供思路与场景参考（#1188）。
 - **CodeBuddy 本机会话文件列表（第一版）**：尽力扫描常见 CodeBuddy 数据路径中的会话类 JSON/JSONL。感谢 @eye-gu 提供思路与场景参考（#1188）。
-- **托管本地 LB 提供商 id `cockpit-codex-lb`** 已暴露，便于把本地 API 写成稳定供应商名。感谢 @Enjoyoer 提供思路与场景参考（#980）。
+- **托管本地 LB 提供商 id `aiswitch-codex-lb`** 已暴露，便于把本地 API 写成稳定供应商名。感谢 @Enjoyoer 提供思路与场景参考（#980）。
 
 ### 变更
 
@@ -329,7 +329,7 @@
 - **修复 Codex API 服务长对话可能出现高 CPU 和内存占用的问题**：input 角色/元数据与内置工具名规范化改为线性处理，避免逐项重复扫描整份 JSON；显式代理复用 HTTP Transport，减少连接和内存分配开销。
 - **修复 Codex 账号总览筛选导致“看起来账号变少”的问题**：分组/标签/搜索/套餐/分组目录生效且可见数少于总数时，展示「显示 X / 共 Y」、生效筛选类型与一键「清除筛选」；套餐「全部」改为「全部套餐」，避免与全部账号混淆；分组加载后自动剔除已失效的 group filter ID。
 - **修复自动切号「全部账号」仍残留旧 selected ID 列表的问题**：切换到或加载 `all_accounts` 时清空 Codex / Antigravity 的残留选中列表，与运行时已按全量账号监控的行为一致。
-- **修复 Cockpit 启动时自动改写 Codex 配置的问题**：已启用的 Codex API 服务和 sidecar 仍会随 Cockpit 自动恢复，但启动过程不再接管或恢复 Codex profile，也不会改写 `config.toml` 与 `auth.json`；只有用户主动启停服务、切号、绑定或启动实例时才会按现有流程落盘。
+- **修复 aiswitch 启动时自动改写 Codex 配置的问题**：已启用的 Codex API 服务和 sidecar 仍会随 aiswitch 自动恢复，但启动过程不再接管或恢复 Codex profile，也不会改写 `config.toml` 与 `auth.json`；只有用户主动启停服务、切号、绑定或启动实例时才会按现有流程落盘。
 - **修复 Codex API Key 切号或重建 sidecar 后上游 `base-url` 被写成 localhost 的问题**：本地接入运行时地址不再回写进账号真实上游；sidecar 写 `codex-api-key` 时会避开回环地址，并尽量从模型供应商配置恢复真实 Base URL，避免网关请求出现 `no auth available`。见 #1526。
 - **修复 Codex 批量导入失败或无可导入账号后任务条一直挂在账号页的问题**：关闭无效预览会直接丢弃任务，悬浮任务条也可手动丢弃。见 #1445。
 - **修复通过 nvm、fnm 或 asdf 安装的 Codex CLI / Node 在 GUI 环境下检测不到的问题**：唤醒与 CLI 探测会扫描这些版本管理器的常见目录。见 #1496。
@@ -348,13 +348,13 @@
 
 ### 变更
 
-- **Codex 模型加载改为动态发现**：移除基于 CDP 的 `codex_model_injector` 和 Cockpit 静态模型目录覆盖，官方客户端改为从当前模型供应商或实例专属本地网关动态发现模型，同时保留用户自定义模型目录。
+- **Codex 模型加载改为动态发现**：移除基于 CDP 的 `codex_model_injector` 和 aiswitch 静态模型目录覆盖，官方客户端改为从当前模型供应商或实例专属本地网关动态发现模型，同时保留用户自定义模型目录。
 - **Codex Chat Completions 供应商改用稳定的客户端模型别名**：上游模型会映射到官方客户端兼容槽位，并在请求发出前还原为真实上游模型；不再使用时会清理生成的 profile 覆盖。
 - **macOS Codex OAuth 支持应用内无痕 WebView**：Windows 与 Linux 继续使用普通浏览器和手动回调流程，不显示该入口。
 
 ### 修复
 
-- **修复 Windows 启动旧版 Antigravity 时可能误开 Antigravity IDE**：Cockpit 启动旧版 Antigravity 时，任务栏快捷方式匹配会排除 Antigravity IDE。感谢 @khanra17 贡献 #1453。
+- **修复 Windows 启动旧版 Antigravity 时可能误开 Antigravity IDE**：aiswitch 启动旧版 Antigravity 时，任务栏快捷方式匹配会排除 Antigravity IDE。感谢 @khanra17 贡献 #1453。
 
 ---
 ## [1.1.10] - 2026-07-11
@@ -464,7 +464,7 @@
 
 ### 修复
 
-- **修复 Cockpit 与 Codex API 服务之间的 token 刷新权威冲突**：由 Cockpit 启动的 API 服务 sidecar 不再自行执行 OAuth 自动刷新，Cockpit 刷新成功后的 token 会写穿到 sidecar 认证文件，降低 `refresh_token_reused` 失败概率。感谢 @wuuconix 贡献 #1442。
+- **修复 aiswitch 与 Codex API 服务之间的 token 刷新权威冲突**：由 aiswitch 启动的 API 服务 sidecar 不再自行执行 OAuth 自动刷新，aiswitch 刷新成功后的 token 会写穿到 sidecar 认证文件，降低 `refresh_token_reused` 失败概率。感谢 @wuuconix 贡献 #1442。
 - **优化大量 Codex 账号下 API 服务的启动和关闭性能**：本地 sidecar 配置重建时避免无变化认证文件重复写入，只清理过期认证文件，关闭 API 服务时也不再为了关闭而先启动网关。
 - **减少 Codex API 服务关闭导致的应用退出卡顿**：应用退出时会异步调度本地网关清理，不再阻塞 Tauri 主事件循环。
 - **修复 Codex 导入时敏感备注字段丢失的问题**：JSON、auth 文件、批量导入、access token、refresh token 和完整 token 导入现在会保留密码、2FA 秘钥、手机号、邮件查询网页地址和备注。
@@ -566,7 +566,7 @@
 
 ### 修复
 - **Windows 上 Claude 启动和路径扫描不再闪出黑色命令行窗口**：解析 Store、WindowsApps 和可执行文件启动目标时，辅助探测会隐藏运行。
-- **Windows 应用内更新更少被后台辅助进程阻塞**：重启或更新前会先关闭 Cockpit 相关后台组件，减少 `cockpit-cliproxy.exe` 等文件无法覆盖的问题。
+- **Windows 应用内更新更少被后台辅助进程阻塞**：重启或更新前会先关闭 aiswitch 相关后台组件，减少 `aiswitch-proxy.exe` 等文件无法覆盖的问题。
 
 ---
 ## [0.26.3] - 2026-06-19
@@ -612,7 +612,7 @@
 ## [0.26.0] - 2026-06-18
 
 ### 新增
-- **新增 Claude 平台管理**：Cockpit 现在可以在同一个 Claude 工作区管理 Claude 与 Claude CLI 账号，并在导航、仪表盘、平台布局和悬浮卡片中统一显示为一个 Claude 平台；支持 Claude 登录、Claude Code OAuth/API Key 账号、Claude Gateway 供应商配置、账号身份与额度卡片、APIKEY.FUN 预填，以及 Claude/CLI 各自独立的实例启动流程。
+- **新增 Claude 平台管理**：aiswitch 现在可以在同一个 Claude 工作区管理 Claude 与 Claude CLI 账号，并在导航、仪表盘、平台布局和悬浮卡片中统一显示为一个 Claude 平台；支持 Claude 登录、Claude Code OAuth/API Key 账号、Claude Gateway 供应商配置、账号身份与额度卡片、APIKEY.FUN 预填，以及 Claude/CLI 各自独立的实例启动流程。
 - **Antigravity 现在区分 Desktop 与 IDE 实例管理**：Antigravity 与 Antigravity IDE 使用独立的启动目标、图标、实例存储和 PID 识别，可分别管理两个官方客户端。
 
 ### 变更
@@ -680,7 +680,7 @@
 - **Codex API 服务账号池变更不再等待网关重载后才返回**：保存 API 服务成员、删除账号后清理账号池时，会先更新本地状态并触发一次后台网关重载，让大账号量场景下的添加和删除流程保持响应。
 - **Codex 大账号选择弹框改为分页展示**：API 服务成员选择弹框和 Codex 唤醒账号选择弹框现在按页展示账号，降低 1000+ 账号时的一次性渲染压力。
 - **Codex 账号页的大列表处理更聚焦**：保存 API 服务成员时复用当前页面已有账号快照，不再额外读取一次全量账号；TEAM 账号资料补全也只处理当前分页。
-- **APIKEY.FUN 展示在暗色主题下更清晰**：中转站文案调整为“Cockpit 官方合作中转站”，并为 APIKEY.FUN 页面补充面板、输入框、按钮、卡片、消息和密钥行的暗色主题样式。
+- **APIKEY.FUN 展示在暗色主题下更清晰**：中转站文案调整为“aiswitch 官方合作中转站”，并为 APIKEY.FUN 页面补充面板、输入框、按钮、卡片、消息和密钥行的暗色主题样式。
 
 ### 修复
 - **删除 Codex 账号时会完整清理 API 服务引用**：账号池、限定范围 API Key、自定义路由规则、账号模型规则、运行时缓存、响应亲和、冷却状态和绑定 OAuth 引用都会随账号删除同步移除。
@@ -699,7 +699,7 @@
 ### 修复
 - **Codex Chat Completions 供应商改为实例级独立本地网关**：配置为 Chat Completions 的 API Key 账号会为目标 Codex profile 启动专属 provider gateway，并使用独立本地端口，避免与全局 API 服务网关或其他 Codex 实例互相冲突。
 - **Codex 默认实例进程匹配对齐官方客户端启动形态**：默认桌面实例识别不再要求 `CODEX_HOME` 或受管 profile 目录，提升官方默认实例的启动状态、停止行为、PID 跟踪和窗口定位准确性。
-- **Codex config.toml 清理不再误删用户管理的供应商配置**：Cockpit 现在只移除自身写入的 provider gateway 模型目录和模型覆盖，保留外部 `model_catalog_json`、自定义 provider 以及其他用户配置。
+- **Codex config.toml 清理不再误删用户管理的供应商配置**：aiswitch 现在只移除自身写入的 provider gateway 模型目录和模型覆盖，保留外部 `model_catalog_json`、自定义 provider 以及其他用户配置。
 - **Windows provider gateway 后台 sidecar 不再弹出可见控制台窗口**：Codex 供应商网关启动的后台 sidecar 会继续使用隐藏控制台窗口的启动方式。
 
 ---
@@ -736,9 +736,9 @@
 
 ### 新增
 - **Codex 模型供应商现支持完整管理工作流**：Codex 模型供应商页新增单供应商多 API Key、可搜索的 API Key 与实例选择弹框、供应商搜索/筛选/排序、批量选择与删除、供应商服务面板、OAuth 绑定，以及与账号页卡片交互对齐的快速启用操作。
-- **Codex 第三方 API Key 额度查询现支持 `new-api` 与兼容的第三方用量接口**：Cockpit 会探测支持的额度接口，缓存已识别的供应商类型，保留历史额度数据，跟随现有配额刷新策略，并在账号卡片、首页卡片、模型供应商卡片、服务面板和 macOS 菜单栏中按供应商类型展示核心字段。
+- **Codex 第三方 API Key 额度查询现支持 `new-api` 与兼容的第三方用量接口**：aiswitch 会探测支持的额度接口，缓存已识别的供应商类型，保留历史额度数据，跟随现有配额刷新策略，并在账号卡片、首页卡片、模型供应商卡片、服务面板和 macOS 菜单栏中按供应商类型展示核心字段。
 - **Codex 供应商协议选择改为显式配置**：供应商添加默认使用 Responses 原生模式，仅已知 Chat Completions 供应商默认选择 Chat Completions；界面提供带说明的样式化协议选择器，并且只有 Chat Completions 供应商会走本地网关。
-- **WebDAV 备份同步**：设置页新增 WebDAV 备份同步配置，并补齐服务调用、翻译和数据传输支持，可用于同步 Cockpit 备份数据。感谢 @xdd666t。
+- **WebDAV 备份同步**：设置页新增 WebDAV 备份同步配置，并补齐服务调用、翻译和数据传输支持，可用于同步 aiswitch 备份数据。感谢 @xdd666t。
 - **Codex 唤醒与会话修复吸收社区 PR 改进**：唤醒请求现在会注入官方 `StartCascadeRequest.source` 字段，Codex 可见性修复会在修复前协调 `session_index.jsonl`。感谢 @Slone123c 和 @andrew05060414。
 
 ### 变更
@@ -780,7 +780,7 @@
 - **Codex 唤醒任务现改为官方直连对话**：唤醒会通过所选 OAuth 账号直接请求官方 Codex 对话，无需 Codex CLI 或本地 API 服务处于运行状态，并沿用已保存的上游代理和超时配置，解析官方流式响应后以官方直连结果展示。
 
 ### 变更
-- **Codex API 服务账号池控件视觉更统一**：Codex API/Cockpit API 文案、调度选项、复选框、表单控件高度和字体排版现使用更协调的布局。
+- **Codex API 服务账号池控件视觉更统一**：Codex API/aiswitch API 文案、调度选项、复选框、表单控件高度和字体排版现使用更协调的布局。
 - **Codex OAuth 绑定现允许任意带 `refresh_token` 的 OAuth 账号**：绑定筛选不再要求账号命中正常账号快捷过滤，绑定说明也与实际可选规则一致。
 - **Codex 启动在切换启动凭据时会先修复会话可见性**：默认实例与受管实例在涉及启动凭据切换时，会先执行会话可见性修复再启动。
 
@@ -796,19 +796,19 @@
 - **Codex API 服务卡片现可快速查看账号池健康**：账号卡片与快速配置面板会汇总可用、异常和冷却账号，并与额度池统计分开展示。
 - **Codex 多实例会话记录新增手动与自动同步设置面板**：Codex 实例页新增记录同步设置弹框，保留手动全量同步，并可在所有 Codex 实例停止后自动合并本地会话记录。
 - **Codex macOS/Windows 多实例启动现适配最新版 Codex App 运行方式**：macOS 与 Windows 上的受管 Codex 实例会同时写入 `CODEX_ELECTRON_USER_DATA_PATH` 与 `--user-data-dir`，让每个 `CODEX_HOME` 使用稳定且隔离的 Electron App 数据目录。
-- **macOS App 包现包含显式 Info.plist 覆盖**：打包产物使用 Cockpit Tools 显示名称，并将 `LSRequiresCarbon` 设为 false。
+- **macOS App 包现包含显式 Info.plist 覆盖**：打包产物使用 AISwitch 显示名称，并将 `LSRequiresCarbon` 设为 false。
 - **唤醒任务现支持可选确认模式**：Codex 定时唤醒任务可先发送通知，并仅在用户于超时时间内确认后执行，便于在唤醒前确认 VPN 或代理环境已就绪。感谢 @Ac-spider。
 - **账号现可单独覆盖自动刷新间隔**：账号级刷新设置可覆盖平台默认值，或对指定账号禁用自动刷新；未单独设置的账号继续继承平台默认配置。感谢 @Ac-spider。
 
 ### 变更
 - **Codex API 服务调度现跳过已知异常账号**：连续出现阻断类鉴权、账号准备、Free 账号限制或额度失败的账号会从旧网关路由和 Sidecar 启动 manifest 中排除，优先使用健康账号。
-- **Codex API 服务诊断现改为直接请求本地网关**：服务测试通过 Cockpit 的 Tauri 后端调用本地 OpenAI 兼容端点，避免 Codex CLI 特有行为，同时保留本地网关、API Key、模型和上游响应校验。
+- **Codex API 服务诊断现改为直接请求本地网关**：服务测试通过 aiswitch 的 Tauri 后端调用本地 OpenAI 兼容端点，避免 Codex CLI 特有行为，同时保留本地网关、API Key、模型和上游响应校验。
 - **Codex OAuth 绑定现只允许带 `refresh_token` 的 OAuth 账号**：API Key 账号绑定与 Codex API 服务绑定都会按 `refresh_token` 过滤和校验，API 服务状态清理时也会移除不符合条件的旧绑定。
 - **Codex API 服务客户端 Base URL 主机现可配置**：可选择 `localhost` 或 `127.0.0.1` 写入 Codex Provider 并复制给客户端，不改变服务监听地址。
 - **添加账号弹框不再因点击遮罩而关闭**：各平台添加账号弹框仅能通过明确的关闭/返回操作或 Esc 关闭，避免误触中断填写。
 - **Codex API 服务账号行更靠前展示 Token 用量**：账号级统计会在请求结果详情旁展示紧凑 Token 用量，旧本地访问账号表格也将统计列前置到配额列之前。
 - **实例工具栏操作改为紧凑图标按钮**：新建、全部启动、全部关闭、刷新与 Codex 同步设置操作统一为带无障碍标签的图标按钮。
-- **Codex 默认实例在切号和启用 API 服务后的重启速度更快**：当 profile 已由上游流程准备完成时，Cockpit 会跳过重复的绑定账号注入与启动前空闲会话同步，并在 Windows 上复用已缓存的 Store AppUserModelId 检测结果，优先使用基于 PID 的快速关闭/启动探测并记录阶段耗时。
+- **Codex 默认实例在切号和启用 API 服务后的重启速度更快**：当 profile 已由上游流程准备完成时，aiswitch 会跳过重复的绑定账号注入与启动前空闲会话同步，并在 Windows 上复用已缓存的 Store AppUserModelId 检测结果，优先使用基于 PID 的快速关闭/启动探测并记录阶段耗时。
 - **`npm run tauri` 现会在启动 Tauri 前准备 Windows 构建工具链**：包装脚本仍会先执行版本同步；在 Windows 上会加载 Visual Studio Build Tools 环境和 Go 二进制路径，再调用本地 Tauri CLI；当工具链入口不可用时会回退到当前 shell 环境。
 
 ### 修复
@@ -819,7 +819,7 @@
 - **Windows Antigravity 2.0 本地数据目录与进程识别现兼容 `Antigravity.exe` 安装**：本地导入、默认实例注入、切号、启动与 PID 匹配会优先使用 `%APPDATA%\Antigravity` 和 `Programs\Antigravity` 布局，并继续回退兼容 `Antigravity IDE`。感谢 @li6535202。
 - **Antigravity 安装版本检测现覆盖常见 Linux 安装目录**：Linux 检测会纳入 Antigravity 与 Antigravity IDE 在 `/usr/share` 和 `/opt` 下的安装路径。感谢 @vadbes46。
 - **Windows Codex 多实例共享存储不再依赖符号链接权限**：共享目录现使用目录联接，共享文件会复制到实例 profile，并且同步时可识别已有的 reparse-point 目录链接。
-- **Windows Codex 共享目录联接创建更可靠**：Cockpit 现在会优先通过 PowerShell `New-Item -ItemType Junction` 创建目录联接，失败后再回退到带引号的 `mklink /J` 命令；创建失败时会同时报告两条命令的结果以及源路径和目标路径。
+- **Windows Codex 共享目录联接创建更可靠**：aiswitch 现在会优先通过 PowerShell `New-Item -ItemType Junction` 创建目录联接，失败后再回退到带引号的 `mklink /J` 命令；创建失败时会同时报告两条命令的结果以及源路径和目标路径。
 - **Windows Codex 默认实例检测现更可靠地匹配当前 App 数据目录结构**：默认 App 用户数据路径会识别 `%APPDATA%\Codex\web\Codex`，主进程匹配时会过滤 helper/resource Codex 进程，并避免把 Store 入口复用的既有实例误判为新启动进程。
 - **Codex 受管进程关闭现会确认目标 PID 已实际退出**：优雅关闭和强制关闭流程会复查原始受管 PID 集合；若仍有进程存活，会返回明确的手动关闭错误，不再静默报告成功。
 
@@ -835,7 +835,7 @@
 - **Codex API 服务现支持配置超时与重试参数**：完整 API 服务页新增高级设置，可调整 Sidecar 流式超时、图片流超时、打开尝试次数、连接保活、启动重试、旧网关请求读取/上游连接/流式超时、WebSocket 超时、上游发送重试和单账号短重试，并内置长等待/短等待方案与自定义方案保存。
 
 ### 变更
-- **Codex 账号 API provider 默认值现优先使用 OpenAI Official**：Cockpit API 预设从常规预设列表中隐藏，但已有 Cockpit API Base URL 仍会识别为 Cockpit 管理的自定义 provider。
+- **Codex 账号 API provider 默认值现优先使用 OpenAI Official**：aiswitch API 预设从常规预设列表中隐藏，但已有 aiswitch API Base URL 仍会识别为 aiswitch 管理的自定义 provider。
 - **CLIProxyAPI sidecar 请求处理增强了元数据、日志与 auth file 管理**：请求元数据、响应包装、auth file project ID、部分字段更新、Redis queue 处理和清理后的请求日志均补充了更完整的实现与测试。
 - **Codex API 服务流式处理现读取运行时超时配置**：Sidecar 与旧网关会从已保存的 API 服务配置读取流式、WebSocket、重试和连接超时，不再依赖代码中的固定值。
 - **Codex 同步会话元数据重建现改为 best effort**：project index 修复在元数据重建失败时仍会继续，并把会话可见性更新限制在可用数据范围内。感谢 @OvOYu。
@@ -859,14 +859,14 @@
 
 ### 变更
 - **Codex API 服务现使用 `localhost` 写入本地客户端 Base URL**：生成的 Codex provider 配置改为 `http://localhost:<port>/v1`，不再使用 `127.0.0.1`，降低本机代理栈误拦截客户端到 sidecar 回环请求的概率。
-- **Cockpit 启动的 Codex 进程现注入受管本机代理绕过设置**：Codex CLI 与官方 app-server 启动时会合并继承的 `NO_PROXY` / `no_proxy` 与 Cockpit 管理的回环地址，包括 `127.0.0.1`、`127.0.0.0/8`、`localhost`、`::1` 和 `::1/128`。
-- **Sidecar 代理选择现与旧网关优先级对齐**：API 服务代理、Cockpit 全局代理、继承的环境代理与系统/默认代理发现会按旧网关同一套优先级解析。
+- **aiswitch 启动的 Codex 进程现注入受管本机代理绕过设置**：Codex CLI 与官方 app-server 启动时会合并继承的 `NO_PROXY` / `no_proxy` 与 aiswitch 管理的回环地址，包括 `127.0.0.1`、`127.0.0.0/8`、`localhost`、`::1` 和 `::1/128`。
+- **Sidecar 代理选择现与旧网关优先级对齐**：API 服务代理、aiswitch 全局代理、继承的环境代理与系统/默认代理发现会按旧网关同一套优先级解析。
 - **Codex API 服务快速配置弹框现保持配置定位**：新旧网关切换已从弹框移除，完整 API 服务页和账号卡片继续负责网关模式切换。
 
 ### 修复
-- **Codex API 服务降低了回环请求被本机代理工具误转发的概率**：Cockpit 现在会注入回环地址绕过规则，健康诊断也能识别 Clash/FlyingBird 等本机代理是否拦截了 `localhost` 或 `127.0.0.1` 的 API 服务流量。
+- **Codex API 服务降低了回环请求被本机代理工具误转发的概率**：aiswitch 现在会注入回环地址绕过规则，健康诊断也能识别 Clash/FlyingBird 等本机代理是否拦截了 `localhost` 或 `127.0.0.1` 的 API 服务流量。
 - **Sidecar 流式请求在启动和空闲卡住时会更快失败**：首包超时、重试处理、空闲超时、完成状态校验与更清晰诊断可避免首字节前或半截流式响应后的长时间静默挂起。
-- **Sidecar 启动跨平台稳定性提升**：Cockpit 会等待 sidecar stdout `ready` 事件，开发构建优先解析本地 sidecar 二进制，Tauri 构建脚本会跟踪 Go sidecar 源码，Windows sidecar 也不再依赖不可靠的父进程 PID 检查退出。
+- **Sidecar 启动跨平台稳定性提升**：aiswitch 会等待 sidecar stdout `ready` 事件，开发构建优先解析本地 sidecar 二进制，Tauri 构建脚本会跟踪 Go sidecar 源码，Windows sidecar 也不再依赖不可靠的父进程 PID 检查退出。
 - **旧网关流式与 WebSocket 处理增强了超时和断开行为**：上游连接超时、流式空闲超时、总超时、心跳刷新、broken pipe 分类与首包/完成诊断让长请求更容易恢复和排查。
 - **Codex API 服务请求日志现稳定保留网关模式与诊断字段**：数据库迁移会补充网关模式字段和相关索引，完整功能页请求日志可区分 Sidecar 与 Legacy 流量。
 
@@ -874,16 +874,16 @@
 ## [0.24.7] - 2026-05-24
 
 ### 新增
-- **Codex API 服务现改由内置 CLIProxyAPI sidecar 与 Cockpit relay 运行**：Cockpit Tools 会构建并打包 `cockpit-cliproxy`，根据受管账号和客户端 Key 生成 sidecar 配置、manifest 与认证文件，保持现有 Base URL/API Key 使用方式，并通过 CLIProxyAPI 的 Codex executor 转发 OpenAI 兼容的 Chat Completions、Responses、图片、流式与 CORS 预检请求。
+- **Codex API 服务现改由内置 CLIProxyAPI sidecar 与 aiswitch relay 运行**：AISwitch 会构建并打包 `aiswitch-proxy`，根据受管账号和客户端 Key 生成 sidecar 配置、manifest 与认证文件，保持现有 Base URL/API Key 使用方式，并通过 CLIProxyAPI 的 Codex executor 转发 OpenAI 兼容的 Chat Completions、Responses、图片、流式与 CORS 预检请求。
 - **Codex API 服务现支持模型价格与估算价值统计**：内置价格预设覆盖包含 `gpt-5.5` 在内的当前 Codex 模型，模型页可编辑自定义 USD / 1M tokens 价格，总览、账号/模型/Key 统计与请求日志会按每次请求保存的价格快照展示估算价值。
 - **Codex API 服务请求日志现包含请求级诊断信息**：sidecar 事件会携带稳定请求 ID、已选认证/账号元数据、HTTP 状态、重试详情、清理后的上游错误信息、客户端取消分类与账号调度上下文，便于在界面中追踪失败原因。
 - **Codex 账号订阅期限现可手动刷新**：订阅信息缺失或已过期的 OAuth 账号会在卡片与表格视图中显示刷新操作，并在账号记录中保存查询尝试、成功时间、重试窗口和最近错误。
 - **Antigravity 2.0 桌面版切号现写入官方系统凭据**：桌面 Antigravity `2.0.0` 及以上版本会把官方 `gemini` / `antigravity` 凭据写入 macOS Keychain、Windows Credential Manager 或 Linux Secret Service，旧版本桌面端继续使用 legacy state 数据库路径。
 
 ### 变更
-- **Codex API 服务运行时接管现会保留官方 Codex profile 文件**：启用服务前会备份 profile 下的 `auth.json` 与 `config.toml`，再写入受管 `codex_local_access` provider 状态；停用服务时会恢复已备份文件，或只移除 Cockpit 写入的条目。
+- **Codex API 服务运行时接管现会保留官方 Codex profile 文件**：启用服务前会备份 profile 下的 `auth.json` 与 `config.toml`，再写入受管 `codex_local_access` provider 状态；停用服务时会恢复已备份文件，或只移除 aiswitch 写入的条目。
 - **Codex API 服务启用期间现持续保持默认 Codex profile 接管状态**：状态快照会检查默认 profile 的配置/认证接管情况，并在 Base URL 或 API Key 过期时重新接管。
-- **Codex API 服务 sidecar 现基于 CLIProxyAPI v7.0.2 使用 Cockpit relay runtime**：Cockpit 负责 HTTP 监听、请求策略、模型策略、用量捕获与本地统计管线，CLIProxyAPI 负责 Codex 认证合成、账号选择、刷新、重试与 executor 行为。
+- **Codex API 服务 sidecar 现基于 CLIProxyAPI v7.0.2 使用 aiswitch relay runtime**：aiswitch 负责 HTTP 监听、请求策略、模型策略、用量捕获与本地统计管线，CLIProxyAPI 负责 Codex 认证合成、账号选择、刷新、重试与 executor 行为。
 - **Codex API 服务 sidecar 流式响应现统一规范为 OpenAI 兼容 SSE 输出**：流式 Chat Completions 与 Responses 请求会稳定分帧，必要时把 JSON 分片和 `[DONE]` 转成 SSE，过滤 hop-by-hop 与代理专用响应头，本地 CORS 预检行为也与本地网关保持一致。
 - **Codex 历史会话可见性修复现同时更新 rollout 元数据与 `state_5.sqlite` thread 记录**：需要时会把 SQLite 数据库纳入备份，无效数据库会跳过并给出明确结果，修复摘要会展示已更新的 SQLite 记录数。
 - **Codex 应用多开启动现会识别账号/API 凭据来源变化**：实例在受管账号凭据与 API 凭据之间切换后启动时，会弹出既有的会话可见性修复弹框，并执行同一套跨实例修复流程。
@@ -906,13 +906,13 @@
 - **Codex API 服务现可桥接官方 Codex 后端与 WebSocket 请求路径**：`/backend-api/codex/responses`、`/backend-api/codex/responses/compact` 与 Responses WebSocket 升级请求都可通过本地受管账号网关转发。
 - **Codex API 服务现通过 `gpt-image-2` 暴露图片生成兼容能力**：`/v1/images/generations` 与 `/v1/images/edits` 会映射到 Codex Responses 图片工具，并结合服务级图片模式与账号能力检查。
 - **Codex API 服务现记录用量统计与可检索请求日志**：支持按账号、模型和客户端 Key 统计日/周/月/全量用量，并可按模型、账号、Key、请求类型、状态和错误分类筛选日志。
-- **开发运行现使用独立 Cockpit Tools Dev 配置**：`npm run tauri:dev` 会以独立 Tauri 标识、数据目录、API 端口和窗口品牌启动开发版应用。
+- **开发运行现使用独立 AISwitch Dev 配置**：`npm run tauri:dev` 会以独立 Tauri 标识、数据目录、API 端口和窗口品牌启动开发版应用。
 
 ### 变更
 - **Codex API 服务弹框现保持快速配置定位，并提供“查看全部功能”入口**：高级统计、请求日志、image_generation 控制与命名 Key 管理统一放到独立页面。
 - **Codex API 服务调度现加入会话亲和、可配置重试行为与账号健康跟踪**：连续轮次可保持在同一账号上，冷却中、额度耗尽或图片能力不可用的账号会在下次选号前被跳过。
 - **Codex 官方 App 速度选择现写入当前官方 `config.toml` 桌面服务档位键**：“标准”会移除受管档位，“快速”会写入 `priority`，与当前 Codex 客户端落盘位置保持一致。
-- **Cockpit 共享数据文件现统一通过同一数据目录解析**：账号分组、设备状态、配置状态与 Codex API 服务状态都会跟随同一配置目录或 profile 专属目录。
+- **aiswitch 共享数据文件现统一通过同一数据目录解析**：账号分组、设备状态、配置状态与 Codex API 服务状态都会跟随同一配置目录或 profile 专属目录。
 - **文档现补充葡萄牙语 README 与 WSL2 Ubuntu 24 构建说明**：项目本地化文档与 Linux 构建指引已与现有中英文文档并列提供。
 
 ### 修复
@@ -923,7 +923,7 @@
 ## [0.24.3] - 2026-05-21
 
 ### 变更
-- **紧急修复 Codex 本地 API 服务在未配置显式代理时的路由问题**：API 代理地址、Cockpit 全局代理与环境代理变量仍会按顺序优先使用；服务现在会继续进入 reqwest 的系统代理自动发现，而不是在系统自动代理路径生效前停止请求。
+- **紧急修复 Codex 本地 API 服务在未配置显式代理时的路由问题**：API 代理地址、aiswitch 全局代理与环境代理变量仍会按顺序优先使用；服务现在会继续进入 reqwest 的系统代理自动发现，而不是在系统自动代理路径生效前停止请求。
 - **Antigravity 已安装版本读取现区分快速徽标读取与完整扫描**：总览徽标会短暂延迟后启动，优先使用可用缓存，并在后台完成更长的扫描，避免版本显示阻塞页面。
 - **Codex 套餐徽标现复用账号原始套餐值与共享样式**：账号卡片、摘要与路由视图都会保留后端或本地套餐标签原值，同时通过统一展示路径生成徽标样式。
 
@@ -936,8 +936,8 @@
 ## [0.24.2] - 2026-05-21
 
 ### 修复
-- **紧急修复 v0.24.1 后 Codex 本地 API 服务代理路由异常**：API 代理地址为空时会依次回退到 Cockpit 全局代理和显式环境代理变量（`HTTPS_PROXY`、`HTTP_PROXY` 或 `ALL_PROXY`）；没有可用代理地址时，网关会拒绝官方上游请求，避免意外直连官方上游。
-- **Codex 本地 API 服务上游失败诊断现标明实际代理来源**：502 诊断与日志会标明使用的是 API 服务代理、Cockpit 全局代理、环境代理或缺少代理配置，便于快速修正网络出口。
+- **紧急修复 v0.24.1 后 Codex 本地 API 服务代理路由异常**：API 代理地址为空时会依次回退到 aiswitch 全局代理和显式环境代理变量（`HTTPS_PROXY`、`HTTP_PROXY` 或 `ALL_PROXY`）；没有可用代理地址时，网关会拒绝官方上游请求，避免意外直连官方上游。
+- **Codex 本地 API 服务上游失败诊断现标明实际代理来源**：502 诊断与日志会标明使用的是 API 服务代理、aiswitch 全局代理、环境代理或缺少代理配置，便于快速修正网络出口。
 
 ---
 ## [0.24.1] - 2026-05-21
@@ -982,7 +982,7 @@
 ## [0.23.10] - 2026-05-18
 
 ### 修复
-- **Codex CLI 通过本地 API 服务访问时现可稳定使用 Cockpit 管理的 OAuth 账号**：`/v1/responses` 请求会先按 Codex 客户端兼容形状规范化，再转发到现有上游管线。
+- **Codex CLI 通过本地 API 服务访问时现可稳定使用 aiswitch 管理的 OAuth 账号**：`/v1/responses` 请求会先按 Codex 客户端兼容形状规范化，再转发到现有上游管线。
 - **Codex 启动时不再因模型刷新结构不匹配报错**：当 Codex 客户端请求本地 `/v1/models` 时，会返回其期望的模型列表格式。
 - **本地 Codex API 服务请求现可绕过 localhost 代理干扰**：`NO_PROXY`/`no_proxy` 会自动合并回环地址，系统代理开启时本地网关仍保持直连。
 
@@ -999,7 +999,7 @@
 
 ### 修复
 - **macOS 打包版本现可正常显示单色菜单栏图标**：使用前会将 template 托盘图标规范化到菜单栏尺寸，并在托盘创建后再次应用 template 标记。
-- **Codex 切回内置 OpenAI 时现会清理受管 API Key 运行时 provider 状态**：切回内置路径会移除 Cockpit 管理的 provider/token 条目，同时保留无关的手动 provider。
+- **Codex 切回内置 OpenAI 时现会清理受管 API Key 运行时 provider 状态**：切回内置路径会移除 aiswitch 管理的 provider/token 条目，同时保留无关的手动 provider。
 - **Cursor 额度徽标在 70%+ 用量时现使用预期的中档样式**：额度指示不再在达到临界范围前提前使用警告样式。
 
 ---
@@ -1048,7 +1048,7 @@
 
 ### 变更
 - **Codex 本地 API 服务状态现按真实可访问范围展示**：账号卡片与 API 服务弹框会显示当前选择的访问范围，不再固定展示“本机/局域网”。
-- **Codex 外部导入现会保留 Cockpit API 账号的接口地址设置**：支持的导入链接可携带 API Base URL，导入后的 Codex API Key 账号会自动带上对应供应商配置。
+- **Codex 外部导入现会保留 aiswitch API 账号的接口地址设置**：支持的导入链接可携带 API Base URL，导入后的 Codex API Key 账号会自动带上对应供应商配置。
 - **Antigravity 悬浮卡片现展示更多额度信息**：Antigravity 账号弹窗最多可显示 3 条额度信息，不再只显示 2 条。
 
 ### 修复
@@ -1080,7 +1080,7 @@
 - **macOS Dock 和菜单栏重新打开统一使用共享主窗口恢复链路**：重新打开时会通过同一套后端逻辑恢复、取消隐藏、激活并聚焦主窗口。
 
 ### 修复
-- **Windows 源码构建在旧调试程序仍运行时不再因替换 exe 失败中断**：Tauri dev/build 会在 Cargo 替换调试二进制前清理过期的 `target\debug\cockpit_tools.exe` 进程。
+- **Windows 源码构建在旧调试程序仍运行时不再因替换 exe 失败中断**：Tauri dev/build 会在 Cargo 替换调试二进制前清理过期的 `target\debug\aiswitch.exe` 进程。
 
 ---
 ## [0.23.2] - 2026-05-12
@@ -1155,7 +1155,7 @@
 ### 变更
 - **Codex 账号导入后端现统一刷新 OAuth 额度信息**：从本地、JSON 或文件导入后会跳过 API Key 账号并刷新 OAuth 账号配额，再用刷新后的记录更新账号列表与托盘状态。
 - **Codex 导入包现支持更多便携 JSON 形态**：远端导入包与粘贴 JSON 导入可读取根数组、字符串包裹载荷、直接 Codex Token 对象，以及每行一个账号对象的 JSON Lines。
-- **Codex 便携导出格式现归一 Cockpit Tools JSON**：Cockpit Tools 导出会输出可移植的 Token/API Key JSON，CPA 文档会保留 Token 刷新时间与过期时间元数据。
+- **Codex 便携导出格式现归一 AISwitch JSON**：AISwitch 导出会输出可移植的 Token/API Key JSON，CPA 文档会保留 Token 刷新时间与过期时间元数据。
 - **Codex PRO 档位识别现与 CPA 20x 语义对齐**：未显式标记 `prolite` 的 `pro` 账号默认展示为 PRO Max/20x，并在本地 API 服务路由排序中按 20x 档位处理。
 - **Codex 会话可见性修复备份现按实例保留最近一次**：执行新一轮修复前会清理旧的会话可见性修复备份目录，避免备份长期堆积。
 
@@ -1246,8 +1246,8 @@
 ## [0.22.11] - 2026-04-26
 
 ### 变更
-- **Codex Token 管理现已以 Cockpit 账号中心作为唯一真源**：受管 Codex 工作流在注入前不再自动把未受管的官方 `auth.json` 或 Keychain 快照读回 Cockpit，避免旧本地凭证覆盖账号中心里已刷新的 Token。
-- **Codex 受管 CLI 执行现已更可靠地保留轮换后的 refresh token**：同一账号的 Token 刷新、投影写入、官方 CLI 执行与执行后同步会串行处理，并只从 Cockpit 标记过的受管 home 回写，确保轮换后的 `refresh_token` 链在其他受管消费者复用旧值前写回账号中心。
+- **Codex Token 管理现已以 aiswitch 账号中心作为唯一真源**：受管 Codex 工作流在注入前不再自动把未受管的官方 `auth.json` 或 Keychain 快照读回 aiswitch，避免旧本地凭证覆盖账号中心里已刷新的 Token。
+- **Codex 受管 CLI 执行现已更可靠地保留轮换后的 refresh token**：同一账号的 Token 刷新、投影写入、官方 CLI 执行与执行后同步会串行处理，并只从 aiswitch 标记过的受管 home 回写，确保轮换后的 `refresh_token` 链在其他受管消费者复用旧值前写回账号中心。
 - **Codex API Key 现已默认隐藏敏感内容**：API Key 账号卡片与凭证输入框默认隐藏密钥，仅在用户显式点击时显示；切换账号或受管供应商密钥时会重置显示状态。
 - **仪表盘当前账户卡片现已兼顾只管理账号的用户**：当平台已有受管账号但未解析到当前账户时，仪表盘会展示账号数据里的第一个账号，不再让当前账户位置显示为空。
 - **原始侧边栏布局现最多支持三个平台入口**：平台布局在原始布局下可选择最多三个侧边栏入口，侧边栏会在“更多平台”前直接展示三个入口。
@@ -1361,7 +1361,7 @@
 
 ### 变更
 - **Codex API 服务现已补齐总览入口控制与分时统计能力**：列表模式下服务卡片可折叠；设置页与快捷设置可隐藏或恢复该入口；隐藏入口时会同步停用当前本地服务；服务面板统计现可在日、周、月三个时间范围间切换。
-- **当前账号识别现已改为跟随 Cockpit 显式切换结果，不再依赖兜底猜测**：各平台注入账号时会持久化当前账号映射，GitHub Copilot 已纳入该链路，账号索引修复或删除账号时也不会再静默指向首个剩余账号。
+- **当前账号识别现已改为跟随 aiswitch 显式切换结果，不再依赖兜底猜测**：各平台注入账号时会持久化当前账号映射，GitHub Copilot 已纳入该链路，账号索引修复或删除账号时也不会再静默指向首个剩余账号。
 - **自动备份保留天数默认值现已调整为 15 天，并加入一次性历史迁移**：历史默认值为 `3` 的旧配置会在首次加载时自动升级到 `15`；迁移完成后，用户后续手动设置的值（包括 `3`）将被保留，不会再被自动改写。
 
 ---
@@ -1379,7 +1379,7 @@
 ## [0.22.0] - 2026-04-18
 
 ### 新增
-- **已合入上游工作区/CLI 改造（PR #490，`dcdeda2`，基于 `ca5aade`）**：仓库已迁移为 Cargo Workspace，新增 `cockpit-core` 共享 Rust 逻辑层，并初始化 `cockpit-cli`（首版支持 Cursor / Gemini 账号列出与切换）。
+- **已合入上游工作区/CLI 改造（PR #490，`dcdeda2`，基于 `ca5aade`）**：仓库已迁移为 Cargo Workspace，新增 `aiswitch-core` 共享 Rust 逻辑层，并初始化 `aiswitch-cli`（首版支持 Cursor / Gemini 账号列出与切换）。
 - **Codex 账号页现已补齐本地 API 服务全量管理能力**：提供内联服务卡片与独立服务面板，可在同一流程完成集合成员维护、密钥显示/重置、服务端口设置、直接启动/测试，以及成员集合编辑。
 - **API 服务现已记录并展示总量与按账号统计**：服务面板可直接查看请求数、Token 使用（输入/输出/缓存/思考）、平均延迟与成功率。
 
@@ -1388,7 +1388,7 @@
 - **Codex 实例绑定现已支持独立 API 服务目标（`__api_service__`）**：账号选择器、实例搜索与实例列表标签现已统一识别并展示 API 服务模式。
 - **API 服务模式下启动 Codex 实例现已写入真实实例目录配置**：启动链路与普通实例切换一致走真实落盘路径，并在 provider 实际变化时自动触发历史可见性修复。
 - **从 Codex 账号页激活 API 服务时，默认运行态指针现已同步**：会清空默认 current account 指针，并把默认 Codex 实例绑定更新为 API 服务模式。
-- **Cockpit 启动时现会自动恢复已保存的本地 API 网关运行态**：已启用的 API 服务配置无需每次手动重新激活。
+- **aiswitch 启动时现会自动恢复已保存的本地 API 网关运行态**：已启用的 API 服务配置无需每次手动重新激活。
 - **Codex 配额网络失败提示现已统一收敛**：手动刷新提示不再直接回显后端原始错误详情。
 - **API 服务新增文案现已覆盖全部支持语言并保持 key 对齐**：`zh-CN`、`en-US`、`en` 以及其余非英语语言包均已同步补齐。
 
@@ -1396,7 +1396,7 @@
 ## [0.21.4] - 2026-04-16
 
 ### 新增
-- **Codex 账号导出现已支持 Cockpit Tools、兼容第三方导出和 CPA 三种格式**：导出弹框可在预览、复制和保存前切换目标格式，便于把 Codex 凭证直接迁移到对应工具。
+- **Codex 账号导出现已支持 AISwitch、兼容第三方导出和 CPA 三种格式**：导出弹框可在预览、复制和保存前切换目标格式，便于把 Codex 凭证直接迁移到对应工具。
 - **实例页账号选择器现已支持按标签筛选**：绑定账号时可在下拉内先搜索、再按标签收窄账号范围，大账号池里不再需要只靠邮箱硬找。
 - **账号页现已支持键盘刷新快捷键**：`Cmd/Ctrl + R` 以及 Windows 下的 `F5` 会直接触发当前页面可见的刷新操作，无需再点工具栏按钮。
 
@@ -1424,7 +1424,7 @@
 
 ### 新增
 - **设置页现已支持账号与应用配置的数据备份/导入包**：可分别导出或导入“仅账号”“仅配置”或“两者一起”；配置恢复覆盖分组、实例、唤醒任务、当前账号刷新设置与 Codex 模型供应商数据，旧版仅账号备份也仍可导入，并会提示未能重映射的绑定或需重启的配置项。
-- **设置页现已新增“备份管理”能力，用于定期本地备份**：Cockpit 现可每天自动生成一份受管备份，统一保存在应用数据目录的 `backups` 文件夹中，支持配置保留天数，并可在同一弹框内立即备份、导入已有备份或删除旧备份文件。
+- **设置页现已新增“备份管理”能力，用于定期本地备份**：aiswitch 现可每天自动生成一份受管备份，统一保存在应用数据目录的 `backups` 文件夹中，支持配置保留天数，并可在同一弹框内立即备份、导入已有备份或删除旧备份文件。
 - **Codex 会话管理现已支持把废纸篓中的会话恢复回原实例**：恢复时会一并放回 rollout 文件、`session_index.jsonl` 条目和 `state_5.sqlite` 线程记录，不再需要手工补文件。
 
 ### 变更
@@ -1522,7 +1522,7 @@
 - **经典侧边栏现已新增独立的 2FA 管理页入口**：可在同一工作区完成 Base32 秘钥查询、动态验证码查看、收藏保存、近期查询记录查看，以及已保存记录的 JSON 导入/导出。
 
 ### 变更
-- **Codex 多账号本地存储路径现已统一到 `~/.antigravity_cockpit`，并支持从旧路径一次性迁移**：旧目录中的 `codex_accounts.json` 与账号详情文件会迁移到新目录，且不会覆盖新目录中已存在的同名新文件。
+- **Codex 多账号本地存储路径现已统一到 `~/.aiswitch`，并支持从旧路径一次性迁移**：旧目录中的 `codex_accounts.json` 与账号详情文件会迁移到新目录，且不会覆盖新目录中已存在的同名新文件。
 - **账号页网格视图批量选择交互现已统一**：各平台账号页与共享账号视图在网格模式（含按标签分组）下均提供 `全选` 入口。
 - **2FA 页面文案与操作入口现已全面接入多语言键**：导航标题、确认提示、表头与操作按钮文本均改为从 locale 资源读取，不再依赖硬编码字符串。
 - **日志查看弹框底部现已增加显式关闭按钮**：可直接在弹框底部完成关闭，无需依赖顶部关闭控件。
@@ -1588,13 +1588,13 @@
 ### 变更
 - **侧边栏布局配置现已支持按模式生效的管理行为**：设置页新增 `原始布局 / 经典布局` 切换；首次进入经典布局会按仪表盘可见项同步侧边栏入口；平台布局弹窗在经典布局下允许选择任意数量侧边栏入口，原始布局仍保持数量上限。
 - **Antigravity 账号额度展示分组现已固定为内置模型族（Claude / Gemini Pro / Gemini Flash）**：账号页展示分组改为直接使用预置分组，不再依赖手动分组配置。
-- **文档现已补充 Arch Linux 的 AUR 安装路径**：`README.md` 与 `README.en.md` 新增源码包（`cockpit-tools`）与预编译包（`cockpit-tools-bin`）两种安装方式说明。
+- **文档现已补充 Arch Linux 的 AUR 安装路径**：`README.md` 与 `README.en.md` 新增源码包（`aiswitch`）与预编译包（`aiswitch-bin`）两种安装方式说明。
 
 ---
 ## [0.20.8] - 2026-03-24
 
 ### 修复
-- **当用户没有在应用内显式开启全局代理时，macOS 下通过 shell 启动时继承的代理环境现已继续生效**：应用启动和保存配置时不再直接清空启动时继承的代理变量，而是恢复这份继承环境，因此 `export http_proxy=... && open -a 'Cockpit Tools'` 这类用法会继续可用；只有用户在应用内主动配置全局代理时才会覆盖它。
+- **当用户没有在应用内显式开启全局代理时，macOS 下通过 shell 启动时继承的代理环境现已继续生效**：应用启动和保存配置时不再直接清空启动时继承的代理变量，而是恢复这份继承环境，因此 `export http_proxy=... && open -a 'AISwitch'` 这类用法会继续可用；只有用户在应用内主动配置全局代理时才会覆盖它。
 
 ---
 ## [0.20.7] - 2026-03-24
@@ -1715,7 +1715,7 @@
 ## [0.18.2] - 2026-03-22
 
 ### 变更
-- **账号分组现已改为遵循真实本地落盘路径，而不是只存在浏览器存储中**：分组定义现在会保存到 `~/.antigravity_cockpit/account_groups.json`，首次加载时会自动迁移旧版 `localStorage` 数据，分组间移动账号也会直接更新落盘分组文件，而不再只是改前端状态。
+- **账号分组现已改为遵循真实本地落盘路径，而不是只存在浏览器存储中**：分组定义现在会保存到 `~/.aiswitch/account_groups.json`，首次加载时会自动迁移旧版 `localStorage` 数据，分组间移动账号也会直接更新落盘分组文件，而不再只是改前端状态。
 - **账号页里的分组管理现已更紧凑且更易操作**：列表视图与紧凑视图都会内联展示分组行；在分组内选中账号后可直接从面包屑操作区移到其他分组或移出当前分组；分组成员选择器也复用了主页同一套套餐/标签筛选能力。
 
 ### 新增
@@ -1797,7 +1797,7 @@
 ## [0.17.1] - 2026-03-20
 
 ### 新增
-- **网络设置新增“全局代理”能力并支持注入到受管启动进程**：新增 `global_proxy_enabled`/`global_proxy_url`/`global_proxy_no_proxy`，并在 Cockpit 启动的平台应用与实例启动链路中按 macOS/Linux/Windows 注入代理环境变量。
+- **网络设置新增“全局代理”能力并支持注入到受管启动进程**：新增 `global_proxy_enabled`/`global_proxy_url`/`global_proxy_no_proxy`，并在 aiswitch 启动的平台应用与实例启动链路中按 macOS/Linux/Windows 注入代理环境变量。
 - **GitHub Copilot 切号新增 OpenCode 联动与启动开关配置**：通用设置与快捷设置新增 GitHub Copilot 自动启动、OpenCode 登录覆盖、切号后自动重启 OpenCode 三项控制。
 
 ### 变更
@@ -1899,7 +1899,7 @@
 - **升级后的启动链路已减轻首屏负载并改为分阶段执行**：启动时现在会直接以内置 `en`/`zh-CN` 资源完成首帧渲染，不再阻塞等待异步语言包；自动刷新初始化延后执行；首页各平台预取改为分批触发；前端 vendor/update 相关 chunk 也做了更细分包，以降低较大版本升级后的首次启动卡顿。
 
 ### 修复
-- **Codex 账号刷新现已支持后端失效 token 的自动恢复**：配额刷新与账号资料检查现在会识别 `401 token_invalidated`，主动执行一次 refresh_token 交换、落盘新 token，并重试官方 ChatGPT usage/account-check 接口，避免同一账号在官方客户端仍可使用时却在 Cockpit 中被误报为“需要重新登录”。
+- **Codex 账号刷新现已支持后端失效 token 的自动恢复**：配额刷新与账号资料检查现在会识别 `401 token_invalidated`，主动执行一次 refresh_token 交换、落盘新 token，并重试官方 ChatGPT usage/account-check 接口，避免同一账号在官方客户端仍可使用时却在 aiswitch 中被误报为“需要重新登录”。
 - **macOS 上启动 Codex 默认实例时不再错误复用已运行的隔离实例窗口**：当非默认 Codex 实例已经启动时，默认实例启动现在会强制通过 LaunchServices 新开一个应用实例，避免只激活已有隔离实例而没有真正打开默认配置目录。
 
 ---
@@ -1975,13 +1975,13 @@
 ## [0.12.3] - 2026-03-11
 
 ### 修复
-- **macOS 权限弹窗不再归因到 Cockpit Tools**：macOS 上所有 IDE 启动（Codex、VS Code、CodeBuddy）统一改为通过 `open -a`（LaunchServices）方式启动，不再直接执行二进制文件，使 macOS TCC 权限弹窗（如"访问下载文件夹"）正确归因到被启动的 IDE 而非 Cockpit Tools。应用多开的 PID 跟踪通过启动后进程轮询实现，不受影响。
+- **macOS 权限弹窗不再归因到 AISwitch**：macOS 上所有 IDE 启动（Codex、VS Code、CodeBuddy）统一改为通过 `open -a`（LaunchServices）方式启动，不再直接执行二进制文件，使 macOS TCC 权限弹窗（如"访问下载文件夹"）正确归因到被启动的 IDE 而非 AISwitch。应用多开的 PID 跟踪通过启动后进程轮询实现，不受影响。
 
 ---
 ## [0.12.2] - 2026-03-11
 
 ### 新增
-- **Linux 包安装现已支持应用内托管更新**：新增 `.deb`/`.rpm` 运行时识别、签名包下载、进度回传与提权安装链路，使 Linux 包管理器安装场景可直接在 Cockpit 内完成更新。
+- **Linux 包安装现已支持应用内托管更新**：新增 `.deb`/`.rpm` 运行时识别、签名包下载、进度回传与提权安装链路，使 Linux 包管理器安装场景可直接在 aiswitch 内完成更新。
 - **Antigravity 账号页现已支持本地账号分组**：在 Antigravity 账号页新增本地文件夹式账号分组，支持创建/重命名/删除、批量移入移出、分组浏览与按分组刷新配额。
 
 ### 变更
@@ -2036,7 +2036,7 @@
 
 ### 修复
 - **Antigravity 默认实例的自定义启动参数恢复生效**：默认实例启动时会解析并传递已保存的 `extra_args` 到实际启动命令。
-- **可从 Cockpit 设置正确下发远程调试参数**：`--remote-debugging-port=9333` 这类参数在默认实例启动链路中不再被静默丢弃。
+- **可从 aiswitch 设置正确下发远程调试参数**：`--remote-debugging-port=9333` 这类参数在默认实例启动链路中不再被静默丢弃。
 
 ---
 ## [0.11.1] - 2026-03-08
@@ -2230,7 +2230,7 @@
 - **手册多语言覆盖扩展到全部语言包**：在所有已支持语言中补齐 `manual.*` 与 `nav.manual` 键，确保手册与导航文案在多语言环境下保持一致。
 
 ### 修复
-- **修复 macOS 下启动第三方应用时权限弹窗归因到 Cockpit 的问题**：从 Cockpit 启动 Antigravity/Codex/GitHub Copilot/Windsurf/Kiro 时，受保护目录权限弹窗被归因为 Cockpit 的情况显著减少。
+- **修复 macOS 下启动第三方应用时权限弹窗归因到 aiswitch 的问题**：从 aiswitch 启动 Antigravity/Codex/GitHub Copilot/Windsurf/Kiro 时，受保护目录权限弹窗被归因为 aiswitch 的情况显著减少。
 
 ---
 ## [0.9.8] - 2026-03-01
@@ -2245,7 +2245,7 @@
 - **“打开实例窗口”语义收紧**：窗口聚焦失败时直接返回错误，不再自动拉起新进程。
 - **账号身份匹配进一步收紧**：Antigravity/Codex 账号匹配移除“仅 email 合并”回退；Codex -> OpenCode 写入不再从 token 临时推导 `account_id`。
 - **Windsurf/Kiro 的 token/刷新策略收紧**：Windsurf token 导入仅接受 API Key 或 Firebase JWT；Kiro 刷新失败或缺少 `refresh_token` 时直接报错，不再回退旧快照。
-- **命令追踪链路补齐并改为按需开启**：补充命令 EXEC/RESULT/SPAWN 跟踪点，默认关闭，仅在 `COCKPIT_COMMAND_TRACE=1` 时开启。
+- **命令追踪链路补齐并改为按需开启**：补充命令 EXEC/RESULT/SPAWN 跟踪点，默认关闭，仅在 `aiswitch_COMMAND_TRACE=1` 时开启。
 - **Quick Settings 配额预警控件抽取复用**：将重复的配额预警开关/阈值 UI 收敛到共享渲染逻辑。
 
 ### 修复
@@ -2324,7 +2324,7 @@
 
 ### 新增
 - **桌面端公告系统**：新增完整公告能力链路，包含 Tauri 公告命令、前端 store/service/type 与公告中心 UI（列表/详情弹窗、未读角标、已读标记、刷新、弹窗公告、图片预览、tab/url/command 动作处理）。
-- **开发调试公告源控制**：新增本地覆盖文件支持（`~/.antigravity_cockpit/announcements.local.json`）与 Debug 工作区公告源（`announcements.json`），用于 `npm run tauri dev` 调试，同时持久化已读记录与缓存文件。
+- **开发调试公告源控制**：新增本地覆盖文件支持（`~/.aiswitch/announcements.local.json`）与 Debug 工作区公告源（`announcements.json`），用于 `npm run tauri dev` 调试，同时持久化已读记录与缓存文件。
 - **仓库级公告种子文件**：新增仓库根目录 `announcements.json`，内置欢迎公告与反馈动作，便于本地调试并与远端公告源结构保持一致。
 
 ### 变更
@@ -2369,17 +2369,17 @@
 ## [0.8.12] - 2026-02-22
 
 ### 新增
-- **GitHub Release + Homebrew Cask 一键发布脚本**：新增 `scripts/release/publish_github_release_and_cask.cjs` 与 `npm run release:github-and-cask`，支持 `universal.dmg` 构建、GitHub Release 上传与 `Casks/cockpit-tools.rb` 更新（含 `--skip-build` / `--skip-gh` / `--skip-cask` / `--dry-run` 等参数）。
+- **GitHub Release + Homebrew Cask 一键发布脚本**：新增 `scripts/release/publish_github_release_and_cask.cjs` 与 `npm run release:github-and-cask`，支持 `universal.dmg` 构建、GitHub Release 上传与 `Casks/aiswitch.rb` 更新（含 `--skip-build` / `--skip-gh` / `--skip-cask` / `--dry-run` 等参数）。
 
 ### 变更
 - **启动路径探测策略优化**：应用启动时改为先读取本地配置，仅探测未配置路径的平台，并使用延迟 + 错峰执行，降低启动阶段集中调用系统探测命令的概率。
 - **发布流程文档补充 Homebrew 场景**：更新 `docs/release-process.md`，补充 `universal` 构建推荐方式、`SHA256SUMS` 生成示例、GitHub CLI/Rust target 前置条件及 cask 更新顺序说明。
-- **Release 工作流恢复 Homebrew Cask 自动更新**：`release.yml` 恢复 `update-homebrew-cask` 任务，基于已发布的 `*_universal.dmg` 自动计算 `sha256`、更新 `Casks/cockpit-tools.rb` 并创建 cask PR。
+- **Release 工作流恢复 Homebrew Cask 自动更新**：`release.yml` 恢复 `update-homebrew-cask` 任务，基于已发布的 `*_universal.dmg` 自动计算 `sha256`、更新 `Casks/aiswitch.rb` 并创建 cask PR。
 - **仅自动合并 cask 自动生成 PR**：Release 工作流现仅对 `automation/update-cask-v*` 分支创建的 Homebrew cask PR 启用自动合并（squash + 删除分支），不影响其他普通 PR。
 
 ### 修复
 - **Windows 启动黑色命令行窗口闪烁**：修复 VS Code 路径注册表回退探测中 `cmd /c reg query` 未隐藏窗口的问题，后台命令改为隐藏执行，减少部分 Windows 用户启动时出现多个黑色窗口闪现。
-- **品牌名与套餐标签误翻译**：修复非英语语言中品牌名/产品名与原始套餐标签被本地化的问题，恢复 `Cockpit Tools`、`Antigravity`、`Codex`、`GitHub Copilot`、`Windsurf` 以及 `accounts.tier.*`、`codex.plan.*`、`kiro.plan.*` 的原始显示值。
+- **品牌名与套餐标签误翻译**：修复非英语语言中品牌名/产品名与原始套餐标签被本地化的问题，恢复 `AISwitch`、`Antigravity`、`Codex`、`GitHub Copilot`、`Windsurf` 以及 `accounts.tier.*`、`codex.plan.*`、`kiro.plan.*` 的原始显示值。
 - **翻译校验误报品牌名**：为多语言校验脚本补充品牌名英文复用白名单，避免后续再次将品牌名误判为“未本地化”。
 
 ---
@@ -2832,7 +2832,7 @@
   - 查看 5小时 (Hourly) 和周 (Weekly) 配额。
   - 自动识别账号订阅计划 (Basic, Plus, Team, Enterprise)。
   - 独立的账号列表和卡片视图。
-- **品牌重塑**: 项目正式更名为 **Cockpit Tools**。
+- **品牌重塑**: 项目正式更名为 **AISwitch**。
 
 ### 变更
 - **字体优化**: 默认字体切换为 **Inter**，提升阅读体验。
@@ -2916,7 +2916,7 @@
   - 自定义唤醒词和最大 Token 限制。
   - 触发历史记录，包含详细日志。
   - 全局唤醒开关，快速启用/禁用。
-- **Antigravity Cockpit 集成**: 与 VS Code 插件深度集成。
+- **Antigravity aiswitch 集成**: 与 VS Code 插件深度集成。
   - WebSocket 服务器实现双向通信。
   - 支持从插件端远程切换账号。
   - 账号导入/导出同步。

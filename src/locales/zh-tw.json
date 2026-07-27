@@ -226,7 +226,7 @@
       "desc": "此區域會固定顯示於所有頁面的右上角，適合投放活動資訊或品牌廣告。",
       "action": "查看詳情"
     },
-    "appName": "Cockpit Tools",
+    "appName": "AISwitch",
     "collapse": "收合",
     "confirmDelete": "確認刪除",
     "confirmDeleteTag": "確認刪除標籤",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "贊助商",
-    "pageDesc": "感謝以下贊助商支持 Cockpit Tools。",
+    "pageDesc": "感謝以下贊助商支持 AISwitch。",
     "loading": "正在載入贊助商...",
     "emptyTitle": "暫無贊助商",
     "emptyDesc": "目前遠端未開啟贊助商模組。",
     "listAriaLabel": "贊助商列表",
-    "defaultDescription": "感謝支持 Cockpit Tools。",
+    "defaultDescription": "感謝支持 AISwitch。",
     "openSponsor": "查看"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "應用程式設定",
-    "subtitle": "個性化您的 Cockpit Tools 體驗。",
+    "subtitle": "個性化您的 AISwitch 體驗。",
     "tabs": {
       "general": "通用",
       "network": "網路服務",
@@ -651,7 +651,7 @@
       "codexSyncWsl": "同步 Codex 到 WSL",
       "codexSyncWslDesc": "切換預設 Codex 帳號後，也會把 auth.json 和 config.toml 寫入 WSL 的 Codex 設定目錄。",
       "codexAppUiInjection": "顯示 API 服務額度",
-      "codexAppUiInjectionDesc": "重新啟動 Codex 實例後，在輸入框下方顯示 Cockpit Tools API 服務的帳號數、週額度和 5 小時額度。需保持 Cockpit Tools 在背景執行；完全結束或網路無法使用時，額度不會繼續更新。",
+      "codexAppUiInjectionDesc": "重新啟動 Codex 實例後，在輸入框下方顯示 AISwitch API 服務的帳號數、週額度和 5 小時額度。需保持 AISwitch 在背景執行；完全結束或網路無法使用時，額度不會繼續更新。",
       "codexAppUiInjectionPoolLabel": "帳號",
       "codexAppUiInjectionWeeklyLabel": "週",
       "codexAppUiInjectionFiveHourLabel": "5 小時",
@@ -745,7 +745,7 @@
       "sideNavLayoutClassic": "經典佈局",
       "antigravityDualSwitchNoRestart": "無感雙通道切號（不重啟）",
       "antigravityDualSwitchNoRestartDesc": "切號時同時執行本地落盤與擴充套件無感切號，不再自動重啟 Antigravity IDE。",
-      "appAutoLaunch": "開機時啟動 Cockpit Tools",
+      "appAutoLaunch": "開機時啟動 AISwitch",
       "appAutoLaunchDesc": "系統登入後自動啟動應用程式",
       "startupWakeupDisabled": "關閉",
       "startupWakeupImmediate": "立即喚醒",
@@ -883,7 +883,7 @@
       "firewallHint": "若網址無法存取，請檢查系統防火牆設定。",
       "proxyTitle": "全域代理",
       "proxyEnabled": "啟用全域代理",
-      "proxyEnabledDesc": "為 Cockpit 啟動的受管平台程序統一注入代理環境變數",
+      "proxyEnabledDesc": "為 aiswitch 啟動的受管平台程序統一注入代理環境變數",
       "proxyUrl": "代理位址",
       "proxyUrlDesc": "範例：http://127.0.0.1:7890 或 socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "例如：http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "啟用全域代理時，代理位址不可為空。"
     },
     "about": {
-      "appName": "Cockpit Tools",
+      "appName": "AISwitch",
       "slogan": "專業帳號管理解決方案",
       "author": "主作者",
       "wechat": "微信公眾號",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "已保存，留空保持不變",
       "clearPassword": "清除",
       "remoteDirTitle": "遠端目錄",
-      "remoteDirDesc": "只管理該目錄下的 Cockpit 備份檔案。",
+      "remoteDirDesc": "只管理該目錄下的 aiswitch 備份檔案。",
       "statusTitle": "同步狀態",
       "statusDesc": "遠端復原需要手動選擇備份，不會靜默覆蓋本地數據。",
       "lastUpload": "最近上傳：{{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "同步設定",
       "syncLatestConfirm": "確認拉取最新的遠端備份 {{name}} 並同步到本地？此操作將覆蓋本地現有數據。",
       "remoteListTitle": "遠端備份",
-      "remoteListDesc": "僅顯示匹配 Cockpit 自動/手動備份命名的 JSON 與 ZIP 檔案。",
+      "remoteListDesc": "僅顯示匹配 aiswitch 自動/手動備份命名的 JSON 與 ZIP 檔案。",
       "emptyTitle": "暫無遠端備份",
       "emptyDesc": "保存設定後可以生成並上傳一份備份。",
       "unknownTime": "未知",
@@ -1409,7 +1409,7 @@
       "importBtn": "匯入",
       "oauthAction": "OAuth 授權",
       "fromExtension": "從插件匯入",
-      "syncBadge": "同步 Antigravity Cockpit 插件帳號",
+      "syncBadge": "同步 Antigravity aiswitch 插件帳號",
       "fromLocalDB": "從本地資料庫匯入",
       "localDBDesc": "從此機器的 Antigravity IDE 客戶端讀取登入帳號",
       "toolsDescMigrate": "從 ~/.antigravity_tools/ 遷移帳號",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "匯出格式",
-      "cockpitTools": "Cockpit Tools",
+      "aiswitchTools": "AISwitch",
       "sub2api": "sub2api 格式",
       "cpa": "cpa 格式",
-      "agentIdentityCpaUnsupported": "Agent Identity 帳號不支援 cpa 格式，請使用 Cockpit Tools 或 sub2api 格式匯出。",
+      "agentIdentityCpaUnsupported": "Agent Identity 帳號不支援 cpa 格式，請使用 AISwitch 或 sub2api 格式匯出。",
       "agentIdentityPrivateKeyNotice": "匯出內容包含 Agent Identity 私密金鑰，可用於在其他裝置還原帳號。請像密碼一樣妥善保管。",
       "downloadAll": "一鍵下載全部",
       "cpaCardTitle": "帳號 {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "服務可達，但驗證失敗：{{detail}}。請檢查 API 服務密鑰或帳號登入狀態。",
       "testServiceUnavailable": "服務可達，但目前不可用：{{detail}}。請檢查服務是否啟用、帳號集合是否為空或帳號是否可用。",
       "gatewayErrors": {
-        "authUnavailable": "帳號池目前沒有可調度帳號；帳號可能正在冷卻、授權失效或額度受限，請在 Cockpit Tools 的 API 服務頁查看帳號狀態。",
-        "authNotFound": "帳號池目前沒有已設定的可用帳號，請在 Cockpit Tools 的 API 服務頁新增或啟用帳號。"
+        "authUnavailable": "帳號池目前沒有可調度帳號；帳號可能正在冷卻、授權失效或額度受限，請在 AISwitch 的 API 服務頁查看帳號狀態。",
+        "authNotFound": "帳號池目前沒有已設定的可用帳號，請在 AISwitch 的 API 服務頁新增或啟用帳號。"
       },
       "testRateLimited": "服務可達，但上游限流或額度不足：{{detail}}。",
       "testHttpFailed": "服務可達，但請求返回 HTTP {{status}}：{{detail}}。",
@@ -2210,7 +2210,7 @@
         "placeholder": "每行填寫一個模型 ID，也可以使用逗號分隔。",
         "editHint": "上游結果只會填入目前草稿，可在儲存前刪除、補充或調整模型。",
         "syncToggle": "同步供應商模型到 Codex",
-        "syncDescription": "儲存後使用目前模型清單產生 Cockpit 管理的 Codex 模型目錄，不會覆蓋使用者自訂目錄。",
+        "syncDescription": "儲存後使用目前模型清單產生 aiswitch 管理的 Codex 模型目錄，不會覆蓋使用者自訂目錄。",
         "fetchCredentialsRequired": "請先填寫 API Key 和 Base URL。",
         "fetchEmpty": "上游未回傳可用模型，已保留目前清單。",
         "fetchFailed": "取得上游模型失敗：{{error}}",
@@ -2290,8 +2290,8 @@
         "siliconflow": {
           "name": "SiliconFlow"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api"
+        "aiswitch_api": {
+          "name": "aiswitch Api"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "帳號備註已儲存",
       "saveFailed": "儲存帳號備註失敗：{{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Cockpit Api 服務面板",
+    "aiswitchApi": {
+      "panelTitle": "aiswitch Api 服務面板",
       "servicePanel": "服務面板",
       "balance": "額度",
       "requests": "請求",
@@ -4885,14 +4885,14 @@
     "search": "搜尋 ZCode 帳號...",
     "flowNotice": {
       "title": "ZCode 帳號管理說明",
-      "desc": "Cockpit 讀取並回寫 ZCode 本機加密憑證，用於實際切換帳號與執行個體綁定。",
+      "desc": "aiswitch 讀取並回寫 ZCode 本機加密憑證，用於實際切換帳號與執行個體綁定。",
       "permission": "本機範圍：~/.zcode/v2/credentials.json 與受管理的執行個體目錄。",
-      "network": "網路範圍：OAuth、使用者資訊、訂閱與配額介面；不會將帳號上傳至 Cockpit 服務。"
+      "network": "網路範圍：OAuth、使用者資訊、訂閱與配額介面；不會將帳號上傳至 aiswitch 服務。"
     },
     "empty": "尚無 ZCode 帳號",
     "addAccount": "新增 ZCode 帳號",
     "oauth": {
-      "desc": "關閉 ZCode 後，請在 Cockpit 授權視窗完成登入；回呼將由 Cockpit 直接接收。",
+      "desc": "關閉 ZCode 後，請在 aiswitch 授權視窗完成登入；回呼將由 aiswitch 直接接收。",
       "title": "ZCode 授權登入",
       "item1": "支援 Z.ai 與 BigModel 官方登入。",
       "item2": "授權後自動儲存帳號並更新方案與模型配額。",
@@ -4904,7 +4904,7 @@
       "success": "ZCode OAuth 登入成功"
     },
     "token": {
-      "desc": "貼上由 Cockpit 匯出的 ZCode 帳號 JSON。"
+      "desc": "貼上由 aiswitch 匯出的 ZCode 帳號 JSON。"
     },
     "apiKey": {
       "tab": "API 金鑰",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "返回",
       "switchToThisAccount": "切換",
       "openDetails": "打開詳情頁",
-      "openCockpitTools": "打開 Cockpit Tools"
+      "openaiswitchTools": "打開 AISwitch"
     },
     "empty": {
       "title": "暫無帳號",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "專屬中轉站",
-    "pageDesc": "為 Cockpit Tools 使用者提供的合作 API 服務，可用於 Codex API Key 帳號。",
+    "pageDesc": "為 AISwitch 使用者提供的合作 API 服務，可用於 Codex API Key 帳號。",
     "loading": "正在載入中轉站...",
     "emptyTitle": "中轉站未開啟",
     "emptyDesc": "目前遠端設定未開啟專屬中轉站。",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "中轉站",
     "title": "APIKEY.FUN 中轉站",
-    "description": "Cockpit 官方合作中轉站，為使用者提供穩定、開放、高性價比的大模型 API 接入服務。支援 Claude、OpenAI、Gemini 等主流模型，適合在 Codex、Gemini CLI、Claude Code 及其他開發工具中統一配置使用。透過 Cockpit 專屬連結註冊，可享最高儲值永久 95 折優惠。",
+    "description": "aiswitch 官方合作中轉站，為使用者提供穩定、開放、高性價比的大模型 API 接入服務。支援 Claude、OpenAI、Gemini 等主流模型，適合在 Codex、Gemini CLI、Claude Code 及其他開發工具中統一配置使用。透過 aiswitch 專屬連結註冊，可享最高儲值永久 95 折優惠。",
     "register": "專屬註冊連結",
     "docs": "官方文件",
     "viewNow": "立即查看",
@@ -5311,7 +5311,7 @@
       "title": "Grok CLI 帳號管理說明",
       "desc": "預設使用獨立 GROK_HOME；開啟「切換帳號時同步官方登入」後，預設執行個體切換 OAuth 帳號會寫入官方 ~/.grok/auth.json，多開執行個體仍維持隔離。",
       "permission": "本機範圍：可讀取預設 ~/.grok/auth.json 以匯入；只有開關開啟且預設執行個體切換 OAuth 帳號時才會寫入，API Key 不會覆寫官方登入。",
-      "network": "網路範圍：OAuth 授權、憑證重新整理與帳號用量查詢；不會將憑證上傳至 Cockpit 服務。"
+      "network": "網路範圍：OAuth 授權、憑證重新整理與帳號用量查詢；不會將憑證上傳至 aiswitch 服務。"
     },
     "empty": "尚無 Grok CLI 帳號",
     "addAccount": "新增 Grok CLI 帳號",

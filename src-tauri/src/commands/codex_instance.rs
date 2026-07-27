@@ -601,7 +601,7 @@ mod tests {
     #[tokio::test]
     async fn created_instance_binding_replaces_copied_source_credentials_before_return() {
         let test_root = std::env::temp_dir().join(format!(
-            "cockpit-codex-create-bind-test-{}",
+            "aiswitch-codex-create-bind-test-{}",
             uuid::Uuid::new_v4()
         ));
         let source_dir = test_root.join("source");

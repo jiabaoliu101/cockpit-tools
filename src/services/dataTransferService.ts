@@ -62,7 +62,7 @@ import * as workbuddyService from './workbuddyService';
 import type { InstanceLaunchMode } from '../types/instance';
 import type { ClaudeAccount } from '../types/claude';
 
-const DATA_TRANSFER_SCHEMA = 'cockpit-tools.data-transfer';
+const DATA_TRANSFER_SCHEMA = 'aiswitch.data-transfer';
 const DATA_TRANSFER_VERSION = 1;
 const WAKEUP_ENABLED_KEY = 'agtools.wakeup.enabled';
 const WAKEUP_TASKS_KEY = 'agtools.wakeup.tasks';
@@ -1285,12 +1285,12 @@ async function importLegacyAccountJson(
 
 export function getDataTransferFileNameBase(selection: DataTransferSelection): string {
   if (selection.includeAccounts && selection.includeConfig) {
-    return 'cockpit_data_backup';
+    return 'aiswitch_data_backup';
   }
   if (selection.includeAccounts) {
-    return 'cockpit_accounts_backup';
+    return 'aiswitch_accounts_backup';
   }
-  return 'cockpit_config_backup';
+  return 'aiswitch_config_backup';
 }
 
 export async function exportDataTransferJson(selection: DataTransferSelection): Promise<string> {

@@ -52,7 +52,28 @@ export function isAccountPlatform(platformId: PlatformId): boolean {
   return !ACCOUNTLESS_PLATFORM_IDS.includes(platformId);
 }
 
-export const MENU_HIDDEN_PLATFORM_IDS: PlatformId[] = [];
+/** Platforms hidden from the side menu by default.
+ *  Other platforms can be re-enabled when their support is rolled out. */
+export const MENU_HIDDEN_PLATFORM_IDS: PlatformId[] = [
+  'antigravity',
+  'antigravity_ide',
+  'claude_manager',
+  'zed',
+  'github-copilot',
+  'windsurf',
+  'kiro',
+  'cursor',
+  'grok',
+  'codebuddy',
+  'codebuddy_cn',
+  'qoder',
+  'zcode',
+  'trae',
+  'trae_solo',
+  'trae_cn',
+  'trae_solo_cn',
+  'workbuddy',
+];
 
 export const MENU_VISIBLE_PLATFORM_IDS: PlatformId[] = ALL_PLATFORM_IDS.filter(
   (platformId) => !MENU_HIDDEN_PLATFORM_IDS.includes(platformId),

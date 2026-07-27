@@ -934,7 +934,7 @@ pub fn is_token_expired(access_token: &str) -> bool {
 
     // Some short-lived Codex credentials are opaque ChatGPT access tokens
     // (`at-...`) rather than JWTs. They do not carry a local `exp` claim, so
-    // treating them as expired makes Cockpit immediately force an OAuth refresh
+    // treating them as expired makes aiswitch immediately force an OAuth refresh
     // and reject access-token-only imports. Let the first real upstream request
     // decide whether the opaque token is still accepted; 401 handling will mark
     // it invalid when it actually dies. Other malformed/non-JWT values still

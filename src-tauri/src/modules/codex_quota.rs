@@ -15,11 +15,11 @@ const RESET_CREDITS_CONSUME_URL: &str =
 const SUBSCRIPTION_ACCOUNTS_CHECK_URL: &str =
     "https://chatgpt.com/backend-api/accounts/check/v4-2023-04-27";
 const SUBSCRIPTIONS_URL: &str = "https://chatgpt.com/backend-api/subscriptions";
-const COCKPIT_API_PROVIDER_ID: &str = "cockpit_api";
+const aiswitch_API_PROVIDER_ID: &str = "aiswitch_api";
 const LEGACY_NEW_API_PROVIDER_ID: &str = "new_api";
-const COCKPIT_API_PLAN_TYPE: &str = "Cockpit Api";
+const aiswitch_API_PLAN_TYPE: &str = "aiswitch Api";
 const LEGACY_NEW_API_EXCLUSIVE_PLAN_TYPE: &str = "NEW_API_EXCLUSIVE";
-const COCKPIT_API_BASE_URL: &str = "https://chongcodex.cn/v1";
+const aiswitch_API_BASE_URL: &str = "https://chongcodex.cn/v1";
 const CHATGPT_WEB_REFERER: &str = "https://chatgpt.com/";
 const CHATGPT_WEB_USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36";
 const RESET_CREDITS_MOCK_JSON_ENV: &str = "CODEX_RESET_CREDITS_MOCK_JSON";
@@ -984,17 +984,17 @@ fn is_new_api_account(account: &CodexAccount) -> bool {
         .as_deref()
         .map(|value| {
             let value = value.trim();
-            value.eq_ignore_ascii_case(COCKPIT_API_PROVIDER_ID)
+            value.eq_ignore_ascii_case(aiswitch_API_PROVIDER_ID)
                 || value.eq_ignore_ascii_case(LEGACY_NEW_API_PROVIDER_ID)
         })
         .unwrap_or(false)
-        || is_cockpit_api_base_url(account.api_base_url.as_deref())
+        || is_aiswitch_api_base_url(account.api_base_url.as_deref())
         || account
             .plan_type
             .as_deref()
             .map(|value| {
                 let value = value.trim();
-                value.eq_ignore_ascii_case(COCKPIT_API_PLAN_TYPE)
+                value.eq_ignore_ascii_case(aiswitch_API_PLAN_TYPE)
                     || value.eq_ignore_ascii_case(LEGACY_NEW_API_EXCLUSIVE_PLAN_TYPE)
             })
             .unwrap_or(false)
@@ -1018,11 +1018,11 @@ fn normalize_api_base_url_for_match(raw: Option<&str>) -> Option<String> {
     Some(format!("{}://{}{}{}", parsed.scheme(), host, port, path).to_ascii_lowercase())
 }
 
-fn is_cockpit_api_base_url(raw: Option<&str>) -> bool {
+fn is_aiswitch_api_base_url(raw: Option<&str>) -> bool {
     let Some(actual) = normalize_api_base_url_for_match(raw) else {
         return false;
     };
-    let Some(expected) = normalize_api_base_url_for_match(Some(COCKPIT_API_BASE_URL)) else {
+    let Some(expected) = normalize_api_base_url_for_match(Some(aiswitch_API_BASE_URL)) else {
         return false;
     };
     actual == expected
@@ -1034,13 +1034,13 @@ fn build_new_api_profile_url(account: &CodexAccount) -> Result<String, String> {
         .as_deref()
         .map(str::trim)
         .filter(|value| !value.is_empty())
-        .ok_or("Cockpit Api 账号缺少 Base URL")?;
+        .ok_or("aiswitch Api 账号缺少 Base URL")?;
     let mut parsed = reqwest::Url::parse(base_url)
-        .map_err(|err| format!("Cockpit Api Base URL 无效: {}", err))?;
+        .map_err(|err| format!("aiswitch Api Base URL 无效: {}", err))?;
     if !matches!(parsed.scheme(), "http" | "https") {
-        return Err("Cockpit Api Base URL 仅支持 http/https".to_string());
+        return Err("aiswitch Api Base URL 仅支持 http/https".to_string());
     }
-    parsed.set_path("/api/cockpit-tools/token-profile");
+    parsed.set_path("/api/aiswitch/token-profile");
     parsed.set_query(None);
     parsed.set_fragment(None);
     Ok(parsed.to_string())
@@ -1080,7 +1080,7 @@ async fn fetch_new_api_quota(account: &CodexAccount) -> Result<FetchQuotaResult,
         .as_deref()
         .map(str::trim)
         .filter(|value| !value.is_empty())
-        .ok_or("Cockpit Api 账号缺少 OPENAI_API_KEY")?;
+        .ok_or("aiswitch Api 账号缺少 OPENAI_API_KEY")?;
     let profile_url = build_new_api_profile_url(account)?;
     let client = reqwest::Client::new();
     let response = client
@@ -1089,27 +1089,27 @@ async fn fetch_new_api_quota(account: &CodexAccount) -> Result<FetchQuotaResult,
         .header(ACCEPT, "application/json")
         .send()
         .await
-        .map_err(|err| format!("请求 Cockpit Api 额度失败: {}", err))?;
+        .map_err(|err| format!("请求 aiswitch Api 额度失败: {}", err))?;
     let status = response.status();
     let body = response
         .text()
         .await
-        .map_err(|err| format!("读取 Cockpit Api 额度响应失败: {}", err))?;
+        .map_err(|err| format!("读取 aiswitch Api 额度响应失败: {}", err))?;
     if !status.is_success() {
-        return Err(format!("Cockpit Api 额度接口返回 HTTP {}", status.as_u16()));
+        return Err(format!("aiswitch Api 额度接口返回 HTTP {}", status.as_u16()));
     }
 
     let root: serde_json::Value = serde_json::from_str(&body)
-        .map_err(|err| format!("解析 Cockpit Api 额度 JSON 失败: {}", err))?;
+        .map_err(|err| format!("解析 aiswitch Api 额度 JSON 失败: {}", err))?;
     if root.get("success").and_then(|item| item.as_bool()) == Some(false) {
         let message = root
             .get("message")
             .and_then(|item| item.as_str())
-            .unwrap_or("Cockpit Api 额度接口返回失败");
+            .unwrap_or("aiswitch Api 额度接口返回失败");
         return Err(message.to_string());
     }
     let data = root.get("data").unwrap_or(&root);
-    let usage = data.get("usage").ok_or("Cockpit Api 额度响应缺少 usage")?;
+    let usage = data.get("usage").ok_or("aiswitch Api 额度响应缺少 usage")?;
     let total = read_i64(usage, "total_granted");
     let used = read_i64(usage, "total_used");
     let available = read_i64(usage, "total_available");
@@ -1136,8 +1136,8 @@ async fn fetch_new_api_quota(account: &CodexAccount) -> Result<FetchQuotaResult,
             reset_credits: Vec::new(),
             reset_credits_next_expires_at: None,
             raw_data: Some(json!({
-                "provider": "cockpit-api",
-                "object": "codex_cockpit_api_quota",
+                "provider": "aiswitch-api",
+                "object": "codex_aiswitch_api_quota",
                 "profile": data,
                 "usage": usage,
                 "total_granted": total,
@@ -1151,7 +1151,7 @@ async fn fetch_new_api_quota(account: &CodexAccount) -> Result<FetchQuotaResult,
                 .and_then(|item| item.as_str())
                 .map(|value| value.trim().to_string())
                 .filter(|value| !value.is_empty())
-                .unwrap_or_else(|| COCKPIT_API_PLAN_TYPE.to_string()),
+                .unwrap_or_else(|| aiswitch_API_PLAN_TYPE.to_string()),
         ),
     })
 }
@@ -1514,7 +1514,7 @@ async fn refresh_account_quota_once(
                 Err(e) => {
                     write_quota_error(&mut account, e.clone());
                     if let Err(save_err) = codex_account::save_account(&account) {
-                        logger::log_warn(&format!("写入 Cockpit Api 配额错误失败: {}", save_err));
+                        logger::log_warn(&format!("写入 aiswitch Api 配额错误失败: {}", save_err));
                     }
                     return Err(e);
                 }

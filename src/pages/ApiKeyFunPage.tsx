@@ -483,7 +483,7 @@ export function ApiKeyFunPage() {
             <p>
               {t(
                 'apiKeyFun.description',
-                'Cockpit 官方合作中转站，为用户提供稳定、开放、高性价比的大模型 API 接入服务。支持 Claude、OpenAI、Gemini 等主流模型，适合在 Codex、Gemini CLI、Claude Code 及其他开发工具中统一配置使用。通过 Cockpit 专属链接注册，可享受最高充值永久 95 折优惠。',
+                'aiswitch 官方合作中转站，为用户提供稳定、开放、高性价比的大模型 API 接入服务。支持 Claude、OpenAI、Gemini 等主流模型，适合在 Codex、Gemini CLI、Claude Code 及其他开发工具中统一配置使用。通过 aiswitch 专属链接注册，可享受最高充值永久 95 折优惠。',
               )}
             </p>
           </div>

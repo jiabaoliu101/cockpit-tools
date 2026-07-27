@@ -377,7 +377,7 @@ mod tests {
     #[test]
     fn only_descendants_of_managed_root_are_deletable() {
         let base = std::env::temp_dir().join(format!(
-            "cockpit-grok-instance-delete-test-{}",
+            "aiswitch-grok-instance-delete-test-{}",
             uuid::Uuid::new_v4()
         ));
         let root = base.join("managed");

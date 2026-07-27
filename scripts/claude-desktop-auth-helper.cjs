@@ -37,7 +37,7 @@ fs.mkdirSync(userDataDir, { recursive: true });
 fs.mkdirSync(path.dirname(statusFile), { recursive: true });
 fs.mkdirSync(path.dirname(exportFile), { recursive: true });
 
-app.setName('Cockpit Claude Auth');
+app.setName('aiswitch Claude Auth');
 app.setPath('userData', userDataDir);
 app.setPath('logs', path.join(userDataDir, 'Logs'));
 app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion');
@@ -366,7 +366,7 @@ async function writeStatus(status, extra = {}, webContents = null, options = {})
   if (authenticated) {
     writeJsonAtomic(exportFile, {
       version: 1,
-      source: 'cockpit-claude-desktop-auth-helper',
+      source: 'aiswitch-claude-desktop-auth-helper',
       exportedAt: payload.exportedAt,
       userDataDir,
       cookies,

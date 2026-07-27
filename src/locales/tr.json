@@ -226,7 +226,7 @@
       "desc": "Bu alan tüm sayfalarda sağ üstte sabitlenir ve kampanya ya da marka reklamları için uygundur.",
       "action": "Ayrıntıları görüntüle"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "Daralt",
     "confirmDelete": "Silmeyi Onayla",
     "confirmDeleteTag": "Etiket Silmeyi Onayla",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "Sponsorlar",
-    "pageDesc": "Cockpit Tools'u destekleyen sponsorlara teşekkür ederiz.",
+    "pageDesc": "AISwitch'u destekleyen sponsorlara teşekkür ederiz.",
     "loading": "Sponsorlar yükleniyor...",
     "emptyTitle": "Henüz sponsor yok",
     "emptyDesc": "Uzak sponsor modülü şu anda devre dışı.",
     "listAriaLabel": "Sponsor listesi",
-    "defaultDescription": "Cockpit Tools'u desteklediğiniz için teşekkürler.",
+    "defaultDescription": "AISwitch'u desteklediğiniz için teşekkürler.",
     "openSponsor": "Aç"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "Uygulama Ayarları",
-    "subtitle": "Cockpit Tools deneyiminizi özelleştirin.",
+    "subtitle": "AISwitch deneyiminizi özelleştirin.",
     "tabs": {
       "general": "Genel",
       "network": "Ağ",
@@ -655,7 +655,7 @@
       "codexSyncWsl": "Codex'i WSL ile eşitle",
       "codexSyncWslDesc": "Varsayılan Codex hesabı değiştirildikten sonra auth.json ve config.toml WSL içindeki Codex dizinine de yazılır.",
       "codexAppUiInjection": "API hizmeti kotası",
-      "codexAppUiInjectionDesc": "Codex örneği yeniden başlatıldıktan sonra Cockpit Tools API hizmetinin hesap sayısını, haftalık ve 5 saatlik kotasını oluşturucunun altında gösterir. Cockpit Tools arka planda çalışmaya devam etmelidir; uygulama tamamen kapatıldığında veya ağ kullanılamadığında güncellemeler durur.",
+      "codexAppUiInjectionDesc": "Codex örneği yeniden başlatıldıktan sonra AISwitch API hizmetinin hesap sayısını, haftalık ve 5 saatlik kotasını oluşturucunun altında gösterir. AISwitch arka planda çalışmaya devam etmelidir; uygulama tamamen kapatıldığında veya ağ kullanılamadığında güncellemeler durur.",
       "codexAppUiInjectionPoolLabel": "Hesaplar",
       "codexAppUiInjectionWeeklyLabel": "Hafta",
       "codexAppUiInjectionFiveHourLabel": "5 sa",
@@ -749,7 +749,7 @@
       "sideNavLayoutClassic": "Klasik Düzen",
       "antigravityDualSwitchNoRestart": "Yeniden başlatmadan çift geçiş",
       "antigravityDualSwitchNoRestartDesc": "Hesap değiştirirken yerel hesap verisi yazımı ve eklentinin kesintisiz geçişi tek akışta yürütülür; Antigravity IDE yeniden başlatılmaz.",
-      "appAutoLaunch": "Oturum açıldığında Cockpit Tools'u başlat",
+      "appAutoLaunch": "Oturum açıldığında AISwitch'u başlat",
       "appAutoLaunchDesc": "Sistem oturumundan sonra uygulamayı otomatik başlat",
       "startupWakeupDisabled": "Devre dışı",
       "startupWakeupImmediate": "Hemen uyandır",
@@ -883,7 +883,7 @@
       "firewallHint": "URL erişilemiyorsa sistem güvenlik duvarı ayarlarını kontrol edin.",
       "proxyTitle": "Genel Proxy",
       "proxyEnabled": "Genel proxyyi etkinleştir",
-      "proxyEnabledDesc": "Cockpit tarafından başlatılan yönetilen platform süreçlerine proxy ortam değişkenleri enjekte eder.",
+      "proxyEnabledDesc": "aiswitch tarafından başlatılan yönetilen platform süreçlerine proxy ortam değişkenleri enjekte eder.",
       "proxyUrl": "Proxy URL​",
       "proxyUrlDesc": "Örnek: http://127.0.0.1:7890 veya socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "örn. http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "Genel proxy etkin olduğunda proxy URL boş olamaz."
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "Profesyonel Hesap Yönetimi Çözümü",
       "author": "Yazar",
       "wechat": "WeChat​",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "Kaydedildi; korumak için boş bırakın",
       "clearPassword": "Temizle",
       "remoteDirTitle": "Uzak Klasör",
-      "remoteDirDesc": "Sadece bu klasördeki Cockpit yedekleme dosyaları yönetilir.",
+      "remoteDirDesc": "Sadece bu klasördeki aiswitch yedekleme dosyaları yönetilir.",
       "statusTitle": "Senkronizasyon Durumu",
       "statusDesc": "Uzak yedekten geri yükleme manuel seçim gerektirir ve yerel verileri asla sessizce üzerine yazmaz.",
       "lastUpload": "Son yükleme: {{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "Ayarları Senkronize Et",
       "syncLatestConfirm": "En son uzak yedeği {{name}} çekmek ve yerel verilerle senkronize etmek istediğinizden emin misiniz? Bu işlem mevcut yerel verilerin üzerine yazacaktır.",
       "remoteListTitle": "Uzak Yedekler",
-      "remoteListDesc": "Sadece Cockpit otomatik/manuel yedekleme adlarıyla eşleşen JSON ve ZIP dosyaları gösterilir.",
+      "remoteListDesc": "Sadece aiswitch otomatik/manuel yedekleme adlarıyla eşleşen JSON ve ZIP dosyaları gösterilir.",
       "emptyTitle": "Uzak yedek yok",
       "emptyDesc": "Ayarları kaydedin, ardından bir yedek oluşturup yükleyin.",
       "unknownTime": "Bilinmeyen",
@@ -1409,7 +1409,7 @@
       "importBtn": "İçe Aktar",
       "oauthAction": "OAuth Yetkilendirme",
       "fromExtension": "Eklentiden İçe Aktar",
-      "syncBadge": "Antigravity Cockpit eklenti hesaplarını senkronize et",
+      "syncBadge": "Antigravity aiswitch eklenti hesaplarını senkronize et",
       "fromLocalDB": "Yerel Veritabanından İçe Aktar",
       "localDBDesc": "Bu makinedeki Antigravity IDE İstemcisinden giriş hesaplarını oku",
       "toolsDescMigrate": "Hesapları ~/.antigravity_tools/ dizininden taşı",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "Dışa aktarma biçimi",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "sub2api biçimi",
       "cpa": "cpa biçimi",
-      "agentIdentityCpaUnsupported": "Agent Identity hesapları cpa biçiminde dışa aktarılamaz. Cockpit Tools veya sub2api kullanın.",
+      "agentIdentityCpaUnsupported": "Agent Identity hesapları cpa biçiminde dışa aktarılamaz. AISwitch veya sub2api kullanın.",
       "agentIdentityPrivateKeyNotice": "Bu dışa aktarım, hesabı başka bir cihazda geri yükleyebilen bir Agent Identity özel anahtarı içerir. Parola gibi koruyun.",
       "downloadAll": "Tümünü indir",
       "cpaCardTitle": "Hesap {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "Hizmete erişiliyor ancak kimlik doğrulama başarısız: {{detail}}. API hizmeti anahtarını veya hesap oturum durumunu kontrol edin.",
       "testServiceUnavailable": "Hizmete erişiliyor ancak şu anda kullanılamıyor: {{detail}}. Hizmetin etkin olup olmadığını, hesap koleksiyonunun boş olup olmadığını veya hesapların kullanılabilirliğini kontrol edin.",
       "gatewayErrors": {
-        "authUnavailable": "Şu anda yönlendirilebilir hesap yok. Hesap beklemede, yetkisiz veya kota sınırlı olabilir. Cockpit Tools API hizmetinde durumunu kontrol edin.",
-        "authNotFound": "Hesap havuzunda kullanılabilir hesap yapılandırılmamış. Cockpit Tools API hizmetinde hesap ekleyin veya etkinleştirin."
+        "authUnavailable": "Şu anda yönlendirilebilir hesap yok. Hesap beklemede, yetkisiz veya kota sınırlı olabilir. AISwitch API hizmetinde durumunu kontrol edin.",
+        "authNotFound": "Hesap havuzunda kullanılabilir hesap yapılandırılmamış. AISwitch API hizmetinde hesap ekleyin veya etkinleştirin."
       },
       "testRateLimited": "Hizmete erişiliyor ancak upstream hız sınırında veya kota tükendi: {{detail}}.",
       "testHttpFailed": "Hizmete erişiliyor ancak istek HTTP {{status}} döndürdü: {{detail}}.",
@@ -2745,7 +2745,7 @@
         "placeholder": "Her satıra bir model kimliği girin veya kimlikleri virgülle ayırın.",
         "editHint": "Alınan modeller yalnızca bu taslağa eklenir. Kaydetmeden önce inceleyip düzenleyin.",
         "syncToggle": "Sağlayıcı modellerini Codex ile eşitle",
-        "syncDescription": "Kaydettikten sonra bu liste Cockpit tarafından yönetilen Codex model kataloğunu oluşturur. Özel katalogların üzerine yazılmaz.",
+        "syncDescription": "Kaydettikten sonra bu liste aiswitch tarafından yönetilen Codex model kataloğunu oluşturur. Özel katalogların üzerine yazılmaz.",
         "fetchCredentialsRequired": "Önce API Key ve Base URL girin.",
         "fetchEmpty": "Sağlayıcı model döndürmedi. Mevcut liste korundu.",
         "fetchFailed": "Sağlayıcı modelleri alınamadı: {{error}}",
@@ -2825,8 +2825,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "Hesap notu kaydedildi",
       "saveFailed": "Hesap notu kaydedilemedi: {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Cockpit Api hizmet paneli",
+    "aiswitchApi": {
+      "panelTitle": "aiswitch Api hizmet paneli",
       "servicePanel": "Hizmet paneli",
       "balance": "Bakiye",
       "requests": "İstekler",
@@ -4885,14 +4885,14 @@
     "search": "ZCode hesaplarını ara...",
     "flowNotice": {
       "title": "ZCode hesap yönetimi",
-      "desc": "Cockpit, gerçek hesap geçişi ve örnek bağlama için ZCode'un şifreli yerel kimlik bilgilerini okur ve geri yazar.",
+      "desc": "aiswitch, gerçek hesap geçişi ve örnek bağlama için ZCode'un şifreli yerel kimlik bilgilerini okur ve geri yazar.",
       "permission": "Yerel kapsam: ~/.zcode/v2/credentials.json ve yönetilen örnek dizinleri.",
-      "network": "Ağ kapsamı: OAuth, kullanıcı, abonelik ve kota API'leri. Hesaplar Cockpit hizmetine yüklenmez."
+      "network": "Ağ kapsamı: OAuth, kullanıcı, abonelik ve kota API'leri. Hesaplar aiswitch hizmetine yüklenmez."
     },
     "empty": "ZCode hesabı yok",
     "addAccount": "ZCode Hesabı Ekle",
     "oauth": {
-      "desc": "ZCode'u kapatıp Cockpit yetkilendirme penceresinde oturum açın; geri çağrıyı Cockpit doğrudan alır.",
+      "desc": "ZCode'u kapatıp aiswitch yetkilendirme penceresinde oturum açın; geri çağrıyı aiswitch doğrudan alır.",
       "title": "ZCode OAuth Yetkilendirmesi",
       "item1": "Resmî Z.ai ve BigModel oturumu.",
       "item2": "Hesabı kaydeder, planı ve model kotalarını yeniler.",
@@ -4904,7 +4904,7 @@
       "success": "ZCode OAuth oturumu açıldı"
     },
     "token": {
-      "desc": "Cockpit tarafından dışa aktarılan ZCode hesap JSON'unu yapıştırın."
+      "desc": "aiswitch tarafından dışa aktarılan ZCode hesap JSON'unu yapıştırın."
     },
     "apiKey": {
       "tab": "API Anahtarı",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "Geri",
       "switchToThisAccount": "Geç",
       "openDetails": "Ayrıntıları aç",
-      "openCockpitTools": "Cockpit Tools'u aç"
+      "openaiswitchTools": "AISwitch'u aç"
     },
     "empty": {
       "title": "Hesap yok",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "Özel aktarım",
-    "pageDesc": "Cockpit Tools kullanıcıları için Codex API Key hesaplarıyla kullanılabilen iş ortaklığı API servisi.",
+    "pageDesc": "AISwitch kullanıcıları için Codex API Key hesaplarıyla kullanılabilen iş ortaklığı API servisi.",
     "loading": "Aktarım yükleniyor...",
     "emptyTitle": "Aktarım kapalı",
     "emptyDesc": "Uzak yapılandırma özel aktarımı etkinleştirmedi.",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "Ara geçiş",
     "title": "APIKEY.FUN relay",
-    "description": "Cockpit resmi iş ortağı ara geçiş hizmeti, büyük model API erişimi için kararlı, açık ve yüksek fiyat-performanslı bir çözüm sunar. Claude, OpenAI, Gemini gibi ana akım modelleri destekler; Codex, Gemini CLI, Claude Code ve diğer geliştirici araçlarında tek tip yapılandırma için uygundur. Cockpit özel bağlantısıyla kaydolarak yüklemelerde kalıcı olarak %5’e varan indirim alabilirsiniz.",
+    "description": "aiswitch resmi iş ortağı ara geçiş hizmeti, büyük model API erişimi için kararlı, açık ve yüksek fiyat-performanslı bir çözüm sunar. Claude, OpenAI, Gemini gibi ana akım modelleri destekler; Codex, Gemini CLI, Claude Code ve diğer geliştirici araçlarında tek tip yapılandırma için uygundur. aiswitch özel bağlantısıyla kaydolarak yüklemelerde kalıcı olarak %5’e varan indirim alabilirsiniz.",
     "register": "Özel kayıt linki",
     "docs": "Resmi doküman",
     "viewNow": "Hemen bak",
@@ -5311,7 +5311,7 @@
       "title": "Grok CLI Hesap Yönetimi",
       "desc": "Varsayılan olarak ayrı GROK_HOME dizinleri kullanılır. Eşitleme açıkken varsayılan örnekteki OAuth değişikliği ~/.grok/auth.json dosyasına yazılır; ek örnekler yalıtılmış kalır.",
       "permission": "Yerel kapsam: ~/.grok/auth.json içe aktarma için okunabilir ve yalnızca eşitleme açıkken varsayılan örnekte OAuth değişiminde yazılır. API anahtarları resmî oturumun üzerine yazmaz.",
-      "network": "Ağ kapsamı: OAuth yetkilendirmesi, kimlik bilgisi yenileme ve hesap kullanım sorguları. Kimlik bilgileri Cockpit hizmetlerine yüklenmez."
+      "network": "Ağ kapsamı: OAuth yetkilendirmesi, kimlik bilgisi yenileme ve hesap kullanım sorguları. Kimlik bilgileri aiswitch hizmetlerine yüklenmez."
     },
     "empty": "Henüz Grok CLI hesabı yok",
     "addAccount": "Grok CLI Hesabı Ekle",

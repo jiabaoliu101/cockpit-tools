@@ -8,14 +8,14 @@ const { buildTargetManifests } = require('./build_target_latest_json.cjs');
 const { stageReleaseAssets } = require('./stage_release_assets.cjs');
 
 test('builds manifests from the same normalized assets uploaded to GitHub', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cockpit-target-manifest-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aiswitch-target-manifest-'));
   const rawAssetsDir = path.join(root, 'bundle');
   const assetsDir = path.join(root, 'staged');
   const nsisDir = path.join(rawAssetsDir, 'nsis');
   const notesFile = path.join(root, 'notes.md');
   const outputDir = path.join(root, 'output');
-  const rawAssetName = 'Cockpit Tools_1.2.3_x64-setup.exe';
-  const stagedAssetName = 'Cockpit.Tools_1.2.3_x64-setup.exe';
+  const rawAssetName = 'AISwitch_1.2.3_x64-setup.exe';
+  const stagedAssetName = 'aiswitch.Tools_1.2.3_x64-setup.exe';
 
   fs.mkdirSync(nsisDir, { recursive: true });
   fs.writeFileSync(path.join(nsisDir, rawAssetName), 'installer');
@@ -29,7 +29,7 @@ test('builds manifests from the same normalized assets uploaded to GitHub', () =
 
   const outputs = buildTargetManifests({
     version: '1.2.3',
-    repo: 'jlcodes99/cockpit-tools',
+    repo: 'jlcodes99/aiswitch',
     assetsDir,
     notesFile,
     publishedAt: '2026-07-10T12:00:00Z',
@@ -43,22 +43,22 @@ test('builds manifests from the same normalized assets uploaded to GitHub', () =
     version: '1.2.3',
     notes: 'Release notes',
     pub_date: '2026-07-10T12:00:00.000Z',
-    url: `https://github.com/jlcodes99/cockpit-tools/releases/download/v1.2.3/${stagedAssetName}`,
+    url: `https://github.com/jlcodes99/aiswitch/releases/download/v1.2.3/${stagedAssetName}`,
     signature: 'test-signature',
   });
 });
 
 test('builds a macOS target manifest from the raw Tauri updater archive', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cockpit-target-manifest-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aiswitch-target-manifest-'));
   const rawAssetsDir = path.join(root, 'bundle');
   const assetsDir = path.join(root, 'staged');
   const notesFile = path.join(root, 'notes.md');
   const outputDir = path.join(root, 'output');
 
   fs.mkdirSync(path.join(rawAssetsDir, 'macos'), { recursive: true });
-  fs.writeFileSync(path.join(rawAssetsDir, 'macos', 'Cockpit Tools.app.tar.gz'), 'archive');
+  fs.writeFileSync(path.join(rawAssetsDir, 'macos', 'AISwitch.app.tar.gz'), 'archive');
   fs.writeFileSync(
-    path.join(rawAssetsDir, 'macos', 'Cockpit Tools.app.tar.gz.sig'),
+    path.join(rawAssetsDir, 'macos', 'AISwitch.app.tar.gz.sig'),
     'mac-signature',
   );
   fs.writeFileSync(notesFile, 'Release notes');
@@ -71,7 +71,7 @@ test('builds a macOS target manifest from the raw Tauri updater archive', () => 
   });
   const [manifestPath] = buildTargetManifests({
     version: '1.2.3',
-    repo: 'jlcodes99/cockpit-tools',
+    repo: 'jlcodes99/aiswitch',
     assetsDir,
     notesFile,
     publishedAt: '2026-07-10T12:00:00Z',
@@ -82,16 +82,16 @@ test('builds a macOS target manifest from the raw Tauri updater archive', () => 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(
     manifest.url,
-    'https://github.com/jlcodes99/cockpit-tools/releases/download/v1.2.3/Cockpit.Tools_aarch64.app.tar.gz',
+    'https://github.com/jlcodes99/aiswitch/releases/download/v1.2.3/aiswitch.Tools_aarch64.app.tar.gz',
   );
   assert.equal(manifest.signature, 'mac-signature');
 });
 
 test('rejects updater assets that bypass stable staging', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cockpit-target-manifest-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aiswitch-target-manifest-'));
   const assetsDir = path.join(root, 'bundle');
   const notesFile = path.join(root, 'notes.md');
-  const assetName = 'Cockpit Tools_1.2.3_x64-setup.exe';
+  const assetName = 'AISwitch_1.2.3_x64-setup.exe';
 
   fs.mkdirSync(assetsDir, { recursive: true });
   fs.writeFileSync(path.join(assetsDir, assetName), 'installer');
@@ -102,7 +102,7 @@ test('rejects updater assets that bypass stable staging', () => {
     () =>
       buildTargetManifests({
         version: '1.2.3',
-        repo: 'jlcodes99/cockpit-tools',
+        repo: 'jlcodes99/aiswitch',
         assetsDir,
         notesFile,
         publishedAt: '2026-07-10T12:00:00Z',
@@ -114,19 +114,19 @@ test('rejects updater assets that bypass stable staging', () => {
 });
 
 test('rejects assets without updater signatures', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cockpit-target-manifest-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aiswitch-target-manifest-'));
   const assetsDir = path.join(root, 'bundle');
   const notesFile = path.join(root, 'notes.md');
 
   fs.mkdirSync(assetsDir, { recursive: true });
-  fs.writeFileSync(path.join(assetsDir, 'Cockpit.Tools_1.2.3_amd64.deb'), 'package');
+  fs.writeFileSync(path.join(assetsDir, 'aiswitch.Tools_1.2.3_amd64.deb'), 'package');
   fs.writeFileSync(notesFile, 'Release notes');
 
   assert.throws(
     () =>
       buildTargetManifests({
         version: '1.2.3',
-        repo: 'jlcodes99/cockpit-tools',
+        repo: 'jlcodes99/aiswitch',
         assetsDir,
         notesFile,
         publishedAt: '2026-07-10T12:00:00Z',
@@ -138,21 +138,21 @@ test('rejects assets without updater signatures', () => {
 });
 
 test('supports every staged release target', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cockpit-target-manifest-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aiswitch-target-manifest-'));
   const assetsDir = path.join(root, 'bundle');
   const notesFile = path.join(root, 'notes.md');
   const outputDir = path.join(root, 'output');
   const assetsByTarget = {
-    'darwin-aarch64-app': 'Cockpit.Tools_1.2.3_aarch64.app.tar.gz',
-    'darwin-x86_64-app': 'Cockpit.Tools_1.2.3_x64.app.tar.gz',
-    'windows-x86_64-msi': 'Cockpit.Tools_1.2.3_x64_en-US.msi',
-    'windows-x86_64-nsis': 'Cockpit.Tools_1.2.3_x64-setup.exe',
-    'linux-x86_64-appimage': 'Cockpit.Tools_1.2.3_amd64.AppImage',
-    'linux-x86_64-deb': 'Cockpit.Tools_1.2.3_amd64.deb',
-    'linux-x86_64-rpm': 'Cockpit.Tools-1.2.3-1.x86_64.rpm',
-    'linux-aarch64-appimage': 'Cockpit.Tools_1.2.3_aarch64.AppImage',
-    'linux-aarch64-deb': 'Cockpit.Tools_1.2.3_arm64.deb',
-    'linux-aarch64-rpm': 'Cockpit.Tools-1.2.3-1.aarch64.rpm',
+    'darwin-aarch64-app': 'aiswitch.Tools_1.2.3_aarch64.app.tar.gz',
+    'darwin-x86_64-app': 'aiswitch.Tools_1.2.3_x64.app.tar.gz',
+    'windows-x86_64-msi': 'aiswitch.Tools_1.2.3_x64_en-US.msi',
+    'windows-x86_64-nsis': 'aiswitch.Tools_1.2.3_x64-setup.exe',
+    'linux-x86_64-appimage': 'aiswitch.Tools_1.2.3_amd64.AppImage',
+    'linux-x86_64-deb': 'aiswitch.Tools_1.2.3_amd64.deb',
+    'linux-x86_64-rpm': 'aiswitch.Tools-1.2.3-1.x86_64.rpm',
+    'linux-aarch64-appimage': 'aiswitch.Tools_1.2.3_aarch64.AppImage',
+    'linux-aarch64-deb': 'aiswitch.Tools_1.2.3_arm64.deb',
+    'linux-aarch64-rpm': 'aiswitch.Tools-1.2.3-1.aarch64.rpm',
   };
 
   fs.mkdirSync(assetsDir, { recursive: true });
@@ -165,7 +165,7 @@ test('supports every staged release target', () => {
   const targets = Object.keys(assetsByTarget);
   const outputs = buildTargetManifests({
     version: '1.2.3',
-    repo: 'jlcodes99/cockpit-tools',
+    repo: 'jlcodes99/aiswitch',
     assetsDir,
     notesFile,
     publishedAt: '2026-07-10T12:00:00Z',

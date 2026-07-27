@@ -225,11 +225,11 @@ import {
 import {
   CODEX_API_PROVIDER_CUSTOM_ID,
   CODEX_API_PROVIDER_PRESETS,
-  COCKPIT_API_BASE_URL,
-  COCKPIT_API_PROVIDER_ID,
-  COCKPIT_API_PROVIDER_NAME,
+  aiswitch_API_BASE_URL,
+  aiswitch_API_PROVIDER_ID,
+  aiswitch_API_PROVIDER_NAME,
   findCodexApiProviderPresetById,
-  isCockpitApiProviderBaseUrl,
+  isaiswitchApiProviderBaseUrl,
   resolveCodexApiProviderPresetId,
 } from "../utils/codexProviderPresets";
 import {
@@ -609,7 +609,7 @@ function persistLocalAccessGatewayGuideDismissed(): void {
 }
 
 const CODEX_BATCH_IMPORT_SESSION_STORAGE_KEY =
-  "cockpit.codex.batchImport.sessionId";
+  "aiswitch.codex.batchImport.sessionId";
 
 type CodexBatchImportFilter = "all" | "ready";
 
@@ -619,45 +619,45 @@ function shouldAutoHideBatchDeleteJob(
   return job?.status === "completed" && job.failed === 0;
 }
 
-type CockpitApiJsonRecord = Record<string, unknown>;
+type aiswitchApiJsonRecord = Record<string, unknown>;
 
-function toCockpitApiRecord(value: unknown): CockpitApiJsonRecord | null {
+function toaiswitchApiRecord(value: unknown): aiswitchApiJsonRecord | null {
   return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as CockpitApiJsonRecord)
+    ? (value as aiswitchApiJsonRecord)
     : null;
 }
 
-function readCockpitApiString(
-  record: CockpitApiJsonRecord | null,
+function readaiswitchApiString(
+  record: aiswitchApiJsonRecord | null,
   key: string,
 ): string {
   const value = record?.[key];
   return typeof value === "string" ? value.trim() : "";
 }
 
-function readCockpitApiNumber(
-  record: CockpitApiJsonRecord | null,
+function readaiswitchApiNumber(
+  record: aiswitchApiJsonRecord | null,
   key: string,
 ): number {
   const value = record?.[key];
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }
 
-function readCockpitApiOptionalNumber(
-  record: CockpitApiJsonRecord | null,
+function readaiswitchApiOptionalNumber(
+  record: aiswitchApiJsonRecord | null,
   key: string,
 ): number | null {
   const value = record?.[key];
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
-function formatCockpitApiInteger(value: number): string {
+function formataiswitchApiInteger(value: number): string {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
     Math.max(0, value),
   );
 }
 
-function formatCockpitApiTokenCount(value: number): string {
+function formataiswitchApiTokenCount(value: number): string {
   const normalized = Math.max(0, value);
   if (normalized >= 100_000_000) {
     return `${(normalized / 100_000_000).toFixed(normalized >= 1_000_000_000 ? 1 : 2).replace(/\.?0+$/, "")}亿`;
@@ -670,19 +670,19 @@ function formatCockpitApiTokenCount(value: number): string {
   );
 }
 
-function getCockpitApiUsageRecord(
+function getaiswitchApiUsageRecord(
   account: CodexAccount,
-): CockpitApiJsonRecord | null {
-  const raw = toCockpitApiRecord(account.quota?.raw_data);
-  const profile = toCockpitApiRecord(raw?.profile);
-  return toCockpitApiRecord(raw?.usage) ?? toCockpitApiRecord(profile?.usage);
+): aiswitchApiJsonRecord | null {
+  const raw = toaiswitchApiRecord(account.quota?.raw_data);
+  const profile = toaiswitchApiRecord(raw?.profile);
+  return toaiswitchApiRecord(raw?.usage) ?? toaiswitchApiRecord(profile?.usage);
 }
 
-function getCockpitApiStatsRecord(
+function getaiswitchApiStatsRecord(
   account: CodexAccount,
-): CockpitApiJsonRecord | null {
-  const usage = getCockpitApiUsageRecord(account);
-  return toCockpitApiRecord(usage?.stats);
+): aiswitchApiJsonRecord | null {
+  const usage = getaiswitchApiUsageRecord(account);
+  return toaiswitchApiRecord(usage?.stats);
 }
 
 function resolveApiKeyUsageMode(
@@ -822,7 +822,7 @@ interface CodexCliInstanceDraft {
   bindAccountId: string;
 }
 
-const CODEX_CLI_LAST_WORKING_DIR_KEY = "cockpit.codex.cli.lastWorkingDir";
+const CODEX_CLI_LAST_WORKING_DIR_KEY = "aiswitch.codex.cli.lastWorkingDir";
 
 function readLastCodexCliWorkingDir(): string {
   try {
@@ -969,7 +969,7 @@ export function CodexAccountsPage() {
       : [],
   );
   const [exportFormat, setExportFormat] =
-    useState<CodexExportFormat>("cockpit_tools");
+    useState<CodexExportFormat>("aiswitch");
   const [includeExportSensitiveNotes, setIncludeExportSensitiveNotes] =
     useState(false);
   const [exportFileNameBase, setExportFileNameBase] =
@@ -1307,7 +1307,7 @@ export function CodexAccountsPage() {
     setCliLaunchingAccountId(null);
   }, []);
   useEscClose(Boolean(cliLaunchModal), closeCliLaunchModal);
-  const [cockpitApiPanelAccountId, setCockpitApiPanelAccountId] = useState<
+  const [aiswitchApiPanelAccountId, setaiswitchApiPanelAccountId] = useState<
     string | null
   >(null);
   const [apiKeyUsageDetailAccountId, setApiKeyUsageDetailAccountId] = useState<
@@ -2031,8 +2031,8 @@ export function CodexAccountsPage() {
   const exportFormatOptions = useMemo<SingleSelectFilterOption[]>(
     () => [
       {
-        value: "cockpit_tools",
-        label: t("codex.exportFormat.cockpitTools", "Cockpit Tools"),
+        value: "aiswitch",
+        label: t("codex.exportFormat.aiswitchTools", "AISwitch"),
       },
       {
         value: "sub2api",
@@ -2124,7 +2124,7 @@ export function CodexAccountsPage() {
     if (!showExportModal) {
       return;
     }
-    setExportFormat("cockpit_tools");
+    setExportFormat("aiswitch");
     setFormattedExportJsonCopied(false);
     setFormattedSavingExportJson(false);
     setFormattedExportSavedPath(null);
@@ -2180,7 +2180,7 @@ export function CodexAccountsPage() {
       console.error("[CodexExport] transform failed:", error);
       return buildCodexExportContent(
         exportJsonContent,
-        "cockpit_tools",
+        "aiswitch",
         exportFileNameBase,
         exportOptions,
       );
@@ -2229,7 +2229,7 @@ export function CodexAccountsPage() {
 
   const handleCloseExportModal = useCallback(() => {
     closeExportModal();
-    setExportFormat("cockpit_tools");
+    setExportFormat("aiswitch");
     setIncludeExportSensitiveNotes(false);
     setFormattedExportJsonCopied(false);
     setFormattedSavingExportJson(false);
@@ -3749,13 +3749,13 @@ export function CodexAccountsPage() {
       Boolean(oauthBindingAccount));
   const isLocalAccessOAuthBinding =
     oauthBindingTargetKind === "local_access";
-  const cockpitApiPanelAccount = useMemo(
+  const aiswitchApiPanelAccount = useMemo(
     () =>
-      cockpitApiPanelAccountId
-        ? (accounts.find((item) => item.id === cockpitApiPanelAccountId) ??
+      aiswitchApiPanelAccountId
+        ? (accounts.find((item) => item.id === aiswitchApiPanelAccountId) ??
           null)
         : null,
-    [accounts, cockpitApiPanelAccountId],
+    [accounts, aiswitchApiPanelAccountId],
   );
   const apiKeyUsageDetailAccount = useMemo(
     () =>
@@ -3767,10 +3767,10 @@ export function CodexAccountsPage() {
   );
 
   useEffect(() => {
-    if (cockpitApiPanelAccountId && !cockpitApiPanelAccount) {
-      setCockpitApiPanelAccountId(null);
+    if (aiswitchApiPanelAccountId && !aiswitchApiPanelAccount) {
+      setaiswitchApiPanelAccountId(null);
     }
-  }, [cockpitApiPanelAccount, cockpitApiPanelAccountId]);
+  }, [aiswitchApiPanelAccount, aiswitchApiPanelAccountId]);
 
   useEffect(() => {
     if (apiKeyUsageDetailAccountId && !apiKeyUsageDetailAccount) {
@@ -3844,11 +3844,11 @@ export function CodexAccountsPage() {
       if (!normalizedBaseUrl) {
         return { apiProviderMode: "openai_builtin" };
       }
-      if (isCockpitApiProviderBaseUrl(normalizedBaseUrl)) {
+      if (isaiswitchApiProviderBaseUrl(normalizedBaseUrl)) {
         return {
           apiProviderMode: "custom",
-          apiProviderId: COCKPIT_API_PROVIDER_ID,
-          apiProviderName: COCKPIT_API_PROVIDER_NAME,
+          apiProviderId: aiswitch_API_PROVIDER_ID,
+          apiProviderName: aiswitch_API_PROVIDER_NAME,
         };
       }
       const selectedPreset = findCodexApiProviderPresetById(providerPresetId);
@@ -6744,7 +6744,7 @@ export function CodexAccountsPage() {
       if (
         validation.apiBaseUrl &&
         providerPayload.apiProviderMode === "custom" &&
-        providerPayload.apiProviderId !== COCKPIT_API_PROVIDER_ID
+        providerPayload.apiProviderId !== aiswitch_API_PROVIDER_ID
       ) {
         try {
           const savedProvider = await upsertCodexModelProviderFromCredential({
@@ -7453,16 +7453,16 @@ export function CodexAccountsPage() {
     [formatApiKeyUsageMoney, t],
   );
 
-  const resolveCockpitApiAccountBalanceText = useCallback(
+  const resolveaiswitchApiAccountBalanceText = useCallback(
     (account: CodexAccount): string | null => {
-      const usage = getCockpitApiUsageRecord(account);
-      const stats = getCockpitApiStatsRecord(account);
-      const total = toCockpitApiRecord(stats?.total);
-      const profile = toCockpitApiRecord(
-        toCockpitApiRecord(account.quota?.raw_data)?.profile,
+      const usage = getaiswitchApiUsageRecord(account);
+      const stats = getaiswitchApiStatsRecord(account);
+      const total = toaiswitchApiRecord(stats?.total);
+      const profile = toaiswitchApiRecord(
+        toaiswitchApiRecord(account.quota?.raw_data)?.profile,
       );
       const records = [usage, total, profile].filter(
-        (record): record is CockpitApiJsonRecord => Boolean(record),
+        (record): record is aiswitchApiJsonRecord => Boolean(record),
       );
       const displayKeys = [
         "balance_display",
@@ -7471,14 +7471,14 @@ export function CodexAccountsPage() {
       ];
       for (const record of records) {
         for (const key of displayKeys) {
-          const value = readCockpitApiString(record, key);
+          const value = readaiswitchApiString(record, key);
           if (value) return value;
         }
       }
       const numberKeys = ["balance", "account_balance", "wallet_balance"];
       for (const record of records) {
         for (const key of numberKeys) {
-          const value = readCockpitApiOptionalNumber(record, key);
+          const value = readaiswitchApiOptionalNumber(record, key);
           if (value != null) return formatApiKeyUsageMoney(value, "USD");
         }
       }
@@ -7601,7 +7601,7 @@ export function CodexAccountsPage() {
           item.key === "todayTokens" ||
           item.key === "totalTokens")
       ) {
-        return formatCockpitApiTokenCount(numeric);
+        return formataiswitchApiTokenCount(numeric);
       }
       if (Number.isFinite(numeric) && item.key === "accessUntil") {
         return numeric > 0 ? formatDate(numeric * 1000) : "-";
@@ -7633,7 +7633,7 @@ export function CodexAccountsPage() {
         Number.isFinite(numeric) &&
         ["totalGranted", "totalAvailable"].includes(item.key)
       ) {
-        return formatCockpitApiInteger(numeric);
+        return formataiswitchApiInteger(numeric);
       }
       if (Number.isFinite(numeric) && item.key === "totalUsage") {
         return formatApiKeyUsageMoney(numeric / 100, unit);
@@ -7644,7 +7644,7 @@ export function CodexAccountsPage() {
           item.key === "todayRequests" ||
           item.key === "totalRequests")
       ) {
-        return formatCockpitApiInteger(numeric);
+        return formataiswitchApiInteger(numeric);
       }
       return raw || "-";
     },
@@ -7713,12 +7713,12 @@ export function CodexAccountsPage() {
         return (
           <div
             className="quota-item codex-api-key-quota-item new-api"
-            title={`${t("codex.cockpitApi.balance", "额度")}：${quotaValueText}`}
+            title={`${t("codex.aiswitchApi.balance", "额度")}：${quotaValueText}`}
           >
             <div className="quota-header">
               <Database size={14} />
               <span className="quota-label">
-                {t("codex.cockpitApi.balance", "额度")}
+                {t("codex.aiswitchApi.balance", "额度")}
               </span>
               <span className="quota-pct high">{quotaValueText}</span>
             </div>
@@ -7762,7 +7762,7 @@ export function CodexAccountsPage() {
                   )}
                 </span>
                 <strong>
-                  {formatCockpitApiInteger(summary.todayRequests ?? 0)}
+                  {formataiswitchApiInteger(summary.todayRequests ?? 0)}
                 </strong>
               </div>
               <div>
@@ -7773,7 +7773,7 @@ export function CodexAccountsPage() {
                   )}
                 </span>
                 <strong>
-                  {formatCockpitApiTokenCount(summary.todayTotalTokens ?? 0)}
+                  {formataiswitchApiTokenCount(summary.todayTotalTokens ?? 0)}
                 </strong>
               </div>
             </div>
@@ -7874,7 +7874,7 @@ export function CodexAccountsPage() {
                         )}
                       </span>
                       <strong>
-                        {formatCockpitApiInteger(summary.todayRequests ?? 0)}
+                        {formataiswitchApiInteger(summary.todayRequests ?? 0)}
                       </strong>
                     </div>
                     <div>
@@ -7885,7 +7885,7 @@ export function CodexAccountsPage() {
                         )}
                       </span>
                       <strong>
-                        {formatCockpitApiTokenCount(
+                        {formataiswitchApiTokenCount(
                           summary.todayTotalTokens ?? 0,
                         )}
                       </strong>
@@ -7895,9 +7895,9 @@ export function CodexAccountsPage() {
               </div>
               {isNewApiUsage ? (
                 <div className="codex-api-key-usage-progress">
-                  <div className="cockpit-api-progress-track">
+                  <div className="aiswitch-api-progress-track">
                     <div
-                      className="cockpit-api-progress-bar"
+                      className="aiswitch-api-progress-bar"
                       style={{ width: `${usedPercent}%` }}
                     />
                   </div>
@@ -8049,7 +8049,7 @@ export function CodexAccountsPage() {
       if (
         validation.apiBaseUrl &&
         providerPayload.apiProviderMode === "custom" &&
-        providerPayload.apiProviderId !== COCKPIT_API_PROVIDER_ID
+        providerPayload.apiProviderId !== aiswitch_API_PROVIDER_ID
       ) {
         try {
           const savedProvider = await upsertCodexModelProviderFromCredential({
@@ -10656,8 +10656,8 @@ export function CodexAccountsPage() {
       const displayPlanLabel = isSponsorApiKeyAccount
         ? apiProviderName
         : presentation.planLabel;
-      const cockpitApiAccountBalanceText = isNewApiAccount
-        ? resolveCockpitApiAccountBalanceText(account)
+      const aiswitchApiAccountBalanceText = isNewApiAccount
+        ? resolveaiswitchApiAccountBalanceText(account)
         : null;
       const accountTags = (account.tags || [])
         .map((tag) => tag.trim())
@@ -10862,7 +10862,7 @@ export function CodexAccountsPage() {
                     showReauthorize: showReauthorizeAction,
                     onReauthorize: () => openCodexAddModal("oauth", account),
                   })}
-                {cockpitApiAccountBalanceText && (
+                {aiswitchApiAccountBalanceText && (
                   <div className="codex-account-balance-line">
                     <span>
                       {t(
@@ -10871,7 +10871,7 @@ export function CodexAccountsPage() {
                       )}
                       ：
                     </span>
-                    <strong>{cockpitApiAccountBalanceText}</strong>
+                    <strong>{aiswitchApiAccountBalanceText}</strong>
                   </div>
                 )}
                 {quotaItems.map((item) => {
@@ -10908,7 +10908,7 @@ export function CodexAccountsPage() {
                     </div>
                   );
                 })}
-                {quotaItems.length === 0 && !cockpitApiAccountBalanceText && (
+                {quotaItems.length === 0 && !aiswitchApiAccountBalanceText && (
                   <div className="quota-empty">
                     {t("common.shared.quota.noData", "暂无配额数据")}
                   </div>
@@ -11000,8 +11000,8 @@ export function CodexAccountsPage() {
                 {isNewApiAccount && (
                   <button
                     className="card-action-btn"
-                    onClick={() => setCockpitApiPanelAccountId(account.id)}
-                    title={t("codex.cockpitApi.servicePanel", "服务面板")}
+                    onClick={() => setaiswitchApiPanelAccountId(account.id)}
+                    title={t("codex.aiswitchApi.servicePanel", "服务面板")}
                   >
                     <Database size={14} />
                   </button>
@@ -12063,8 +12063,8 @@ export function CodexAccountsPage() {
       const displayPlanLabel = isSponsorApiKeyAccount
         ? apiProviderName
         : presentation.planLabel;
-      const cockpitApiAccountBalanceText = isNewApiAccount
-        ? resolveCockpitApiAccountBalanceText(account)
+      const aiswitchApiAccountBalanceText = isNewApiAccount
+        ? resolveaiswitchApiAccountBalanceText(account)
         : null;
       const isInLocalAccess = localAccessAccountIdSet.has(account.id);
       const subscriptionInfo = resolveSubscriptionPresentation(account);
@@ -12281,7 +12281,7 @@ export function CodexAccountsPage() {
             ) : (
               <>
                 <div className="quota-grid">
-                  {cockpitApiAccountBalanceText && (
+                  {aiswitchApiAccountBalanceText && (
                     <div className="codex-account-balance-line table">
                       <span>
                         {t(
@@ -12290,7 +12290,7 @@ export function CodexAccountsPage() {
                         )}
                         ：
                       </span>
-                      <strong>{cockpitApiAccountBalanceText}</strong>
+                      <strong>{aiswitchApiAccountBalanceText}</strong>
                     </div>
                   )}
                   {quotaItems.map((item) => (
@@ -12318,7 +12318,7 @@ export function CodexAccountsPage() {
                       )}
                     </div>
                   ))}
-                  {quotaItems.length === 0 && !cockpitApiAccountBalanceText && (
+                  {quotaItems.length === 0 && !aiswitchApiAccountBalanceText && (
                     <span style={{ color: "var(--text-muted)", fontSize: 13 }}>
                       {t("common.shared.quota.noData", "暂无配额数据")}
                     </span>
@@ -12382,8 +12382,8 @@ export function CodexAccountsPage() {
               {isNewApiAccount && (
                 <button
                   className="action-btn"
-                  onClick={() => setCockpitApiPanelAccountId(account.id)}
-                  title={t("codex.cockpitApi.servicePanel", "服务面板")}
+                  onClick={() => setaiswitchApiPanelAccountId(account.id)}
+                  title={t("codex.aiswitchApi.servicePanel", "服务面板")}
                 >
                   <Database size={14} />
                 </button>
@@ -12776,7 +12776,7 @@ export function CodexAccountsPage() {
                   "今日请求",
                 ),
                 value: summary
-                  ? formatCockpitApiInteger(summary.todayRequests ?? 0)
+                  ? formataiswitchApiInteger(summary.todayRequests ?? 0)
                   : "-",
               },
               {
@@ -12786,28 +12786,28 @@ export function CodexAccountsPage() {
                   "今日 Token",
                 ),
                 value: summary
-                  ? formatCockpitApiTokenCount(summary.todayTotalTokens ?? 0)
+                  ? formataiswitchApiTokenCount(summary.todayTotalTokens ?? 0)
                   : "-",
               },
             ]
           : [];
     const summaryGridClassName =
       usageMode === "sub2api" || usageMode === "new_api"
-        ? "cockpit-api-summary-grid compact"
-        : "cockpit-api-summary-grid";
+        ? "aiswitch-api-summary-grid compact"
+        : "aiswitch-api-summary-grid";
 
     return (
       <div
         className="modal-overlay"
       >
         <div
-          className="modal-content cockpit-api-panel-modal codex-api-key-usage-detail-modal"
+          className="modal-content aiswitch-api-panel-modal codex-api-key-usage-detail-modal"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="modal-header cockpit-api-panel-header">
+          <div className="modal-header aiswitch-api-panel-header">
             <div>
               <h2>{t("codex.modelProviders.usage.detailTitle", "服务面板")}</h2>
-              <span className="cockpit-api-panel-subtitle">
+              <span className="aiswitch-api-panel-subtitle">
                 {maskAccountText(resolvePresentation(account).displayName)}
                 {provider ? ` · ${provider.name}` : ""}
               </span>
@@ -12820,14 +12820,14 @@ export function CodexAccountsPage() {
               <X />
             </button>
           </div>
-          <div className="cockpit-api-panel-body">
-            <section className="cockpit-api-connection-card">
-              <div className="cockpit-api-connection-row">
+          <div className="aiswitch-api-panel-body">
+            <section className="aiswitch-api-connection-card">
+              <div className="aiswitch-api-connection-row">
                 <span>{t("codex.localAccess.baseUrl", "地址")}</span>
                 <code title={baseUrl}>{baseUrl}</code>
                 <button
                   type="button"
-                  className="folder-icon-btn cockpit-api-icon-btn"
+                  className="folder-icon-btn aiswitch-api-icon-btn"
                   onClick={() =>
                     void navigator.clipboard.writeText(baseUrl).catch(() => {})
                   }
@@ -12836,15 +12836,15 @@ export function CodexAccountsPage() {
                   <Copy size={14} />
                 </button>
               </div>
-              <div className="cockpit-api-connection-row">
+              <div className="aiswitch-api-connection-row">
                 <span>{t("codex.localAccess.apiKey", "密钥")}</span>
                 <code title={visible ? account.openai_api_key || "" : ""}>
                   {apiKeyDisplay}
                 </code>
-                <div className="cockpit-api-connection-actions">
+                <div className="aiswitch-api-connection-actions">
                   <button
                     type="button"
-                    className="folder-icon-btn cockpit-api-icon-btn"
+                    className="folder-icon-btn aiswitch-api-icon-btn"
                     onClick={() => toggleAccountApiKeyVisible(account.id)}
                     title={
                       visible
@@ -12856,7 +12856,7 @@ export function CodexAccountsPage() {
                   </button>
                   <button
                     type="button"
-                    className="folder-icon-btn cockpit-api-icon-btn"
+                    className="folder-icon-btn aiswitch-api-icon-btn"
                     onClick={() =>
                       void navigator.clipboard
                         .writeText(account.openai_api_key || "")
@@ -12873,20 +12873,20 @@ export function CodexAccountsPage() {
             <section className={summaryGridClassName}>
               {summaryDetails.map((item) => (
                 <div
-                  className="cockpit-api-stat-card cockpit-api-stat-card-center"
+                  className="aiswitch-api-stat-card aiswitch-api-stat-card-center"
                   key={item.key}
                 >
-                  <span className="cockpit-api-card-label">{item.label}</span>
+                  <span className="aiswitch-api-card-label">{item.label}</span>
                   <strong>{item.value}</strong>
                   {(item.key === "remaining" ||
                     item.key === "totalAvailable") &&
                     usageMode !== "new_api" &&
                     usageMode !== "sub2api" && (
                       <div>
-                        <div className="cockpit-api-progress-row">
-                          <div className="cockpit-api-progress-track">
+                        <div className="aiswitch-api-progress-row">
+                          <div className="aiswitch-api-progress-track">
                             <div
-                              className="cockpit-api-progress-bar"
+                              className="aiswitch-api-progress-bar"
                               style={{ width: `${usedPercent}%` }}
                             />
                           </div>
@@ -12897,17 +12897,17 @@ export function CodexAccountsPage() {
                 </div>
               ))}
             </section>
-            <section className="cockpit-api-panel-section">
-              <div className="cockpit-api-section-head">
+            <section className="aiswitch-api-panel-section">
+              <div className="aiswitch-api-section-head">
                 <strong>
                   {t("codex.modelProviders.usage.rawFields", "服务数据")}
                 </strong>
               </div>
-              <div className="cockpit-api-usage-card-grid">
+              <div className="aiswitch-api-usage-card-grid">
                 {details.length > 0 ? (
                   details.map((item) => (
-                    <div className="cockpit-api-usage-card" key={item.key}>
-                      <span className="cockpit-api-card-label">
+                    <div className="aiswitch-api-usage-card" key={item.key}>
+                      <span className="aiswitch-api-card-label">
                         {formatApiKeyUsageDetailLabel(item.key, item.label)}
                       </span>
                       <strong>
@@ -12917,14 +12917,14 @@ export function CodexAccountsPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="cockpit-api-empty-row">
-                    {t("codex.cockpitApi.noStats", "暂无统计")}
+                  <div className="aiswitch-api-empty-row">
+                    {t("codex.aiswitchApi.noStats", "暂无统计")}
                   </div>
                 )}
               </div>
             </section>
           </div>
-          <div className="modal-footer cockpit-api-panel-footer">
+          <div className="modal-footer aiswitch-api-panel-footer">
             <button
               className="btn btn-secondary"
               onClick={() => void refreshApiKeyUsageByAccountId(account.id)}
@@ -12961,56 +12961,56 @@ export function CodexAccountsPage() {
     );
   };
 
-  const renderCockpitApiServicePanel = () => {
-    const account = cockpitApiPanelAccount;
+  const renderaiswitchApiServicePanel = () => {
+    const account = aiswitchApiPanelAccount;
     if (!account) return null;
 
-    const usage = getCockpitApiUsageRecord(account);
-    const stats = getCockpitApiStatsRecord(account);
-    const requests = toCockpitApiRecord(stats?.requests);
-    const tokens = toCockpitApiRecord(stats?.tokens);
-    const total = toCockpitApiRecord(stats?.total);
+    const usage = getaiswitchApiUsageRecord(account);
+    const stats = getaiswitchApiStatsRecord(account);
+    const requests = toaiswitchApiRecord(stats?.requests);
+    const tokens = toaiswitchApiRecord(stats?.tokens);
+    const total = toaiswitchApiRecord(stats?.total);
     const modelItems = (Array.isArray(stats?.models) ? stats.models : [])
-      .map(toCockpitApiRecord)
-      .filter((item): item is CockpitApiJsonRecord => Boolean(item))
+      .map(toaiswitchApiRecord)
+      .filter((item): item is aiswitchApiJsonRecord => Boolean(item))
       .slice(0, 8);
     const dailyItems = (Array.isArray(stats?.daily) ? stats.daily : [])
-      .map(toCockpitApiRecord)
-      .filter((item): item is CockpitApiJsonRecord => Boolean(item));
+      .map(toaiswitchApiRecord)
+      .filter((item): item is aiswitchApiJsonRecord => Boolean(item));
     const visible = visibleApiKeyAccountIds.has(account.id);
     const apiKeyDisplay = resolveApiKeyDisplayText(account, visible);
-    const baseUrl = (account.api_base_url || "").trim() || COCKPIT_API_BASE_URL;
-    const quotaText = readCockpitApiString(usage, "summary_display") || "-";
-    const cockpitApiAccountBalanceText =
-      resolveCockpitApiAccountBalanceText(account);
-    const usedPercent = readCockpitApiNumber(usage, "used_percent");
-    const requestCount = readCockpitApiNumber(requests, "total");
-    const todayCount = readCockpitApiNumber(requests, "today");
-    const last7Count = readCockpitApiNumber(requests, "last_7_days");
-    const last30Count = readCockpitApiNumber(requests, "last_30_days");
-    const totalTokens = readCockpitApiNumber(tokens, "total");
-    const totalQuotaDisplay = readCockpitApiString(total, "quota_display");
+    const baseUrl = (account.api_base_url || "").trim() || aiswitch_API_BASE_URL;
+    const quotaText = readaiswitchApiString(usage, "summary_display") || "-";
+    const aiswitchApiAccountBalanceText =
+      resolveaiswitchApiAccountBalanceText(account);
+    const usedPercent = readaiswitchApiNumber(usage, "used_percent");
+    const requestCount = readaiswitchApiNumber(requests, "total");
+    const todayCount = readaiswitchApiNumber(requests, "today");
+    const last7Count = readaiswitchApiNumber(requests, "last_7_days");
+    const last30Count = readaiswitchApiNumber(requests, "last_30_days");
+    const totalTokens = readaiswitchApiNumber(tokens, "total");
+    const totalQuotaDisplay = readaiswitchApiString(total, "quota_display");
     const panelDisplayName = resolvePresentation(account).displayName;
     const hasStats = Boolean(stats);
-    const usedPercentText = `${formatCockpitApiInteger(usedPercent)}%`;
+    const usedPercentText = `${formataiswitchApiInteger(usedPercent)}%`;
     const summaryItems = [
       {
         key: "requests",
-        label: t("codex.cockpitApi.requests", "请求"),
-        value: formatCockpitApiInteger(requestCount),
-        meta: `${t("codex.cockpitApi.today", "今日")} ${formatCockpitApiInteger(todayCount)}`,
+        label: t("codex.aiswitchApi.requests", "请求"),
+        value: formataiswitchApiInteger(requestCount),
+        meta: `${t("codex.aiswitchApi.today", "今日")} ${formataiswitchApiInteger(todayCount)}`,
       },
       {
         key: "periods",
-        label: t("codex.cockpitApi.periods", "周期"),
-        value: `7d ${formatCockpitApiInteger(last7Count)}`,
-        meta: `30d ${formatCockpitApiInteger(last30Count)}`,
+        label: t("codex.aiswitchApi.periods", "周期"),
+        value: `7d ${formataiswitchApiInteger(last7Count)}`,
+        meta: `30d ${formataiswitchApiInteger(last30Count)}`,
       },
       {
         key: "tokens",
-        label: t("codex.cockpitApi.tokens", "Tokens"),
-        value: formatCockpitApiTokenCount(totalTokens),
-        meta: `${t("codex.cockpitApi.quotaUsed", "消耗")} ${totalQuotaDisplay || "-"}`,
+        label: t("codex.aiswitchApi.tokens", "Tokens"),
+        value: formataiswitchApiTokenCount(totalTokens),
+        meta: `${t("codex.aiswitchApi.quotaUsed", "消耗")} ${totalQuotaDisplay || "-"}`,
       },
     ];
 
@@ -13019,35 +13019,35 @@ export function CodexAccountsPage() {
         className="modal-overlay"
       >
         <div
-          className="modal-content cockpit-api-panel-modal"
+          className="modal-content aiswitch-api-panel-modal"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="modal-header cockpit-api-panel-header">
+          <div className="modal-header aiswitch-api-panel-header">
             <div>
               <h2>
-                {t("codex.cockpitApi.panelTitle", "Cockpit Api 服务面板")}
+                {t("codex.aiswitchApi.panelTitle", "aiswitch Api 服务面板")}
               </h2>
-              <span className="cockpit-api-panel-subtitle">
+              <span className="aiswitch-api-panel-subtitle">
                 {maskAccountText(panelDisplayName)}
               </span>
             </div>
             <button
               className="modal-close"
-              onClick={() => setCockpitApiPanelAccountId(null)}
+              onClick={() => setaiswitchApiPanelAccountId(null)}
               aria-label={t("common.close", "关闭")}
             >
               <X />
             </button>
           </div>
 
-          <div className="cockpit-api-panel-body">
-            <section className="cockpit-api-connection-card">
-              <div className="cockpit-api-connection-row">
+          <div className="aiswitch-api-panel-body">
+            <section className="aiswitch-api-connection-card">
+              <div className="aiswitch-api-connection-row">
                 <span>{t("codex.localAccess.baseUrl", "地址")}</span>
                 <code title={baseUrl}>{baseUrl}</code>
                 <button
                   type="button"
-                  className="folder-icon-btn cockpit-api-icon-btn"
+                  className="folder-icon-btn aiswitch-api-icon-btn"
                   onClick={() =>
                     void navigator.clipboard.writeText(baseUrl).catch(() => {})
                   }
@@ -13056,15 +13056,15 @@ export function CodexAccountsPage() {
                   <Copy size={14} />
                 </button>
               </div>
-              <div className="cockpit-api-connection-row">
+              <div className="aiswitch-api-connection-row">
                 <span>{t("codex.localAccess.apiKey", "密钥")}</span>
                 <code title={visible ? account.openai_api_key || "" : ""}>
                   {apiKeyDisplay}
                 </code>
-                <div className="cockpit-api-connection-actions">
+                <div className="aiswitch-api-connection-actions">
                   <button
                     type="button"
-                    className="folder-icon-btn cockpit-api-icon-btn"
+                    className="folder-icon-btn aiswitch-api-icon-btn"
                     onClick={() => toggleAccountApiKeyVisible(account.id)}
                     title={
                       visible
@@ -13076,7 +13076,7 @@ export function CodexAccountsPage() {
                   </button>
                   <button
                     type="button"
-                    className="folder-icon-btn cockpit-api-icon-btn"
+                    className="folder-icon-btn aiswitch-api-icon-btn"
                     onClick={() =>
                       void navigator.clipboard
                         .writeText(account.openai_api_key || "")
@@ -13091,22 +13091,22 @@ export function CodexAccountsPage() {
               </div>
             </section>
 
-            <section className="cockpit-api-summary-grid">
-              <div className="cockpit-api-balance-card">
-                <span className="cockpit-api-card-label">
-                  {t("codex.cockpitApi.balance", "额度")}
+            <section className="aiswitch-api-summary-grid">
+              <div className="aiswitch-api-balance-card">
+                <span className="aiswitch-api-card-label">
+                  {t("codex.aiswitchApi.balance", "额度")}
                 </span>
                 <strong>{quotaText}</strong>
-                {cockpitApiAccountBalanceText && (
-                  <small className="cockpit-api-balance-meta">
+                {aiswitchApiAccountBalanceText && (
+                  <small className="aiswitch-api-balance-meta">
                     {t("codex.modelProviders.usage.accountBalance", "账户余额")}
-                    ：{cockpitApiAccountBalanceText}
+                    ：{aiswitchApiAccountBalanceText}
                   </small>
                 )}
-                <div className="cockpit-api-progress-row">
-                  <div className="cockpit-api-progress-track">
+                <div className="aiswitch-api-progress-row">
+                  <div className="aiswitch-api-progress-track">
                     <div
-                      className="cockpit-api-progress-bar"
+                      className="aiswitch-api-progress-bar"
                       style={{ width: usedPercentText }}
                     />
                   </div>
@@ -13114,8 +13114,8 @@ export function CodexAccountsPage() {
                 </div>
               </div>
               {summaryItems.map((item) => (
-                <div className="cockpit-api-stat-card" key={item.key}>
-                  <span className="cockpit-api-card-label">{item.label}</span>
+                <div className="aiswitch-api-stat-card" key={item.key}>
+                  <span className="aiswitch-api-card-label">{item.label}</span>
                   <strong>{item.value}</strong>
                   <small>{item.meta}</small>
                 </div>
@@ -13123,48 +13123,48 @@ export function CodexAccountsPage() {
             </section>
 
             {hasStats ? (
-              <div className="cockpit-api-stats-grid">
-                <section className="cockpit-api-panel-section">
-                  <div className="cockpit-api-section-head">
+              <div className="aiswitch-api-stats-grid">
+                <section className="aiswitch-api-panel-section">
+                  <div className="aiswitch-api-section-head">
                     <strong>
-                      {t("codex.cockpitApi.modelStats", "模型统计")}
+                      {t("codex.aiswitchApi.modelStats", "模型统计")}
                     </strong>
                   </div>
-                  <div className="cockpit-api-usage-list">
+                  <div className="aiswitch-api-usage-list">
                     {modelItems.length > 0 ? (
                       modelItems.map((item) => {
                         const modelName =
-                          readCockpitApiString(item, "model_name") || "-";
-                        const count = readCockpitApiNumber(
+                          readaiswitchApiString(item, "model_name") || "-";
+                        const count = readaiswitchApiNumber(
                           item,
                           "request_count",
                         );
-                        const modelTokens = readCockpitApiNumber(
+                        const modelTokens = readaiswitchApiNumber(
                           item,
                           "total_tokens",
                         );
-                        const quotaDisplay = readCockpitApiString(
+                        const quotaDisplay = readaiswitchApiString(
                           item,
                           "quota_display",
                         );
                         return (
                           <div
-                            className="cockpit-api-usage-row"
+                            className="aiswitch-api-usage-row"
                             key={modelName}
                           >
                             <div>
-                              <span className="cockpit-api-usage-name">
+                              <span className="aiswitch-api-usage-name">
                                 {modelName}
                               </span>
                               <small>
-                                {t("codex.cockpitApi.requests", "请求")}{" "}
-                                {formatCockpitApiInteger(count)}
+                                {t("codex.aiswitchApi.requests", "请求")}{" "}
+                                {formataiswitchApiInteger(count)}
                               </small>
                             </div>
-                            <div className="cockpit-api-usage-values">
+                            <div className="aiswitch-api-usage-values">
                               <span>
-                                {t("codex.cockpitApi.tokens", "Tokens")}{" "}
-                                {formatCockpitApiTokenCount(modelTokens)}
+                                {t("codex.aiswitchApi.tokens", "Tokens")}{" "}
+                                {formataiswitchApiTokenCount(modelTokens)}
                               </span>
                               <strong>{quotaDisplay || "-"}</strong>
                             </div>
@@ -13172,50 +13172,50 @@ export function CodexAccountsPage() {
                         );
                       })
                     ) : (
-                      <div className="cockpit-api-empty-row">
-                        {t("codex.cockpitApi.noStats", "暂无统计")}
+                      <div className="aiswitch-api-empty-row">
+                        {t("codex.aiswitchApi.noStats", "暂无统计")}
                       </div>
                     )}
                   </div>
                 </section>
 
-                <section className="cockpit-api-panel-section">
-                  <div className="cockpit-api-section-head">
+                <section className="aiswitch-api-panel-section">
+                  <div className="aiswitch-api-section-head">
                     <strong>
-                      {t("codex.cockpitApi.dailyStats", "每日统计")}
+                      {t("codex.aiswitchApi.dailyStats", "每日统计")}
                     </strong>
                   </div>
-                  <div className="cockpit-api-usage-list">
+                  <div className="aiswitch-api-usage-list">
                     {dailyItems.length > 0 ? (
                       dailyItems.map((item) => {
-                        const date = readCockpitApiString(item, "date") || "-";
-                        const count = readCockpitApiNumber(
+                        const date = readaiswitchApiString(item, "date") || "-";
+                        const count = readaiswitchApiNumber(
                           item,
                           "request_count",
                         );
-                        const dayTokens = readCockpitApiNumber(
+                        const dayTokens = readaiswitchApiNumber(
                           item,
                           "total_tokens",
                         );
-                        const quotaDisplay = readCockpitApiString(
+                        const quotaDisplay = readaiswitchApiString(
                           item,
                           "quota_display",
                         );
                         return (
-                          <div className="cockpit-api-usage-row" key={date}>
+                          <div className="aiswitch-api-usage-row" key={date}>
                             <div>
-                              <span className="cockpit-api-usage-name">
+                              <span className="aiswitch-api-usage-name">
                                 {date}
                               </span>
                               <small>
-                                {t("codex.cockpitApi.requests", "请求")}{" "}
-                                {formatCockpitApiInteger(count)}
+                                {t("codex.aiswitchApi.requests", "请求")}{" "}
+                                {formataiswitchApiInteger(count)}
                               </small>
                             </div>
-                            <div className="cockpit-api-usage-values">
+                            <div className="aiswitch-api-usage-values">
                               <span>
-                                {t("codex.cockpitApi.tokens", "Tokens")}{" "}
-                                {formatCockpitApiTokenCount(dayTokens)}
+                                {t("codex.aiswitchApi.tokens", "Tokens")}{" "}
+                                {formataiswitchApiTokenCount(dayTokens)}
                               </span>
                               <strong>{quotaDisplay || "-"}</strong>
                             </div>
@@ -13223,24 +13223,24 @@ export function CodexAccountsPage() {
                         );
                       })
                     ) : (
-                      <div className="cockpit-api-empty-row">
-                        {t("codex.cockpitApi.noStats", "暂无统计")}
+                      <div className="aiswitch-api-empty-row">
+                        {t("codex.aiswitchApi.noStats", "暂无统计")}
                       </div>
                     )}
                   </div>
                 </section>
               </div>
             ) : (
-              <div className="cockpit-api-empty-state">
+              <div className="aiswitch-api-empty-state">
                 {t(
-                  "codex.cockpitApi.refreshHint",
+                  "codex.aiswitchApi.refreshHint",
                   "点击刷新后会同步当前 API key 的统计。",
                 )}
               </div>
             )}
           </div>
 
-          <div className="modal-footer cockpit-api-panel-footer">
+          <div className="modal-footer aiswitch-api-panel-footer">
             <button
               className="btn btn-secondary"
               onClick={() => void handleRefresh(account.id)}
@@ -13926,7 +13926,7 @@ export function CodexAccountsPage() {
         </div>
       )}
 
-      {renderCockpitApiServicePanel()}
+      {renderaiswitchApiServicePanel()}
       {renderApiKeyUsageDetailModal()}
       {renderQuotaErrorDetailModal()}
 
@@ -15362,7 +15362,7 @@ export function CodexAccountsPage() {
                               >
                                 <KeyRound size={14} />
                                 {selectedApiProviderPreset.id ===
-                                COCKPIT_API_PROVIDER_ID
+                                aiswitch_API_PROVIDER_ID
                                   ? t(
                                       "codex.api.provider.getApiKey",
                                       "获取秘钥",
@@ -15429,7 +15429,7 @@ export function CodexAccountsPage() {
                           />
                         </div>
                       </div>
-                      {apiProviderPresetId !== COCKPIT_API_PROVIDER_ID && (
+                      {apiProviderPresetId !== aiswitch_API_PROVIDER_ID && (
                         <div className="oauth-link">
                           <label>
                             {t(
@@ -15546,7 +15546,7 @@ export function CodexAccountsPage() {
                                 <small>
                                   {t(
                                     "codex.api.modelCatalog.syncDescription",
-                                    "保存后使用当前模型列表生成 Cockpit 受管的 Codex 模型目录，不覆盖用户自定义目录。",
+                                    "保存后使用当前模型列表生成 aiswitch 受管的 Codex 模型目录，不覆盖用户自定义目录。",
                                   )}
                                 </small>
                               </span>
@@ -16707,7 +16707,7 @@ export function CodexAccountsPage() {
                             >
                               <KeyRound size={14} />
                               {selectedEditingApiProviderPreset.id ===
-                              COCKPIT_API_PROVIDER_ID
+                              aiswitch_API_PROVIDER_ID
                                 ? t("codex.api.provider.getApiKey", "获取秘钥")
                                 : t(
                                     "codex.api.provider.apiKeyPage",
@@ -16784,7 +16784,7 @@ export function CodexAccountsPage() {
                         />
                       </div>
                     </div>
-                    {editingApiProviderPresetId !== COCKPIT_API_PROVIDER_ID && (
+                    {editingApiProviderPresetId !== aiswitch_API_PROVIDER_ID && (
                       <div className="oauth-link">
                         <label>
                           {t(
@@ -16907,7 +16907,7 @@ export function CodexAccountsPage() {
                               <small>
                                 {t(
                                   "codex.api.modelCatalog.syncDescription",
-                                  "保存后使用当前模型列表生成 Cockpit 受管的 Codex 模型目录，不覆盖用户自定义目录。",
+                                  "保存后使用当前模型列表生成 aiswitch 受管的 Codex 模型目录，不覆盖用户自定义目录。",
                                 )}
                               </small>
                             </span>
@@ -17177,7 +17177,7 @@ export function CodexAccountsPage() {
                         reportExportModalError(
                           t(
                             "codex.exportFormat.agentIdentityCpaUnsupported",
-                            "Agent Identity 账号不支持 cpa 格式，请使用 Cockpit Tools 或 sub2api 格式导出。",
+                            "Agent Identity 账号不支持 cpa 格式，请使用 AISwitch 或 sub2api 格式导出。",
                           ),
                         );
                         return;

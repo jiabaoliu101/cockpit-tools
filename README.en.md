@@ -1,11 +1,11 @@
-# Cockpit Tools
+# AISwitch
 
 English · [Portuguese (BR)](README.pt-br.md) · [简体中文](README.md)
 
-[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/cockpit-tools?style=flat&color=gold)](https://github.com/jlcodes99/cockpit-tools)
-[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/cockpit-tools/total?style=flat&color=blue)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/cockpit-tools?style=flat)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/cockpit-tools)](https://github.com/jlcodes99/cockpit-tools/issues)
+[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/aiswitch?style=flat&color=gold)](https://github.com/jlcodes99/aiswitch)
+[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/aiswitch/total?style=flat&color=blue)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/aiswitch?style=flat)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/aiswitch)](https://github.com/jlcodes99/aiswitch/issues)
 
 A **universal AI IDE account management tool**, currently supporting **Antigravity IDE**, **Codex**, **GitHub Copilot**, **Windsurf**, **Kiro**, **Cursor**, **Grok CLI**, **CodeBuddy**, **CodeBuddy CN**, **Qoder**, **Trae**, **TRAE SOLO**, **Trae CN**, **TRAE SOLO CN**, **Zed**, and **ZCode**, with multi-instance parallel workflows.
 
@@ -26,12 +26,12 @@ A **universal AI IDE account management tool**, currently supporting **Antigravi
 <table>
   <tr>
     <td width="120" align="center">
-      <a href="https://apikey.fun/register?aff=COCKPIT">
+      <a href="https://apikey.fun/register?aff=aiswitch">
         <img src="src/assets/icons/apikey-fun.png" alt="APIKEY.FUN" width="72" />
       </a>
     </td>
     <td>
-      <a href="https://apikey.fun/register?aff=COCKPIT"><strong>APIKEY.FUN</strong></a> is a professional enterprise-grade AI relay focused on stable, efficient, and low-cost AI model API access for companies and individual developers. It supports popular models such as Claude, OpenAI, and Gemini, with prices as low as 7% of official pricing. Register through this project <a href="https://apikey.fun/register?aff=COCKPIT"><strong>exclusive link</strong></a> to receive an exclusive <strong>permanent 5% top-up discount</strong>.
+      <a href="https://apikey.fun/register?aff=aiswitch"><strong>APIKEY.FUN</strong></a> is a professional enterprise-grade AI relay focused on stable, efficient, and low-cost AI model API access for companies and individual developers. It supports popular models such as Claude, OpenAI, and Gemini, with prices as low as 7% of official pricing. Register through this project <a href="https://apikey.fun/register?aff=aiswitch"><strong>exclusive link</strong></a> to receive an exclusive <strong>permanent 5% top-up discount</strong>.
     </td>
   </tr>
   <tr>
@@ -41,7 +41,7 @@ A **universal AI IDE account management tool**, currently supporting **Antigravi
       </a>
     </td>
     <td>
-      <a href="https://roxybrowser.cn?code=0326VTDA"><strong>RoxyBrowser</strong></a> is an anti-detect browser for multi-account operations and AI automation, supporting isolated browser fingerprint environments, Cookie / storage isolation, Roxy native residential IPs, team collaboration, and API / MCP automation. It helps users manage AI account matrices, reduce account association risk, and improve long-term stability. Register or purchase through the Cockpit <a href="https://roxybrowser.cn?code=0326VTDA"><strong>invite link</strong></a> to get a 10% fan discount.
+      <a href="https://roxybrowser.cn?code=0326VTDA"><strong>RoxyBrowser</strong></a> is an anti-detect browser for multi-account operations and AI automation, supporting isolated browser fingerprint environments, Cookie / storage isolation, Roxy native residential IPs, team collaboration, and API / MCP automation. It helps users manage AI account matrices, reduce account association risk, and improve long-term stability. Register or purchase through the aiswitch <a href="https://roxybrowser.cn?code=0326VTDA"><strong>invite link</strong></a> to get a 10% fan discount.
     </td>
   </tr>
 </table>
@@ -87,7 +87,7 @@ Run multiple Antigravity IDE instances in parallel with different accounts. For 
 - **Dedicated Support**: Optimized account management experience for Codex
 - **Quota Display**: Clear display of Hourly and Weekly quota status
 - **Plan Recognition**: Automatically identifies account Plan types (Basic, Plus, Team, etc.)
-- **API Service**: The local Codex API service is powered by the bundled CLIProxyAPI sidecar. Cockpit Tools handles account sync, config projection, status, and usage statistics while keeping the same Base URL, API keys, and user workflow.
+- **API Service**: The local Codex API service is powered by the bundled CLIProxyAPI sidecar. AISwitch handles account sync, config projection, status, and usage statistics while keeping the same Base URL, API keys, and user workflow.
 
 > ![Codex Accounts](docs/images/codex_list.png)
 
@@ -249,7 +249,7 @@ Manage original Trae client instances with isolated profiles and lifecycle contr
 
 ### 14. ZCode Account Management
 
-- **Official Sign-in**: With ZCode closed, complete Z.ai or BigModel OAuth in Cockpit's built-in authorization window; it captures the official `zcode://` callback directly and saves the account
+- **Official Sign-in**: With ZCode closed, complete Z.ai or BigModel OAuth in aiswitch's built-in authorization window; it captures the official `zcode://` callback directly and saves the account
 - **Import and Export**: Read encrypted local credentials from `~/.zcode/v2/credentials.json`, import or export JSON, and back up accounts
 - **Quota View**: Query subscription plans and per-model quotas while preserving raw plan values
 - **Batch Operations**: Tags, search, plan filters, export, and batch delete/refresh
@@ -278,15 +278,15 @@ These are the most common security questions answered directly:
 
 - **This is a local desktop tool**: it does not require a separate cloud account for this project, and it does not rely on a project-hosted cloud account storage.
 - **Data is mainly stored on your machine**:
-  - `~/.antigravity_cockpit`: Antigravity IDE accounts, configs, WebSocket status, etc.
+  - `~/.aiswitch`: Antigravity IDE accounts, configs, WebSocket status, etc.
   - `~/.codex`: official Codex current login `auth.json`
   - `~/.grok`: the official Grok CLI default instance and current sign-in `auth.json`
   - `~/.zcode/v2`: ZCode encrypted credentials for the current official sign-in and quota cache
-  - local app data folder under `com.antigravity.cockpit-tools`: Codex / GitHub Copilot / Windsurf / Kiro / Cursor / Grok CLI / CodeBuddy / CodeBuddy CN / Qoder / Trae suite / Zed / ZCode multi-account data, etc.; Grok CLI account details, managed profiles, and instance configuration are also stored here
+  - local app data folder under `com.antigravity.aiswitch`: Codex / GitHub Copilot / Windsurf / Kiro / Cursor / Grok CLI / CodeBuddy / CodeBuddy CN / Qoder / Trae suite / Zed / ZCode multi-account data, etc.; Grok CLI account details, managed profiles, and instance configuration are also stored here
 - **Grok CLI credentials are not encrypted**: access and refresh tokens are stored locally as plaintext JSON and rely primarily on operating-system account isolation and local file permissions. On Unix systems, credential directories are set to `0700` and credential files to `0600`. Redacted exports contain no tokens and cannot serve as sign-in backups.
 - **WebSocket is local-only by default**: binds to `127.0.0.1`, default port `19528`; you can disable it or change the port in Settings.
 - **When network access happens**: OAuth login, token refresh, quota fetching, update checks, and other official API requests.
-- **macOS privacy permission prompts**: after you start Codex/agent from Cockpit Tools, if an agent-run shell command accesses protected folders such as Desktop, Documents, Downloads, or Photos, macOS may show the request as "Cockpit Tools would like to access...". This happens because those commands are child processes launched by Cockpit Tools, so macOS attributes the request to the host app; it does not by itself mean the Cockpit Tools main process is actively scanning those folders. Grant access only when you trust the current agent task and the commands it is going to run. If unsure, deny the prompt or run the project from a normal working directory first.
+- **macOS privacy permission prompts**: after you start Codex/agent from AISwitch, if an agent-run shell command accesses protected folders such as Desktop, Documents, Downloads, or Photos, macOS may show the request as "AISwitch would like to access...". This happens because those commands are child processes launched by AISwitch, so macOS attributes the request to the host app; it does not by itself mean the AISwitch main process is actively scanning those folders. Grant access only when you trust the current agent task and the commands it is going to run. If unsure, deny the prompt or run the project from a normal working directory first.
 - **Practical safety tips**:
   1. If you do not need plugin integration, disable WebSocket.
   2. Do not share your full user directory directly; redact token files before backup/share.
@@ -347,7 +347,7 @@ Notes:
 
 ### Option A: Manual Download (Recommended)
 
-Go to [GitHub Releases](https://github.com/jlcodes99/cockpit-tools/releases) to download the package for your system:
+Go to [GitHub Releases](https://github.com/jlcodes99/aiswitch/releases) to download the package for your system:
 
 *   **macOS**: `.dmg` (Apple Silicon & Intel)
 *   **Windows**: `.msi` (Recommended) or `.exe`
@@ -358,27 +358,27 @@ Go to [GitHub Releases](https://github.com/jlcodes99/cockpit-tools/releases) to 
 > Homebrew is required.
 
 ```bash
-brew tap jlcodes99/cockpit-tools https://github.com/jlcodes99/cockpit-tools
-brew install --cask cockpit-tools
+brew tap jlcodes99/aiswitch https://github.com/jlcodes99/aiswitch
+brew install --cask aiswitch
 ```
 
 If you hit the macOS "App is damaged" warning, you can also install with `--no-quarantine`:
 
 ```bash
-brew install --cask --no-quarantine cockpit-tools
+brew install --cask --no-quarantine aiswitch
 ```
 
-If Homebrew says the app already exists (e.g. `already an App at '/Applications/Cockpit Tools.app'`), remove the old app and install again:
+If Homebrew says the app already exists (e.g. `already an App at '/Applications/AISwitch.app'`), remove the old app and install again:
 
 ```bash
-rm -rf "/Applications/Cockpit Tools.app"
-brew install --cask cockpit-tools
+rm -rf "/Applications/AISwitch.app"
+brew install --cask aiswitch
 ```
 
 Or force overwrite the existing app:
 
 ```bash
-brew install --cask --force cockpit-tools
+brew install --cask --force aiswitch
 ```
 
 ### 🛠️ Troubleshooting
@@ -389,7 +389,7 @@ Due to macOS security mechanisms, apps not downloaded from the App Store may tri
 1.  **Command Line Fix** (Recommended):
     Open Terminal and run the following command:
     ```bash
-    sudo xattr -rd com.apple.quarantine "/Applications/Cockpit Tools.app"
+    sudo xattr -rd com.apple.quarantine "/Applications/AISwitch.app"
     ```
     > **Note**: If you changed the app name, please adjust the path in the command accordingly.
 
@@ -427,7 +427,7 @@ npm run tauri build
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=jlcodes99/cockpit-tools&type=Date)](https://star-history.com/#jlcodes99/cockpit-tools&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=jlcodes99/aiswitch&type=Date)](https://star-history.com/#jlcodes99/aiswitch&Date)
 
 ---
 
@@ -457,8 +457,8 @@ Every bit of support helps sustain open-source development. Thank you!
 - Codex, Claude CLI, and Claude Desktop Gateway third-party provider presets and model mapping direction reference: [CC Switch](https://github.com/farion1231/cc-switch)
 - Codex model catalog and frontend model display ideas reference: [CodexPlusPlus](https://github.com/BigPizzaV3/CodexPlusPlus)
 - Claude optional sign-in helper runtime is based on: [Electron](https://github.com/electron/electron)
-- Thanks [@longwQaQ](https://github.com/longwQaQ) for contributing per-provider Codex Responses WebSocket configuration ([#1512](https://github.com/jlcodes99/cockpit-tools/pull/1512)).
-- Thanks [@sqmw](https://github.com/sqmw) for Trae CN account-support work (OAuth/local import direction, pay v2 quota and fast-request display, CN product types), integrated into the unified Trae suite ([#1281](https://github.com/jlcodes99/cockpit-tools/pull/1281)).
+- Thanks [@longwQaQ](https://github.com/longwQaQ) for contributing per-provider Codex Responses WebSocket configuration ([#1512](https://github.com/jlcodes99/aiswitch/pull/1512)).
+- Thanks [@sqmw](https://github.com/sqmw) for Trae CN account-support work (OAuth/local import direction, pay v2 quota and fast-request display, CN product types), integrated into the unified Trae suite ([#1281](https://github.com/jlcodes99/aiswitch/pull/1281)).
 
 Thanks to the project author for their open-source contributions! If these projects have helped you, please give them a ⭐ Star to show your support!
 

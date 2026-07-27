@@ -8,7 +8,7 @@ use super::config;
 use super::logger;
 
 const ANNOUNCEMENT_URL: &str =
-    "https://raw.githubusercontent.com/jlcodes99/cockpit-tools/main/announcements.json";
+    "https://raw.githubusercontent.com/jlcodes99/aiswitch/main/announcements.json";
 const ANNOUNCEMENT_CACHE_FILE: &str = "announcement_cache.json";
 const ANNOUNCEMENT_FORCE_REFRESH_ATTEMPTS_FILE: &str =
     "announcement_force_refresh_attempt_versions.json";
@@ -948,7 +948,7 @@ async fn fetch_remote_announcements() -> Result<AnnouncementResponse, String> {
     logger::log_info("[Announcement] 从远端拉取公告");
 
     let client = reqwest::Client::builder()
-        .user_agent("Cockpit-Tools")
+        .user_agent("aiswitch-Tools")
         .timeout(std::time::Duration::from_secs(10))
         .build()
         .map_err(|e| format!("创建公告 HTTP 客户端失败: {}", e))?;

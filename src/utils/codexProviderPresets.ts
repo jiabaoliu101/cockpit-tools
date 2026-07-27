@@ -11,11 +11,11 @@ export interface CodexApiProviderPreset {
 }
 
 export const CODEX_API_PROVIDER_CUSTOM_ID = "custom";
-export const COCKPIT_API_PROVIDER_ID = "cockpit_api";
-export const COCKPIT_API_PROVIDER_NAME = "Cockpit Api";
-export const COCKPIT_API_BASE_URL = "https://chongcodex.cn/v1";
+export const aiswitch_API_PROVIDER_ID = "aiswitch_api";
+export const aiswitch_API_PROVIDER_NAME = "aiswitch Api";
+export const aiswitch_API_BASE_URL = "https://chongcodex.cn/v1";
 
-const COCKPIT_API_HIDDEN_BASE_URLS = [COCKPIT_API_BASE_URL] as const;
+const aiswitch_API_HIDDEN_BASE_URLS = [aiswitch_API_BASE_URL] as const;
 
 export const CODEX_API_PROVIDER_PRESETS: readonly CodexApiProviderPreset[] = [
   {
@@ -383,10 +383,10 @@ export function findCodexApiProviderPresetByBaseUrl(
   );
 }
 
-export function isCockpitApiProviderBaseUrl(rawBaseUrl: string): boolean {
+export function isaiswitchApiProviderBaseUrl(rawBaseUrl: string): boolean {
   const normalized = normalizeCodexProviderBaseUrl(rawBaseUrl);
   if (!normalized) return false;
-  return COCKPIT_API_HIDDEN_BASE_URLS.some(
+  return aiswitch_API_HIDDEN_BASE_URLS.some(
     (baseUrl) => normalizeCodexProviderBaseUrl(baseUrl) === normalized,
   );
 }

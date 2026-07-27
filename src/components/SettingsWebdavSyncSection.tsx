@@ -47,7 +47,7 @@ function normalizeError(error: unknown): string {
   const msg = String(error).replace(/^Error:\s*/, '');
   // 针对坚果云等 WebDAV 服务的祖先目录不存在报错进行友好提示
   if (msg.includes('AncestorsNotFound') || msg.includes('The ancestors of this location does not found')) {
-    return `${msg}\n\n提示：检测到祖先目录不存在。如果您使用坚果云 WebDAV，坚果云限制了不能在根目录下直接创建文件夹，请确认您的“远端目录”是否填写正确。例如应填写为已存在的同步文件夹路径，如“我的坚果云/cockpit-tools”；或者先在坚果云网页端创建一个名为“cockpit-tools”的同步文件夹，然后在这里将远端目录填为“cockpit-tools”。`;
+    return `${msg}\n\n提示：检测到祖先目录不存在。如果您使用坚果云 WebDAV，坚果云限制了不能在根目录下直接创建文件夹，请确认您的“远端目录”是否填写正确。例如应填写为已存在的同步文件夹路径，如“我的坚果云/aiswitch”；或者先在坚果云网页端创建一个名为“aiswitch”的同步文件夹，然后在这里将远端目录填为“aiswitch”。`;
   }
   return msg;
 }
@@ -101,7 +101,7 @@ export function SettingsWebdavSyncSection() {
   const [username, setUsername] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [clearPassword, setClearPassword] = useState(false);
-  const [remoteDir, setRemoteDir] = useState('cockpit-tools');
+  const [remoteDir, setRemoteDir] = useState('aiswitch');
   const [retentionInput, setRetentionInput] = useState('15');
   const [remoteFiles, setRemoteFiles] = useState<WebdavBackupFileEntry[]>([]);
   const [showAllRemote, setShowAllRemote] = useState(false);
@@ -558,7 +558,7 @@ export function SettingsWebdavSyncSection() {
           <div className="settings-row" style={{ borderBottom: 'none', paddingLeft: '24px', borderLeft: '1px solid var(--border-light)' }}>
             <div className="row-label" style={{ minWidth: 'auto' }}>
               <div className="row-title">{t('settings.webdav.remoteDirTitle', '远端目录')}</div>
-              <div className="row-desc">{t('settings.webdav.remoteDirDesc', '只管理该目录下的 Cockpit 备份文件。')}</div>
+              <div className="row-desc">{t('settings.webdav.remoteDirDesc', '只管理该目录下的 aiswitch 备份文件。')}</div>
             </div>
             <div className="row-control row-control--grow" style={{ maxWidth: '240px' }}>
               <input
@@ -675,7 +675,7 @@ export function SettingsWebdavSyncSection() {
               </span>
               {t('settings.webdav.remoteListTitle', '远端备份')}
             </div>
-            <div className="row-desc">{t('settings.webdav.remoteListDesc', '仅显示匹配 Cockpit 自动/手动备份命名的 JSON 与 ZIP 文件。')}</div>
+            <div className="row-desc">{t('settings.webdav.remoteListDesc', '仅显示匹配 aiswitch 自动/手动备份命名的 JSON 与 ZIP 文件。')}</div>
           </div>
           <div className="row-control" onClick={(e) => e.stopPropagation()}>
             {isRemoteExpanded && (

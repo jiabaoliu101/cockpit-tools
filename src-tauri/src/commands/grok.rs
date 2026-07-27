@@ -290,7 +290,7 @@ mod tests {
         use std::os::unix::fs::PermissionsExt;
 
         let path = std::env::temp_dir().join(format!(
-            "cockpit-grok-cli-path-test-{}",
+            "aiswitch-grok-cli-path-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::write(&path, "not executable").expect("write test file");

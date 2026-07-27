@@ -96,8 +96,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4

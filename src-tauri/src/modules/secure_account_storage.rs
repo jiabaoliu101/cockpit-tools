@@ -147,7 +147,7 @@ mod tests {
         ));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).expect("temp dir");
-        std::env::set_var("COCKPIT_TOOLS_TEST_DATA_DIR", &dir);
+        std::env::set_var("AISWITCH_TEST_DATA_DIR", &dir);
 
         let account = DemoAccount {
             id: "a1".into(),
@@ -170,7 +170,7 @@ mod tests {
         assert_eq!(legacy, account);
         assert!(needs_migration);
 
-        std::env::remove_var("COCKPIT_TOOLS_TEST_DATA_DIR");
+        std::env::remove_var("AISWITCH_TEST_DATA_DIR");
         let _ = fs::remove_dir_all(&dir);
     }
 }

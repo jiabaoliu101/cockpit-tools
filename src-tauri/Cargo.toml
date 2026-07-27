@@ -1,13 +1,13 @@
 [package]
-name = "cockpit-tools"
-version = "1.3.14"
-description = "Cockpit Tools"
-authors = ["jlcodes"]
-license = "CC-BY-NC-SA-4.0"
+name = "aiswitch"
+version = "1.0.0"
+description = "AISwitch"
+authors = ["jiabaoliu101"]
+license = "UNLICENSED"
 edition = "2021"
 
 [lib]
-name = "antigravity_cockpit_tools_lib"
+name = "aiswitch_lib"
 crate-type = ["staticlib", "rlib"]
 
 [build-dependencies]

@@ -1,6 +1,6 @@
 # Ubuntu 24.04 编译指导
 
-本文档用于在 Ubuntu 24.04 环境中本地编译 Cockpit Tools。WSL2 的 Ubuntu 24.04 也按本文档执行。
+本文档用于在 Ubuntu 24.04 环境中本地编译 AISwitch。WSL2 的 Ubuntu 24.04 也按本文档执行。
 
 注意：项目官方发布目标是 macOS 和 Windows，Linux/Ubuntu 不是官方发布目标。本文档用于本地验证和自用构建。
 
@@ -30,7 +30,7 @@ grep -i microsoft /proc/version
 仓库目录约定：
 
 ```text
-~/codes/cockpit-tools
+~/codes/aiswitch
 ```
 
 Node.js 要求：
@@ -108,11 +108,11 @@ pkg-config --modversion webkit2gtk-4.1
 mkdir -p ~/codes
 cd ~/codes
 
-if [ ! -d cockpit-tools/.git ]; then
-  git clone https://github.com/jlcodes99/cockpit-tools.git cockpit-tools
+if [ ! -d aiswitch/.git ]; then
+  git clone https://github.com/jlcodes99/aiswitch.git aiswitch
 fi
 
-cd ~/codes/cockpit-tools
+cd ~/codes/aiswitch
 test -f package.json && test -f src-tauri/tauri.conf.json && pwd
 ```
 
@@ -181,7 +181,7 @@ console.log(`Node.js ${process.versions.node} OK`);
 新 shell 窗口打开后执行：
 
 ```bash
-cd ~/codes/cockpit-tools
+cd ~/codes/aiswitch
 
 node -v
 npm -v
@@ -196,7 +196,7 @@ cargo --version
 以下命令默认都在新打开的 shell 中执行，并且当前目录是：
 
 ```bash
-cd ~/codes/cockpit-tools
+cd ~/codes/aiswitch
 ```
 
 安装前端依赖：
@@ -298,7 +298,7 @@ npm run tauri build
 编译成功后检查二进制：
 
 ```bash
-ls -lh target/release/cockpit-tools
+ls -lh target/release/aiswitch
 ```
 
 检查安装包：
@@ -310,9 +310,9 @@ find target/release/bundle -maxdepth 2 -type f -printf '%p %s bytes\n'
 常见产物：
 
 ```text
-target/release/bundle/deb/Cockpit Tools_0.22.20_amd64.deb
-target/release/bundle/rpm/Cockpit Tools-0.22.20-1.x86_64.rpm
-target/release/bundle/appimage/Cockpit Tools_0.22.20_amd64.AppImage
+target/release/bundle/deb/AISwitch_0.22.20_amd64.deb
+target/release/bundle/rpm/AISwitch-0.22.20-1.x86_64.rpm
+target/release/bundle/appimage/AISwitch_0.22.20_amd64.AppImage
 ```
 
 如果只想验证二进制能否编译，不需要生成 deb/rpm/AppImage：
@@ -340,7 +340,7 @@ git diff -- src-tauri/tauri.conf.json
 以下命令默认都在新打开的 shell 中执行，并且当前目录是：
 
 ```bash
-cd ~/codes/cockpit-tools
+cd ~/codes/aiswitch
 ```
 
 开发模式会启动 Vite dev server 和 Tauri 应用：

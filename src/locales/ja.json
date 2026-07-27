@@ -226,7 +226,7 @@
       "desc": "このエリアは全ページの右上に固定表示され、キャンペーン情報やブランド広告の掲載に適しています。",
       "action": "詳細を見る"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "折りたたむ",
     "confirmDelete": "削除を確認",
     "confirmDeleteTag": "タグ削除の確認",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "スポンサー",
-    "pageDesc": "Cockpit Tools を支援してくださるスポンサーの皆さまに感謝します。",
+    "pageDesc": "AISwitch を支援してくださるスポンサーの皆さまに感謝します。",
     "loading": "スポンサーを読み込み中...",
     "emptyTitle": "スポンサーはまだありません",
     "emptyDesc": "リモートのスポンサーモジュールは現在無効です。",
     "listAriaLabel": "スポンサー一覧",
-    "defaultDescription": "Cockpit Tools へのご支援ありがとうございます。",
+    "defaultDescription": "AISwitch へのご支援ありがとうございます。",
     "openSponsor": "開く"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "アプリ設定",
-    "subtitle": "Cockpit Tools の利用体験をカスタマイズします。",
+    "subtitle": "AISwitch の利用体験をカスタマイズします。",
     "tabs": {
       "general": "全般",
       "network": "ネットワーク設定",
@@ -655,7 +655,7 @@
       "codexSyncWsl": "Codex を WSL に同期",
       "codexSyncWslDesc": "既定の Codex アカウントを切り替えた後、auth.json と config.toml も WSL 内の Codex ディレクトリへ書き込みます。",
       "codexAppUiInjection": "API サービスのクォータ",
-      "codexAppUiInjectionDesc": "Codex インスタンスの再起動後、入力欄の下に Cockpit Tools API サービスのアカウント数、週間クォータ、5 時間クォータを表示します。Cockpit Tools をバックグラウンドで起動したままにしてください。完全に終了した場合やネットワークを利用できない場合は更新されません。",
+      "codexAppUiInjectionDesc": "Codex インスタンスの再起動後、入力欄の下に AISwitch API サービスのアカウント数、週間クォータ、5 時間クォータを表示します。AISwitch をバックグラウンドで起動したままにしてください。完全に終了した場合やネットワークを利用できない場合は更新されません。",
       "codexAppUiInjectionPoolLabel": "アカウント",
       "codexAppUiInjectionWeeklyLabel": "週",
       "codexAppUiInjectionFiveHourLabel": "5時間",
@@ -749,7 +749,7 @@
       "sideNavLayoutClassic": "クラシックレイアウト",
       "antigravityDualSwitchNoRestart": "再起動なしデュアル切替",
       "antigravityDualSwitchNoRestartDesc": "切替時にローカルのアカウントデータ書き込みと拡張機能のシームレス切替を1つのフローで実行し、Antigravity IDE を再起動しません。",
-      "appAutoLaunch": "ログイン時に Cockpit Tools を起動",
+      "appAutoLaunch": "ログイン時に AISwitch を起動",
       "appAutoLaunchDesc": "システムログイン後にアプリを自動起動します",
       "startupWakeupDisabled": "無効",
       "startupWakeupImmediate": "すぐに起動",
@@ -883,7 +883,7 @@
       "firewallHint": "URL にアクセスできない場合は、システムのファイアウォール設定を確認してください。",
       "proxyTitle": "グローバルプロキシ",
       "proxyEnabled": "グローバルプロキシを有効化",
-      "proxyEnabledDesc": "Cockpit が起動する管理対象プラットフォームのプロセスへ、プロキシ環境変数を注入します。",
+      "proxyEnabledDesc": "aiswitch が起動する管理対象プラットフォームのプロセスへ、プロキシ環境変数を注入します。",
       "proxyUrl": "プロキシ URL",
       "proxyUrlDesc": "例: http://127.0.0.1:7890 または socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "例: http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "グローバルプロキシを有効にする場合、プロキシ URL は必須です。"
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "プロフェッショナルなアカウント管理ソリューション",
       "author": "著者",
       "wechat": "WeChat 公衆号",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "保存済み。変更しない場合は空白のままにします",
       "clearPassword": "消去",
       "remoteDirTitle": "リモートディレクトリ",
-      "remoteDirDesc": "このディレクトリ内のCockpitバックアップファイルのみが管理されます。",
+      "remoteDirDesc": "このディレクトリ内のaiswitchバックアップファイルのみが管理されます。",
       "statusTitle": "同期ステータス",
       "statusDesc": "リモートからの復元は手動で選択する必要があり、ローカルデータがサイレントに上書きされることはありません。",
       "lastUpload": "最終アップロード：{{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "設定同期",
       "syncLatestConfirm": "最新のリモートバックアップ {{name}} を取得してローカルに同期しますか？これにより、既存のローカルデータが上書きされます。",
       "remoteListTitle": "リモートバックアップ",
-      "remoteListDesc": "Cockpitの自動/手動バックアップ名に一致するJSONおよびZIPファイルのみが表示されます。",
+      "remoteListDesc": "aiswitchの自動/手動バックアップ名に一致するJSONおよびZIPファイルのみが表示されます。",
       "emptyTitle": "リモートバックアップがありません",
       "emptyDesc": "設定を保存してから、バックアップを作成してアップロードしてください。",
       "unknownTime": "不明",
@@ -1409,7 +1409,7 @@
       "importBtn": "インポート",
       "oauthAction": "OAuth 認証",
       "fromExtension": "プラグインからインポート",
-      "syncBadge": "Antigravity Cockpit プラグインのアカウントを同期",
+      "syncBadge": "Antigravity aiswitch プラグインのアカウントを同期",
       "fromLocalDB": "ローカル DB からインポート",
       "localDBDesc": "このマシンの Antigravity IDE クライアントからログインアカウントを読み込む",
       "toolsDescMigrate": "~/.antigravity_tools/ からアカウントを移行",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "エクスポート形式",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "sub2api 形式",
       "cpa": "cpa 形式",
-      "agentIdentityCpaUnsupported": "Agent Identity アカウントは cpa 形式ではエクスポートできません。Cockpit Tools または sub2api を使用してください。",
+      "agentIdentityCpaUnsupported": "Agent Identity アカウントは cpa 形式ではエクスポートできません。AISwitch または sub2api を使用してください。",
       "agentIdentityPrivateKeyNotice": "このエクスポートには、別のデバイスでアカウントを復元できる Agent Identity 秘密鍵が含まれます。パスワードと同様に厳重に保管してください。",
       "downloadAll": "すべてダウンロード",
       "cpaCardTitle": "アカウント {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "サービスには到達しましたが、認証に失敗しました: {{detail}}。API サービスキーまたはアカウントのログイン状態を確認してください。",
       "testServiceUnavailable": "サービスには到達しましたが、現在利用できません: {{detail}}。サービスが有効か、アカウント集合が空でないか、アカウントが利用可能かを確認してください。",
       "gatewayErrors": {
-        "authUnavailable": "現在、ルーティング可能なアカウントがありません。冷却中、認証失敗、またはクォータ制限の可能性があります。Cockpit Tools の API サービスで状態を確認してください。",
-        "authNotFound": "利用可能なアカウントがアカウントプールに設定されていません。Cockpit Tools の API サービスで追加または有効化してください。"
+        "authUnavailable": "現在、ルーティング可能なアカウントがありません。冷却中、認証失敗、またはクォータ制限の可能性があります。AISwitch の API サービスで状態を確認してください。",
+        "authNotFound": "利用可能なアカウントがアカウントプールに設定されていません。AISwitch の API サービスで追加または有効化してください。"
       },
       "testRateLimited": "サービスには到達しましたが、上流でレート制限またはクォータ不足です: {{detail}}。",
       "testHttpFailed": "サービスには到達しましたが、リクエストは HTTP {{status}} を返しました: {{detail}}。",
@@ -2745,7 +2745,7 @@
         "placeholder": "1 行に 1 つのモデル ID を入力するか、カンマで区切ってください。",
         "editHint": "取得したモデルはこの下書きにのみ反映されます。保存前に確認・編集できます。",
         "syncToggle": "プロバイダーのモデルを Codex に同期",
-        "syncDescription": "保存後、この一覧から Cockpit 管理の Codex モデルカタログを生成します。ユーザー独自のカタログは上書きしません。",
+        "syncDescription": "保存後、この一覧から aiswitch 管理の Codex モデルカタログを生成します。ユーザー独自のカタログは上書きしません。",
         "fetchCredentialsRequired": "先に API Key と Base URL を入力してください。",
         "fetchEmpty": "プロバイダーからモデルが返されませんでした。現在の一覧を保持します。",
         "fetchFailed": "プロバイダーのモデルを取得できませんでした：{{error}}",
@@ -2825,8 +2825,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "アカウントメモを保存しました",
       "saveFailed": "アカウントメモの保存に失敗しました: {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Cockpit Api サービスパネル",
+    "aiswitchApi": {
+      "panelTitle": "aiswitch Api サービスパネル",
       "servicePanel": "サービスパネル",
       "balance": "残高",
       "requests": "リクエスト",
@@ -4885,14 +4885,14 @@
     "search": "ZCode アカウントを検索...",
     "flowNotice": {
       "title": "ZCode アカウント管理について",
-      "desc": "Cockpit は ZCode の暗号化されたローカル認証情報を読み書きし、実際のアカウント切替とインスタンス連携に使用します。",
+      "desc": "aiswitch は ZCode の暗号化されたローカル認証情報を読み書きし、実際のアカウント切替とインスタンス連携に使用します。",
       "permission": "ローカル範囲：~/.zcode/v2/credentials.json と管理対象インスタンスのディレクトリ。",
-      "network": "ネットワーク範囲：OAuth、ユーザー情報、サブスクリプション、クォータ API。アカウントを Cockpit サービスへ送信しません。"
+      "network": "ネットワーク範囲：OAuth、ユーザー情報、サブスクリプション、クォータ API。アカウントを aiswitch サービスへ送信しません。"
     },
     "empty": "ZCode アカウントはありません",
     "addAccount": "ZCode アカウントを追加",
     "oauth": {
-      "desc": "ZCode を終了し、Cockpit の認証ウィンドウでログインしてください。コールバックは Cockpit が直接受信します。",
+      "desc": "ZCode を終了し、aiswitch の認証ウィンドウでログインしてください。コールバックは aiswitch が直接受信します。",
       "title": "ZCode OAuth 認証",
       "item1": "Z.ai と BigModel の公式ログインに対応。",
       "item2": "認証後にアカウントを保存し、プランとモデルクォータを更新。",
@@ -4904,7 +4904,7 @@
       "success": "ZCode OAuth ログインに成功しました"
     },
     "token": {
-      "desc": "Cockpit からエクスポートした ZCode アカウント JSON を貼り付けます。"
+      "desc": "aiswitch からエクスポートした ZCode アカウント JSON を貼り付けます。"
     },
     "apiKey": {
       "tab": "API キー",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "戻る",
       "switchToThisAccount": "切替",
       "openDetails": "詳細を開く",
-      "openCockpitTools": "Cockpit Tools を開く"
+      "openaiswitchTools": "AISwitch を開く"
     },
     "empty": {
       "title": "アカウントがありません",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "専用リレー",
-    "pageDesc": "Cockpit Tools ユーザー向けの提携 API サービスで、Codex API Key アカウントに利用できます。",
+    "pageDesc": "AISwitch ユーザー向けの提携 API サービスで、Codex API Key アカウントに利用できます。",
     "loading": "リレーを読み込み中...",
     "emptyTitle": "リレーは無効です",
     "emptyDesc": "現在のリモート設定では専用リレーが有効になっていません。",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "中継サービス",
     "title": "APIKEY.FUN リレー",
-    "description": "Cockpit 公式パートナーの中継サービスで、安定したオープンで高コストパフォーマンスな大規模モデル API 接続を提供します。Claude、OpenAI、Gemini などの主要モデルに対応し、Codex、Gemini CLI、Claude Code などの開発ツールで統一して設定できます。Cockpit 専用リンクから登録すると、チャージが永久に最大 5% 割引になります。",
+    "description": "aiswitch 公式パートナーの中継サービスで、安定したオープンで高コストパフォーマンスな大規模モデル API 接続を提供します。Claude、OpenAI、Gemini などの主要モデルに対応し、Codex、Gemini CLI、Claude Code などの開発ツールで統一して設定できます。aiswitch 専用リンクから登録すると、チャージが永久に最大 5% 割引になります。",
     "register": "専用登録リンク",
     "docs": "公式ドキュメント",
     "viewNow": "今すぐ見る",
@@ -5311,7 +5311,7 @@
       "title": "Grok CLI アカウント管理",
       "desc": "通常は個別の GROK_HOME を使用します。公式ログイン同期を有効にすると、デフォルトインスタンスの OAuth 切替時に公式の ~/.grok/auth.json へ書き込み、追加インスタンスは分離されたままです。",
       "permission": "ローカル範囲: 既定の ~/.grok/auth.json はインポート時に読み取れます。書き込みは同期が有効なデフォルトインスタンスの OAuth 切替時のみで、API Key は公式ログインを上書きしません。",
-      "network": "ネットワーク範囲: OAuth 認証、認証情報の更新、アカウント使用量の照会。認証情報を Cockpit サービスへアップロードすることはありません。"
+      "network": "ネットワーク範囲: OAuth 認証、認証情報の更新、アカウント使用量の照会。認証情報を aiswitch サービスへアップロードすることはありません。"
     },
     "empty": "Grok CLI アカウントはありません",
     "addAccount": "Grok CLI アカウントを追加",

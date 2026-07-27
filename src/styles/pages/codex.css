@@ -5400,9 +5400,9 @@
   animation: modalFadeIn 0.25s ease;
 }
 
-.cockpit-api-panel-modal {
-  --cockpit-api-accent: #0f766e;
-  --cockpit-api-accent-soft: rgba(15, 118, 110, 0.1);
+.aiswitch-api-panel-modal {
+  --aiswitch-api-accent: #0f766e;
+  --aiswitch-api-accent-soft: rgba(15, 118, 110, 0.1);
   width: min(920px, calc(100vw - 48px));
   max-height: min(760px, calc(100vh - 48px));
   display: flex;
@@ -5412,22 +5412,22 @@
   border-color: color-mix(
     in srgb,
     var(--border) 72%,
-    var(--cockpit-api-accent)
+    var(--aiswitch-api-accent)
   );
   border-radius: 16px;
 }
 
-.cockpit-api-panel-header {
+.aiswitch-api-panel-header {
   padding: 18px 24px 16px;
   background: var(--bg-card);
 }
 
-.cockpit-api-panel-header h2 {
+.aiswitch-api-panel-header h2 {
   font-size: 20px;
   line-height: 1.2;
 }
 
-.cockpit-api-panel-subtitle {
+.aiswitch-api-panel-subtitle {
   display: block;
   margin-top: 6px;
   color: var(--text-secondary);
@@ -5436,7 +5436,7 @@
   letter-spacing: 0;
 }
 
-.cockpit-api-panel-body {
+.aiswitch-api-panel-body {
   display: grid;
   gap: 14px;
   padding: 18px 24px 28px;
@@ -5444,35 +5444,35 @@
   background: var(--bg-secondary);
 }
 
-.cockpit-api-connection-card,
-.cockpit-api-balance-card,
-.cockpit-api-stat-card,
-.cockpit-api-panel-section {
+.aiswitch-api-connection-card,
+.aiswitch-api-balance-card,
+.aiswitch-api-stat-card,
+.aiswitch-api-panel-section {
   border: 1px solid var(--border-light);
   border-radius: 8px;
   background: var(--bg-card);
 }
 
-.cockpit-api-connection-card {
+.aiswitch-api-connection-card {
   display: grid;
   gap: 8px;
   padding: 12px;
 }
 
-.cockpit-api-connection-row {
+.aiswitch-api-connection-row {
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
 }
 
-.cockpit-api-connection-row > span {
+.aiswitch-api-connection-row > span {
   color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
 }
 
-.cockpit-api-connection-row code {
+.aiswitch-api-connection-row code {
   min-width: 0;
   padding: 9px 11px;
   border: 1px solid var(--border-light);
@@ -5487,61 +5487,61 @@
   white-space: nowrap;
 }
 
-.cockpit-api-connection-actions {
+.aiswitch-api-connection-actions {
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.cockpit-api-icon-btn {
+.aiswitch-api-icon-btn {
   width: 32px;
   height: 32px;
   color: var(--text-secondary);
 }
 
-.cockpit-api-summary-grid {
+.aiswitch-api-summary-grid {
   display: grid;
   grid-template-columns: minmax(240px, 1.35fr) repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.cockpit-api-summary-grid.compact {
+.aiswitch-api-summary-grid.compact {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.cockpit-api-balance-card,
-.cockpit-api-stat-card {
+.aiswitch-api-balance-card,
+.aiswitch-api-stat-card {
   display: grid;
   align-content: space-between;
   min-height: 118px;
   padding: 14px;
 }
 
-.cockpit-api-stat-card-center {
+.aiswitch-api-stat-card-center {
   align-content: center;
 }
 
-.cockpit-api-stat-card-center strong {
+.aiswitch-api-stat-card-center strong {
   margin-top: 12px;
 }
 
-.cockpit-api-balance-card {
+.aiswitch-api-balance-card {
   border-color: color-mix(
     in srgb,
-    var(--cockpit-api-accent) 30%,
+    var(--aiswitch-api-accent) 30%,
     var(--border-light)
   );
-  background: color-mix(in srgb, var(--cockpit-api-accent) 5%, var(--bg-card));
+  background: color-mix(in srgb, var(--aiswitch-api-accent) 5%, var(--bg-card));
 }
 
-.cockpit-api-card-label {
+.aiswitch-api-card-label {
   color: var(--text-secondary);
   font-size: 12px;
   font-weight: 700;
 }
 
-.cockpit-api-balance-card strong,
-.cockpit-api-stat-card strong {
+.aiswitch-api-balance-card strong,
+.aiswitch-api-stat-card strong {
   margin-top: 8px;
   color: var(--text-primary);
   font-size: 22px;
@@ -5550,14 +5550,14 @@
   letter-spacing: 0;
 }
 
-.cockpit-api-stat-card small {
+.aiswitch-api-stat-card small {
   margin-top: 10px;
   color: var(--text-secondary);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-api-balance-meta {
+.aiswitch-api-balance-meta {
   display: block;
   margin-top: 10px;
   color: var(--text-secondary);
@@ -5567,49 +5567,49 @@
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-api-progress-row {
+.aiswitch-api-progress-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   margin-top: 12px;
-  color: var(--cockpit-api-accent);
+  color: var(--aiswitch-api-accent);
   font-size: 12px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-api-progress-track {
+.aiswitch-api-progress-track {
   height: 7px;
   overflow: hidden;
   border-radius: 999px;
   background: color-mix(
     in srgb,
-    var(--cockpit-api-accent) 12%,
+    var(--aiswitch-api-accent) 12%,
     var(--bg-tertiary)
   );
 }
 
-.cockpit-api-progress-bar {
+.aiswitch-api-progress-bar {
   height: 100%;
   border-radius: inherit;
-  background: var(--cockpit-api-accent);
+  background: var(--aiswitch-api-accent);
 }
 
-.cockpit-api-stats-grid {
+.aiswitch-api-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.cockpit-api-panel-section {
+.aiswitch-api-panel-section {
   min-width: 0;
   overflow: visible;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
 }
 
-.cockpit-api-section-head {
+.aiswitch-api-section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -5618,18 +5618,18 @@
   border-bottom: 1px solid var(--border-light);
 }
 
-.cockpit-api-section-head strong {
+.aiswitch-api-section-head strong {
   color: var(--text-primary);
   font-size: 14px;
 }
 
-.cockpit-api-usage-list {
+.aiswitch-api-usage-list {
   display: grid;
   max-height: 260px;
   overflow: auto;
 }
 
-.cockpit-api-usage-card-grid {
+.aiswitch-api-usage-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
@@ -5638,7 +5638,7 @@
   padding-bottom: 18px;
 }
 
-.cockpit-api-usage-card {
+.aiswitch-api-usage-card {
   min-width: 0;
   display: grid;
   align-content: start;
@@ -5650,9 +5650,9 @@
   background: color-mix(in srgb, var(--bg-secondary) 62%, transparent);
 }
 
-.cockpit-api-usage-card strong {
+.aiswitch-api-usage-card strong {
   min-width: 0;
-  color: var(--cockpit-api-accent);
+  color: var(--aiswitch-api-accent);
   font-size: 17px;
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
@@ -5661,7 +5661,7 @@
   white-space: nowrap;
 }
 
-.cockpit-api-usage-card small {
+.aiswitch-api-usage-card small {
   display: block;
   min-width: 0;
   color: var(--text-muted);
@@ -5673,7 +5673,7 @@
   white-space: nowrap;
 }
 
-.cockpit-api-usage-row {
+.aiswitch-api-usage-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -5682,15 +5682,15 @@
   border-bottom: 1px solid var(--border-light);
 }
 
-.cockpit-api-usage-row:last-child {
+.aiswitch-api-usage-row:last-child {
   border-bottom: 0;
 }
 
-.cockpit-api-usage-row > div {
+.aiswitch-api-usage-row > div {
   min-width: 0;
 }
 
-.cockpit-api-usage-name {
+.aiswitch-api-usage-name {
   display: block;
   min-width: 0;
   overflow: hidden;
@@ -5701,146 +5701,146 @@
   white-space: nowrap;
 }
 
-.cockpit-api-usage-row small,
-.cockpit-api-usage-values span {
+.aiswitch-api-usage-row small,
+.aiswitch-api-usage-values span {
   color: var(--text-secondary);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-api-usage-values {
+.aiswitch-api-usage-values {
   display: grid;
   gap: 4px;
   text-align: right;
   white-space: nowrap;
 }
 
-.cockpit-api-usage-values strong {
-  color: var(--cockpit-api-accent);
+.aiswitch-api-usage-values strong {
+  color: var(--aiswitch-api-accent);
   font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
-.cockpit-api-empty-row,
-.cockpit-api-empty-state {
+.aiswitch-api-empty-row,
+.aiswitch-api-empty-state {
   padding: 18px;
   color: var(--text-secondary);
   font-size: 13px;
   text-align: center;
 }
 
-.cockpit-api-empty-state {
+.aiswitch-api-empty-state {
   border: 1px dashed var(--border);
   border-radius: 8px;
   background: var(--bg-card);
 }
 
-.cockpit-api-panel-footer {
+.aiswitch-api-panel-footer {
   padding: 14px 24px;
   background: var(--bg-card);
 }
 
 @media (max-width: 900px) {
-  .cockpit-api-summary-grid {
+  .aiswitch-api-summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cockpit-api-summary-grid.compact {
+  .aiswitch-api-summary-grid.compact {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cockpit-api-usage-card-grid {
+  .aiswitch-api-usage-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cockpit-api-balance-card {
+  .aiswitch-api-balance-card {
     grid-column: 1 / -1;
   }
 
-  .cockpit-api-stats-grid {
+  .aiswitch-api-stats-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 620px) {
-  .cockpit-api-panel-modal {
+  .aiswitch-api-panel-modal {
     width: calc(100vw - 24px);
     max-height: calc(100vh - 24px);
   }
 
-  .cockpit-api-panel-header,
-  .cockpit-api-panel-body,
-  .cockpit-api-panel-footer {
+  .aiswitch-api-panel-header,
+  .aiswitch-api-panel-body,
+  .aiswitch-api-panel-footer {
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .cockpit-api-summary-grid {
+  .aiswitch-api-summary-grid {
     grid-template-columns: 1fr;
   }
 
-  .cockpit-api-summary-grid.compact {
+  .aiswitch-api-summary-grid.compact {
     grid-template-columns: 1fr;
   }
 
-  .cockpit-api-usage-card-grid {
+  .aiswitch-api-usage-card-grid {
     grid-template-columns: 1fr;
   }
 
-  .cockpit-api-connection-row {
+  .aiswitch-api-connection-row {
     grid-template-columns: 1fr auto;
   }
 
-  .cockpit-api-connection-row > span {
+  .aiswitch-api-connection-row > span {
     grid-column: 1 / -1;
   }
 
-  .cockpit-api-panel-footer {
+  .aiswitch-api-panel-footer {
     flex-direction: column-reverse;
   }
 
-  .cockpit-api-panel-footer .btn {
+  .aiswitch-api-panel-footer .btn {
     width: 100%;
   }
 }
 
-[data-theme="dark"] .cockpit-api-panel-modal {
-  --cockpit-api-accent: #2dd4bf;
-  --cockpit-api-accent-soft: rgba(45, 212, 191, 0.12);
+[data-theme="dark"] .aiswitch-api-panel-modal {
+  --aiswitch-api-accent: #2dd4bf;
+  --aiswitch-api-accent-soft: rgba(45, 212, 191, 0.12);
   background: rgba(15, 23, 42, 0.98);
   border-color: rgba(45, 212, 191, 0.2);
 }
 
-[data-theme="dark"] .cockpit-api-panel-header,
-[data-theme="dark"] .cockpit-api-panel-footer {
+[data-theme="dark"] .aiswitch-api-panel-header,
+[data-theme="dark"] .aiswitch-api-panel-footer {
   background: rgba(15, 23, 42, 0.98);
 }
 
-[data-theme="dark"] .cockpit-api-panel-body {
+[data-theme="dark"] .aiswitch-api-panel-body {
   background: rgba(2, 6, 23, 0.42);
 }
 
-[data-theme="dark"] .cockpit-api-connection-card,
-[data-theme="dark"] .cockpit-api-balance-card,
-[data-theme="dark"] .cockpit-api-stat-card,
-[data-theme="dark"] .cockpit-api-panel-section,
-[data-theme="dark"] .cockpit-api-empty-state {
+[data-theme="dark"] .aiswitch-api-connection-card,
+[data-theme="dark"] .aiswitch-api-balance-card,
+[data-theme="dark"] .aiswitch-api-stat-card,
+[data-theme="dark"] .aiswitch-api-panel-section,
+[data-theme="dark"] .aiswitch-api-empty-state {
   background: rgba(15, 23, 42, 0.72);
   border-color: rgba(148, 163, 184, 0.18);
 }
 
-[data-theme="dark"] .cockpit-api-balance-card {
+[data-theme="dark"] .aiswitch-api-balance-card {
   border-color: rgba(45, 212, 191, 0.32);
   background: rgba(20, 184, 166, 0.12);
 }
 
-[data-theme="dark"] .cockpit-api-connection-row code {
+[data-theme="dark"] .aiswitch-api-connection-row code {
   background: rgba(2, 6, 23, 0.42);
   border-color: rgba(148, 163, 184, 0.16);
 }
 
-[data-theme="dark"] .cockpit-api-section-head,
-[data-theme="dark"] .cockpit-api-usage-row {
+[data-theme="dark"] .aiswitch-api-section-head,
+[data-theme="dark"] .aiswitch-api-usage-row {
   border-color: rgba(148, 163, 184, 0.16);
 }
 

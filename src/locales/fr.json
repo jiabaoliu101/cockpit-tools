@@ -226,7 +226,7 @@
       "desc": "Cette zone est fixée en haut à droite sur toutes les pages pour les campagnes ou publicités de marque.",
       "action": "Voir les détails"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "Réduire",
     "confirmDelete": "Confirmer la suppression",
     "confirmDeleteTag": "Confirmer la suppression du tag",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "Sponsors​",
-    "pageDesc": "Merci à ces sponsors de soutenir Cockpit Tools.",
+    "pageDesc": "Merci à ces sponsors de soutenir AISwitch.",
     "loading": "Chargement des sponsors...",
     "emptyTitle": "Aucun sponsor pour le moment",
     "emptyDesc": "Le module distant des sponsors est actuellement désactivé.",
     "listAriaLabel": "Liste des sponsors",
-    "defaultDescription": "Merci de soutenir Cockpit Tools.",
+    "defaultDescription": "Merci de soutenir AISwitch.",
     "openSponsor": "Ouvrir"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "Paramètres de l'application",
-    "subtitle": "Personnalisez votre expérience Cockpit Tools.",
+    "subtitle": "Personnalisez votre expérience AISwitch.",
     "tabs": {
       "general": "Général",
       "network": "Réseau",
@@ -651,7 +651,7 @@
       "codexSyncWsl": "Synchroniser Codex vers WSL",
       "codexSyncWslDesc": "Après le changement du compte Codex par défaut, auth.json et config.toml sont aussi écrits dans le dossier Codex de WSL.",
       "codexAppUiInjection": "Quota du service API",
-      "codexAppUiInjectionDesc": "Après le redémarrage d’une instance Codex, afficher sous le compositeur le nombre de comptes et les quotas hebdomadaire et de 5 heures du service API Cockpit Tools. Cockpit Tools doit rester actif en arrière-plan ; les mises à jour s’arrêtent après sa fermeture complète ou si le réseau est indisponible.",
+      "codexAppUiInjectionDesc": "Après le redémarrage d’une instance Codex, afficher sous le compositeur le nombre de comptes et les quotas hebdomadaire et de 5 heures du service API AISwitch. AISwitch doit rester actif en arrière-plan ; les mises à jour s’arrêtent après sa fermeture complète ou si le réseau est indisponible.",
       "codexAppUiInjectionPoolLabel": "Comptes",
       "codexAppUiInjectionWeeklyLabel": "Semaine",
       "codexAppUiInjectionFiveHourLabel": "5 h",
@@ -745,7 +745,7 @@
       "sideNavLayoutClassic": "Disposition classique",
       "antigravityDualSwitchNoRestart": "Bascule double sans redémarrage",
       "antigravityDualSwitchNoRestartDesc": "Lors du changement de compte, les données locales sont écrites et la bascule fluide de l’extension est exécutée dans un seul flux, sans redémarrer Antigravity IDE.",
-      "appAutoLaunch": "Lancer Cockpit Tools à la connexion",
+      "appAutoLaunch": "Lancer AISwitch à la connexion",
       "appAutoLaunchDesc": "Démarrer automatiquement l'application après la connexion au système",
       "startupWakeupDisabled": "Désactivé",
       "startupWakeupImmediate": "Réveiller immédiatement",
@@ -854,7 +854,7 @@
       "webdavAllowedDomainsDesc": "Séparés par des virgules ; vide = sans limite"
     },
     "network": {
-      "apiTitle": "API du cockpit antigravité",
+      "apiTitle": "API du aiswitch antigravité",
       "wsService": "Service WebSocket",
       "wsServiceDesc": "Autoriser les programmes externes (ex. extension VS Code) à se connecter",
       "preferredPort": "Port préféré",
@@ -883,7 +883,7 @@
       "firewallHint": "Si l’URL est inaccessible, vérifiez les paramètres du pare-feu système.",
       "proxyTitle": "Proxy global",
       "proxyEnabled": "Activer le proxy global",
-      "proxyEnabledDesc": "Injecter des variables d'environnement proxy dans les processus de plateforme gérés lancés par Cockpit.",
+      "proxyEnabledDesc": "Injecter des variables d'environnement proxy dans les processus de plateforme gérés lancés par aiswitch.",
       "proxyUrl": "URL du proxy",
       "proxyUrlDesc": "Exemple : http://127.0.0.1:7890 ou socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "ex. http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "L'URL du proxy ne peut pas être vide lorsque le proxy global est activé."
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "Solution professionnelle de gestion de comptes",
       "author": "Auteur",
       "wechat": "WeChat​",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "Enregistré ; laisser vide pour le conserver",
       "clearPassword": "Effacer",
       "remoteDirTitle": "Dossier distant",
-      "remoteDirDesc": "Seuls les fichiers de sauvegarde de Cockpit dans ce dossier sont gérés.",
+      "remoteDirDesc": "Seuls les fichiers de sauvegarde de aiswitch dans ce dossier sont gérés.",
       "statusTitle": "État de la synchronisation",
       "statusDesc": "La restauration à distance nécessite une sélection manuelle et n'écrase jamais silencieusement les données locales.",
       "lastUpload": "Dernier téléchargement : {{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "Synchroniser la config",
       "syncLatestConfirm": "Voulez-vous vraiment télécharger la dernière sauvegarde distante {{name}} et la synchroniser localement ? Cela écrasera les données locales existantes.",
       "remoteListTitle": "Sauvegardes distantes",
-      "remoteListDesc": "Seuls les fichiers JSON et ZIP correspondant aux noms de sauvegarde automatique/manuelle de Cockpit sont affichés.",
+      "remoteListDesc": "Seuls les fichiers JSON et ZIP correspondant aux noms de sauvegarde automatique/manuelle de aiswitch sont affichés.",
       "emptyTitle": "Aucune sauvegarde distante",
       "emptyDesc": "Enregistrez les paramètres, puis créez et téléchargez une sauvegarde.",
       "unknownTime": "Inconnu",
@@ -1409,7 +1409,7 @@
       "importBtn": "Importer",
       "oauthAction": "Autorisation OAuth",
       "fromExtension": "Importer depuis l'extension",
-      "syncBadge": "Synchroniser les comptes de l'extension Antigravity Cockpit",
+      "syncBadge": "Synchroniser les comptes de l'extension Antigravity aiswitch",
       "fromLocalDB": "Importer depuis la base de données locale",
       "localDBDesc": "Lire les comptes de connexion du client Antigravity IDE sur cette machine",
       "toolsDescMigrate": "Migrer les comptes depuis ~/.antigravity_tools/",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "Format d’export",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "Format sub2api",
       "cpa": "Format cpa",
-      "agentIdentityCpaUnsupported": "Les comptes Agent Identity ne peuvent pas être exportés au format cpa. Utilisez Cockpit Tools ou sub2api.",
+      "agentIdentityCpaUnsupported": "Les comptes Agent Identity ne peuvent pas être exportés au format cpa. Utilisez AISwitch ou sub2api.",
       "agentIdentityPrivateKeyNotice": "Cet export contient une clé privée Agent Identity permettant de restaurer le compte sur un autre appareil. Protégez-la comme un mot de passe.",
       "downloadAll": "Tout télécharger",
       "cpaCardTitle": "Compte {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "Service joignable, mais authentification échouée : {{detail}}. Vérifiez la clé du service API ou l’état de connexion du compte.",
       "testServiceUnavailable": "Service joignable, mais actuellement indisponible : {{detail}}. Vérifiez si le service est activé, si la collection de comptes est vide ou si les comptes sont utilisables.",
       "gatewayErrors": {
-        "authUnavailable": "Aucun compte du pool n’est actuellement utilisable. Le compte peut être en refroidissement, non autorisé ou limité par son quota. Vérifiez son état dans le service API de Cockpit Tools.",
-        "authNotFound": "Aucun compte utilisable n’est configuré dans le pool. Ajoutez ou activez un compte dans le service API de Cockpit Tools."
+        "authUnavailable": "Aucun compte du pool n’est actuellement utilisable. Le compte peut être en refroidissement, non autorisé ou limité par son quota. Vérifiez son état dans le service API de AISwitch.",
+        "authNotFound": "Aucun compte utilisable n’est configuré dans le pool. Ajoutez ou activez un compte dans le service API de AISwitch."
       },
       "testRateLimited": "Service joignable, mais l’amont est limité ou le quota est épuisé : {{detail}}.",
       "testHttpFailed": "Service joignable, mais la requête a renvoyé HTTP {{status}} : {{detail}}.",
@@ -2745,7 +2745,7 @@
         "placeholder": "Saisissez un ID de modèle par ligne ou séparez les ID par des virgules.",
         "editHint": "Les modèles récupérés sont ajoutés uniquement à ce brouillon. Vérifiez-les et modifiez-les avant d’enregistrer.",
         "syncToggle": "Synchroniser les modèles du fournisseur avec Codex",
-        "syncDescription": "Après l’enregistrement, cette liste génère le catalogue de modèles Codex géré par Cockpit. Les catalogues personnalisés ne sont pas remplacés.",
+        "syncDescription": "Après l’enregistrement, cette liste génère le catalogue de modèles Codex géré par aiswitch. Les catalogues personnalisés ne sont pas remplacés.",
         "fetchCredentialsRequired": "Saisissez d’abord l’API Key et la Base URL.",
         "fetchEmpty": "Le fournisseur n’a renvoyé aucun modèle. La liste actuelle a été conservée.",
         "fetchFailed": "Impossible de récupérer les modèles du fournisseur : {{error}}",
@@ -2825,8 +2825,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "Note de compte enregistrée",
       "saveFailed": "Échec de l’enregistrement de la note de compte : {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Panneau du service Cockpit Api",
+    "aiswitchApi": {
+      "panelTitle": "Panneau du service aiswitch Api",
       "servicePanel": "Panneau de service",
       "balance": "Solde",
       "requests": "Requêtes",
@@ -4885,14 +4885,14 @@
     "search": "Rechercher des comptes ZCode...",
     "flowNotice": {
       "title": "Guide des comptes ZCode",
-      "desc": "Cockpit lit et réécrit les identifiants locaux chiffrés de ZCode pour changer réellement de compte et lier les instances.",
+      "desc": "aiswitch lit et réécrit les identifiants locaux chiffrés de ZCode pour changer réellement de compte et lier les instances.",
       "permission": "Périmètre local : ~/.zcode/v2/credentials.json et répertoires des instances gérées.",
-      "network": "Périmètre réseau : API OAuth, utilisateur, abonnement et quota. Aucun compte n'est envoyé à un service Cockpit."
+      "network": "Périmètre réseau : API OAuth, utilisateur, abonnement et quota. Aucun compte n'est envoyé à un service aiswitch."
     },
     "empty": "Aucun compte ZCode",
     "addAccount": "Ajouter un compte ZCode",
     "oauth": {
-      "desc": "Fermez ZCode, puis connectez-vous dans la fenêtre d’autorisation de Cockpit ; Cockpit recevra directement le rappel.",
+      "desc": "Fermez ZCode, puis connectez-vous dans la fenêtre d’autorisation de aiswitch ; aiswitch recevra directement le rappel.",
       "title": "OAuth ZCode",
       "item1": "Connexion officielle Z.ai et BigModel.",
       "item2": "Enregistre le compte et actualise l'offre et les quotas de modèles.",
@@ -4904,7 +4904,7 @@
       "success": "Connexion OAuth ZCode réussie"
     },
     "token": {
-      "desc": "Collez le JSON d'un compte ZCode exporté par Cockpit."
+      "desc": "Collez le JSON d'un compte ZCode exporté par aiswitch."
     },
     "apiKey": {
       "tab": "Clé API",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "Retour",
       "switchToThisAccount": "Passer",
       "openDetails": "Ouvrir les détails",
-      "openCockpitTools": "Ouvrir Cockpit Tools"
+      "openaiswitchTools": "Ouvrir AISwitch"
     },
     "empty": {
       "title": "Aucun compte",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "Relais exclusif",
-    "pageDesc": "Service API partenaire pour les utilisateurs de Cockpit Tools, utilisable avec les comptes API Key Codex.",
+    "pageDesc": "Service API partenaire pour les utilisateurs de AISwitch, utilisable avec les comptes API Key Codex.",
     "loading": "Chargement du relais...",
     "emptyTitle": "Relais désactivé",
     "emptyDesc": "La configuration distante n’a pas activé le relais exclusif.",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "Relais",
     "title": "Relay APIKEY.FUN",
-    "description": "Le relais partenaire officiel de Cockpit fournit un accès API stable, ouvert et économique aux grands modèles. Il prend en charge Claude, OpenAI, Gemini et d’autres modèles majeurs, et convient à une configuration unifiée dans Codex, Gemini CLI, Claude Code et d’autres outils de développement. En vous inscrivant via le lien exclusif Cockpit, vous pouvez bénéficier d’une remise permanente allant jusqu’à 5% sur les recharges.",
+    "description": "Le relais partenaire officiel de aiswitch fournit un accès API stable, ouvert et économique aux grands modèles. Il prend en charge Claude, OpenAI, Gemini et d’autres modèles majeurs, et convient à une configuration unifiée dans Codex, Gemini CLI, Claude Code et d’autres outils de développement. En vous inscrivant via le lien exclusif aiswitch, vous pouvez bénéficier d’une remise permanente allant jusqu’à 5% sur les recharges.",
     "register": "Lien exclusif",
     "docs": "Docs officielles",
     "viewNow": "Voir maintenant",
@@ -5311,7 +5311,7 @@
       "title": "Gestion des comptes Grok CLI",
       "desc": "Des GROK_HOME distincts sont utilisés par défaut. Si la synchronisation est activée, un changement OAuth de l’instance par défaut écrit dans ~/.grok/auth.json ; les instances supplémentaires restent isolées.",
       "permission": "Périmètre local : le fichier ~/.grok/auth.json peut être lu pour l’import et n’est écrit que si la synchronisation est activée lors d’un changement OAuth de l’instance par défaut. Les clés API ne remplacent jamais la connexion officielle.",
-      "network": "Périmètre réseau : autorisation OAuth, renouvellement des identifiants et consultation de l'utilisation. Les identifiants ne sont pas envoyés aux services Cockpit."
+      "network": "Périmètre réseau : autorisation OAuth, renouvellement des identifiants et consultation de l'utilisation. Les identifiants ne sont pas envoyés aux services aiswitch."
     },
     "empty": "Aucun compte Grok CLI",
     "addAccount": "Ajouter un compte Grok CLI",

@@ -132,7 +132,7 @@ fn acquire_secret_lock(path: &Path) -> Result<SecretFileLock, String> {
         .file_name()
         .and_then(|name| name.to_str())
         .unwrap_or("grok-secret");
-    let lock_path = path.with_file_name(format!("{}.cockpit.lock", file_name));
+    let lock_path = path.with_file_name(format!("{}.aiswitch.lock", file_name));
     let started = Instant::now();
     loop {
         let mut options = OpenOptions::new();
@@ -1259,7 +1259,7 @@ fn parse_auth_registry(value: &Value) -> Result<GrokAccount, String> {
         validate_importable_account(&account)?;
         return Ok(account);
     }
-    Err("未识别 Grok JSON 格式（支持官方 auth.json 或 Cockpit 导出账号数组）".to_string())
+    Err("未识别 Grok JSON 格式（支持官方 auth.json 或 aiswitch 导出账号数组）".to_string())
 }
 
 /// 是否具备可恢复的登录凭据（OAuth access/refresh 或 API Key）。
@@ -1300,8 +1300,8 @@ fn import_full_accounts(accounts: Vec<GrokAccount>) -> Result<Vec<GrokAccountVie
     Ok(result)
 }
 
-/// 尝试按 Cockpit 完整账号结构解析（导出格式）。
-fn try_import_cockpit_export(value: &Value) -> Option<Result<Vec<GrokAccountView>, String>> {
+/// 尝试按 aiswitch 完整账号结构解析（导出格式）。
+fn try_import_aiswitch_export(value: &Value) -> Option<Result<Vec<GrokAccountView>, String>> {
     // 数组：[GrokAccount, ...]
     if let Ok(accounts) = serde_json::from_value::<Vec<GrokAccount>>(value.clone()) {
         if !accounts.is_empty()
@@ -1362,8 +1362,8 @@ pub fn import_from_json(content: &str) -> Result<Vec<GrokAccountView>, String> {
     let value: Value =
         serde_json::from_str(content).map_err(|error| format!("解析 Grok JSON 失败: {}", error))?;
 
-    // 1) Cockpit 导出的完整账号（含凭据）— 与文件导入 / Token 粘贴共用
-    if let Some(result) = try_import_cockpit_export(&value) {
+    // 1) aiswitch 导出的完整账号（含凭据）— 与文件导入 / Token 粘贴共用
+    if let Some(result) = try_import_aiswitch_export(&value) {
         return result;
     }
 
@@ -1796,7 +1796,7 @@ fn cli_proxy_get(
         .header("x-grok-cli-version", client_version)
         .header("x-grok-client-version", client_version)
         .header("x-grok-client-surface", "grok-cli")
-        .header("x-grok-client-identifier", "cockpit-tools")
+        .header("x-grok-client-identifier", "aiswitch")
         .header(USER_AGENT, format!("grok-cli/{}", client_version))
 }
 
@@ -3108,13 +3108,13 @@ mod tests {
         assert_eq!(accounts[0].refresh_token, account.refresh_token);
         super::validate_importable_account(&accounts[0])
             .expect("export credentials must be importable");
-        // 导出数组应被识别为 Cockpit 完整导出格式
+        // 导出数组应被识别为 aiswitch 完整导出格式
         assert!(
             matches!(
-                super::try_import_cockpit_export(&value),
+                super::try_import_aiswitch_export(&value),
                 Some(Err(_)) | Some(Ok(_))
             ),
-            "export array should match cockpit export parser"
+            "export array should match aiswitch export parser"
         );
         let via_registry = parse_auth_registry(&serde_json::to_value(&account).expect("to value"))
             .expect("full account object should parse");
@@ -3183,7 +3183,7 @@ mod tests {
     impl TestDir {
         fn new() -> Self {
             let path = std::env::temp_dir().join(format!(
-                "cockpit-grok-account-test-{}",
+                "aiswitch-grok-account-test-{}",
                 uuid::Uuid::new_v4()
             ));
             std::fs::create_dir_all(&path).expect("create test directory");
@@ -3210,9 +3210,9 @@ mod tests {
             let home_dir = root.join("home");
             std::fs::create_dir_all(&data_dir).expect("create test data directory");
             std::fs::create_dir_all(&home_dir).expect("create test home directory");
-            let previous_data_dir = std::env::var_os("COCKPIT_TOOLS_DATA_DIR");
+            let previous_data_dir = std::env::var_os("AISWITCH_DATA_DIR");
             let previous_home = std::env::var_os("HOME");
-            std::env::set_var("COCKPIT_TOOLS_DATA_DIR", data_dir);
+            std::env::set_var("AISWITCH_DATA_DIR", data_dir);
             std::env::set_var("HOME", home_dir);
             Self {
                 previous_data_dir,
@@ -3225,8 +3225,8 @@ mod tests {
     impl Drop for EnvironmentGuard {
         fn drop(&mut self) {
             match self.previous_data_dir.as_ref() {
-                Some(value) => std::env::set_var("COCKPIT_TOOLS_DATA_DIR", value),
-                None => std::env::remove_var("COCKPIT_TOOLS_DATA_DIR"),
+                Some(value) => std::env::set_var("AISWITCH_DATA_DIR", value),
+                None => std::env::remove_var("AISWITCH_DATA_DIR"),
             }
             match self.previous_home.as_ref() {
                 Some(value) => std::env::set_var("HOME", value),
@@ -3329,7 +3329,7 @@ mod tests {
         );
 
         let target = secrets.join("auth.json");
-        let lock_path = secrets.join("auth.json.cockpit.lock");
+        let lock_path = secrets.join("auth.json.aiswitch.lock");
         std::fs::write(&lock_path, "0\n").expect("write stale lock");
         let lock = acquire_secret_lock(&target).expect("reclaim stale lock");
         assert_eq!(

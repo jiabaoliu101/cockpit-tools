@@ -226,7 +226,7 @@
       "desc": "Khu vực này được cố định ở góc trên bên phải trên mọi trang, phù hợp cho chiến dịch hoặc quảng cáo thương hiệu.",
       "action": "Xem chi tiết"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "Thu gọn",
     "confirmDelete": "Xác nhận xóa",
     "confirmDeleteTag": "Xác nhận xóa thẻ",
@@ -278,12 +278,12 @@
   },
   "sponsors": {
     "pageTitle": "Nhà tài trợ",
-    "pageDesc": "Cảm ơn các nhà tài trợ đã hỗ trợ Cockpit Tools.",
+    "pageDesc": "Cảm ơn các nhà tài trợ đã hỗ trợ AISwitch.",
     "loading": "Đang tải nhà tài trợ...",
     "emptyTitle": "Chưa có nhà tài trợ",
     "emptyDesc": "Mô-đun nhà tài trợ từ xa hiện đang tắt.",
     "listAriaLabel": "Danh sách nhà tài trợ",
-    "defaultDescription": "Cảm ơn bạn đã hỗ trợ Cockpit Tools.",
+    "defaultDescription": "Cảm ơn bạn đã hỗ trợ AISwitch.",
     "openSponsor": "Mở"
   },
   "platformLayout": {
@@ -572,7 +572,7 @@
   },
   "settings": {
     "title": "Cài đặt ứng dụng",
-    "subtitle": "Cá nhân hóa trải nghiệm Antigravity Cockpit Tools của bạn.",
+    "subtitle": "Cá nhân hóa trải nghiệm Antigravity AISwitch của bạn.",
     "tabs": {
       "general": "Chung",
       "network": "Dịch vụ mạng",
@@ -655,7 +655,7 @@
       "codexSyncWsl": "Đồng bộ Codex sang WSL",
       "codexSyncWslDesc": "Sau khi chuyển tài khoản Codex mặc định, auth.json và config.toml cũng được ghi vào thư mục Codex trong WSL.",
       "codexAppUiInjection": "Hạn mức dịch vụ API",
-      "codexAppUiInjectionDesc": "Sau khi khởi động lại phiên Codex, hiển thị số tài khoản cùng hạn mức tuần và 5 giờ của dịch vụ API Cockpit Tools bên dưới trình soạn thảo. Cần giữ Cockpit Tools chạy trong nền; dữ liệu sẽ ngừng cập nhật khi thoát hoàn toàn hoặc khi mạng không khả dụng.",
+      "codexAppUiInjectionDesc": "Sau khi khởi động lại phiên Codex, hiển thị số tài khoản cùng hạn mức tuần và 5 giờ của dịch vụ API AISwitch bên dưới trình soạn thảo. Cần giữ AISwitch chạy trong nền; dữ liệu sẽ ngừng cập nhật khi thoát hoàn toàn hoặc khi mạng không khả dụng.",
       "codexAppUiInjectionPoolLabel": "Tài khoản",
       "codexAppUiInjectionWeeklyLabel": "Tuần",
       "codexAppUiInjectionFiveHourLabel": "5 giờ",
@@ -749,7 +749,7 @@
       "sideNavLayoutClassic": "Bố cục cổ điển",
       "antigravityDualSwitchNoRestart": "Chuyển đôi không cần khởi động lại",
       "antigravityDualSwitchNoRestartDesc": "Khi chuyển tài khoản, việc ghi dữ liệu cục bộ và chuyển đổi liền mạch qua tiện ích mở rộng được thực hiện trong một luồng, không cần khởi động lại Antigravity IDE.",
-      "appAutoLaunch": "Khởi chạy Cockpit Tools khi đăng nhập",
+      "appAutoLaunch": "Khởi chạy AISwitch khi đăng nhập",
       "appAutoLaunchDesc": "Tự động khởi chạy ứng dụng sau khi đăng nhập hệ thống",
       "startupWakeupDisabled": "Tắt",
       "startupWakeupImmediate": "Đánh thức ngay",
@@ -854,7 +854,7 @@
       "webdavAllowedDomainsDesc": "Cách nhau bằng dấu phẩy; trống = không giới hạn"
     },
     "network": {
-      "apiTitle": "API Antigravity Cockpit",
+      "apiTitle": "API Antigravity aiswitch",
       "wsService": "Dịch vụ WebSocket",
       "wsServiceDesc": "Cho phép các chương trình bên ngoài (như plugin VS Code) kết nối điều khiển",
       "preferredPort": "Cổng ưu tiên",
@@ -883,7 +883,7 @@
       "firewallHint": "Nếu URL không truy cập được, hãy kiểm tra cài đặt tường lửa của hệ thống.",
       "proxyTitle": "Proxy toàn cục",
       "proxyEnabled": "Bật proxy toàn cục",
-      "proxyEnabledDesc": "Chèn biến môi trường proxy vào các tiến trình nền tảng được Cockpit quản lý khi khởi chạy.",
+      "proxyEnabledDesc": "Chèn biến môi trường proxy vào các tiến trình nền tảng được aiswitch quản lý khi khởi chạy.",
       "proxyUrl": "URL proxy",
       "proxyUrlDesc": "Ví dụ: http://127.0.0.1:7890 hoặc socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "ví dụ: http://127.0.0.1:7890",
@@ -893,7 +893,7 @@
       "proxyUrlRequired": "Không được để trống URL proxy khi bật proxy toàn cục."
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "Giải pháp quản lý tài khoản chuyên nghiệp",
       "author": "Tác giả chính",
       "wechat": "Tài khoản WeChat chính thức",
@@ -1037,7 +1037,7 @@
       "passwordSavedPlaceholder": "Đã lưu; để trống để giữ lại",
       "clearPassword": "Xóa",
       "remoteDirTitle": "Thư mục từ xa",
-      "remoteDirDesc": "Chỉ các tệp sao lưu Cockpit trong thư mục này mới được quản lý.",
+      "remoteDirDesc": "Chỉ các tệp sao lưu aiswitch trong thư mục này mới được quản lý.",
       "statusTitle": "Trạng thái đồng bộ",
       "statusDesc": "Khôi phục từ xa yêu cầu chọn thủ công và không bao giờ âm thầm ghi đè lên dữ liệu cục bộ.",
       "lastUpload": "Tải lên cuối: {{time}}",
@@ -1048,7 +1048,7 @@
       "syncAction": "Đồng bộ cấu hình",
       "syncLatestConfirm": "Bạn có chắc chắn muốn tải bản sao lưu từ xa mới nhất {{name}} và đồng bộ hóa cục bộ không? Việc này sẽ ghi đè lên dữ liệu cục bộ hiện có.",
       "remoteListTitle": "Bản sao lưu từ xa",
-      "remoteListDesc": "Chỉ hiển thị các tệp JSON và ZIP khớp với tên sao lưu tự động/thủ công của Cockpit.",
+      "remoteListDesc": "Chỉ hiển thị các tệp JSON và ZIP khớp với tên sao lưu tự động/thủ công của aiswitch.",
       "emptyTitle": "Không có bản sao lưu từ xa",
       "emptyDesc": "Lưu cài đặt, sau đó tạo và tải bản sao lưu lên.",
       "unknownTime": "Không xác định",
@@ -1409,7 +1409,7 @@
       "importBtn": "Nhập",
       "oauthAction": "Ủy quyền OAuth",
       "fromExtension": "Nhập từ Plugin",
-      "syncBadge": "Đồng bộ tài khoản plugin Antigravity Cockpit",
+      "syncBadge": "Đồng bộ tài khoản plugin Antigravity aiswitch",
       "fromLocalDB": "Nhập từ DB cục bộ",
       "localDBDesc": "Đọc tài khoản đăng nhập từ Antigravity IDE Client trên máy này",
       "toolsDescMigrate": "Di chuyển tài khoản từ ~/.antigravity_tools/",
@@ -1846,10 +1846,10 @@
     },
     "exportFormat": {
       "label": "Định dạng xuất",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "Định dạng sub2api",
       "cpa": "Định dạng cpa",
-      "agentIdentityCpaUnsupported": "Không thể xuất tài khoản Agent Identity ở định dạng cpa. Hãy dùng Cockpit Tools hoặc sub2api.",
+      "agentIdentityCpaUnsupported": "Không thể xuất tài khoản Agent Identity ở định dạng cpa. Hãy dùng AISwitch hoặc sub2api.",
       "agentIdentityPrivateKeyNotice": "Bản xuất này chứa khóa riêng Agent Identity có thể khôi phục tài khoản trên thiết bị khác. Hãy bảo vệ khóa như mật khẩu.",
       "downloadAll": "Tải xuống tất cả",
       "cpaCardTitle": "Tài khoản {{index}}",
@@ -1932,8 +1932,8 @@
       "testAuthFailed": "Dịch vụ truy cập được nhưng xác thực thất bại: {{detail}}. Hãy kiểm tra khóa dịch vụ API hoặc trạng thái đăng nhập tài khoản.",
       "testServiceUnavailable": "Dịch vụ truy cập được nhưng hiện không khả dụng: {{detail}}. Hãy kiểm tra dịch vụ đã bật chưa, bộ sưu tập tài khoản có trống không hoặc tài khoản có dùng được không.",
       "gatewayErrors": {
-        "authUnavailable": "Hiện không có tài khoản nào có thể định tuyến. Tài khoản có thể đang tạm nghỉ, mất xác thực hoặc bị giới hạn hạn mức. Kiểm tra trạng thái trong dịch vụ API của Cockpit Tools.",
-        "authNotFound": "Chưa cấu hình tài khoản khả dụng trong nhóm tài khoản. Hãy thêm hoặc bật tài khoản trong dịch vụ API của Cockpit Tools."
+        "authUnavailable": "Hiện không có tài khoản nào có thể định tuyến. Tài khoản có thể đang tạm nghỉ, mất xác thực hoặc bị giới hạn hạn mức. Kiểm tra trạng thái trong dịch vụ API của AISwitch.",
+        "authNotFound": "Chưa cấu hình tài khoản khả dụng trong nhóm tài khoản. Hãy thêm hoặc bật tài khoản trong dịch vụ API của AISwitch."
       },
       "testRateLimited": "Dịch vụ truy cập được nhưng upstream bị giới hạn hoặc hết hạn mức: {{detail}}.",
       "testHttpFailed": "Dịch vụ truy cập được nhưng yêu cầu trả về HTTP {{status}}: {{detail}}.",
@@ -2745,7 +2745,7 @@
         "placeholder": "Nhập một ID mô hình trên mỗi dòng hoặc phân tách các ID bằng dấu phẩy.",
         "editHint": "Các mô hình đã lấy chỉ được thêm vào bản nháp này. Hãy xem lại và chỉnh sửa trước khi lưu.",
         "syncToggle": "Đồng bộ mô hình nhà cung cấp với Codex",
-        "syncDescription": "Sau khi lưu, danh sách này được dùng để tạo danh mục mô hình Codex do Cockpit quản lý. Danh mục tùy chỉnh không bị ghi đè.",
+        "syncDescription": "Sau khi lưu, danh sách này được dùng để tạo danh mục mô hình Codex do aiswitch quản lý. Danh mục tùy chỉnh không bị ghi đè.",
         "fetchCredentialsRequired": "Hãy nhập API Key và Base URL trước.",
         "fetchEmpty": "Nhà cung cấp không trả về mô hình nào. Danh sách hiện tại được giữ nguyên.",
         "fetchFailed": "Không thể lấy mô hình từ nhà cung cấp: {{error}}",
@@ -2825,8 +2825,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3237,8 +3237,8 @@
       "saved": "Đã lưu ghi chú tài khoản",
       "saveFailed": "Không thể lưu ghi chú tài khoản: {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Bảng dịch vụ Cockpit Api",
+    "aiswitchApi": {
+      "panelTitle": "Bảng dịch vụ aiswitch Api",
       "servicePanel": "Bảng dịch vụ",
       "balance": "Số dư",
       "requests": "Yêu cầu",
@@ -4885,14 +4885,14 @@
     "search": "Tìm tài khoản ZCode...",
     "flowNotice": {
       "title": "Hướng dẫn quản lý ZCode",
-      "desc": "Cockpit đọc và ghi lại thông tin đăng nhập ZCode cục bộ đã mã hóa để chuyển tài khoản thực và liên kết phiên bản.",
+      "desc": "aiswitch đọc và ghi lại thông tin đăng nhập ZCode cục bộ đã mã hóa để chuyển tài khoản thực và liên kết phiên bản.",
       "permission": "Phạm vi cục bộ: ~/.zcode/v2/credentials.json và thư mục phiên bản được quản lý.",
-      "network": "Phạm vi mạng: API OAuth, người dùng, gói đăng ký và hạn mức. Tài khoản không được tải lên dịch vụ Cockpit."
+      "network": "Phạm vi mạng: API OAuth, người dùng, gói đăng ký và hạn mức. Tài khoản không được tải lên dịch vụ aiswitch."
     },
     "empty": "Chưa có tài khoản ZCode",
     "addAccount": "Thêm tài khoản ZCode",
     "oauth": {
-      "desc": "Đóng ZCode rồi đăng nhập trong cửa sổ ủy quyền của Cockpit; Cockpit sẽ nhận callback trực tiếp.",
+      "desc": "Đóng ZCode rồi đăng nhập trong cửa sổ ủy quyền của aiswitch; aiswitch sẽ nhận callback trực tiếp.",
       "title": "OAuth ZCode",
       "item1": "Đăng nhập chính thức qua Z.ai và BigModel.",
       "item2": "Lưu tài khoản và làm mới gói cùng hạn mức mô hình.",
@@ -4904,7 +4904,7 @@
       "success": "Đăng nhập OAuth ZCode thành công"
     },
     "token": {
-      "desc": "Dán JSON tài khoản ZCode đã xuất từ Cockpit."
+      "desc": "Dán JSON tài khoản ZCode đã xuất từ aiswitch."
     },
     "apiKey": {
       "tab": "Khóa API",
@@ -5031,7 +5031,7 @@
       "backToCurrent": "Quay lại",
       "switchToThisAccount": "Chuyển",
       "openDetails": "Mở chi tiết",
-      "openCockpitTools": "Mở Cockpit Tools"
+      "openaiswitchTools": "Mở AISwitch"
     },
     "empty": {
       "title": "Không có tài khoản",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "Trạm chuyển riêng",
-    "pageDesc": "Dịch vụ API đối tác dành cho người dùng Cockpit Tools, dùng được với tài khoản Codex API Key.",
+    "pageDesc": "Dịch vụ API đối tác dành cho người dùng AISwitch, dùng được với tài khoản Codex API Key.",
     "loading": "Đang tải trạm chuyển...",
     "emptyTitle": "Trạm chuyển chưa bật",
     "emptyDesc": "Cấu hình từ xa chưa bật trạm chuyển riêng.",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "Trung chuyển",
     "title": "Relay APIKEY.FUN",
-    "description": "Relay đối tác chính thức của Cockpit cung cấp quyền truy cập API mô hình lớn ổn định, mở và có hiệu quả chi phí cao. Nền tảng hỗ trợ các mô hình phổ biến như Claude, OpenAI và Gemini, phù hợp để cấu hình thống nhất trong Codex, Gemini CLI, Claude Code và các công cụ phát triển khác. Đăng ký qua liên kết độc quyền của Cockpit để nhận ưu đãi nạp tiền vĩnh viễn lên tới 5%.",
+    "description": "Relay đối tác chính thức của aiswitch cung cấp quyền truy cập API mô hình lớn ổn định, mở và có hiệu quả chi phí cao. Nền tảng hỗ trợ các mô hình phổ biến như Claude, OpenAI và Gemini, phù hợp để cấu hình thống nhất trong Codex, Gemini CLI, Claude Code và các công cụ phát triển khác. Đăng ký qua liên kết độc quyền của aiswitch để nhận ưu đãi nạp tiền vĩnh viễn lên tới 5%.",
     "register": "Liên kết độc quyền",
     "docs": "Tài liệu chính thức",
     "viewNow": "Xem ngay",
@@ -5311,7 +5311,7 @@
       "title": "Quản lý tài khoản Grok CLI",
       "desc": "Mặc định dùng các GROK_HOME riêng. Khi bật đồng bộ, việc chuyển OAuth ở phiên bản mặc định sẽ ghi vào ~/.grok/auth.json; các phiên bản bổ sung vẫn được cách ly.",
       "permission": "Phạm vi cục bộ: có thể đọc ~/.grok/auth.json để nhập và chỉ ghi khi bật đồng bộ trong lúc chuyển OAuth ở phiên bản mặc định. API Key không ghi đè đăng nhập chính thức.",
-      "network": "Phạm vi mạng: ủy quyền OAuth, làm mới thông tin xác thực và truy vấn mức sử dụng tài khoản. Thông tin xác thực không được tải lên dịch vụ Cockpit."
+      "network": "Phạm vi mạng: ủy quyền OAuth, làm mới thông tin xác thực và truy vấn mức sử dụng tài khoản. Thông tin xác thực không được tải lên dịch vụ aiswitch."
     },
     "empty": "Chưa có tài khoản Grok CLI",
     "addAccount": "Thêm tài khoản Grok CLI",

@@ -1,6 +1,6 @@
 import type { CodexAccount } from '../types/codex';
 
-export type CodexExportFormat = 'cockpit_tools' | 'sub2api' | 'cpa';
+export type CodexExportFormat = 'aiswitch' | 'sub2api' | 'cpa';
 
 type JsonRecord = Record<string, unknown>;
 const INVALID_FILE_CHARS_REGEX = /[<>:"/\\|?*\x00-\x1F]/g;
@@ -417,7 +417,7 @@ function toPortableApiKeyStorage(
   return payload;
 }
 
-function toCockpitToolsPortableStorage(
+function toaiswitchToolsPortableStorage(
   account: CodexAccount,
   options: CodexExportBuildOptions = {},
 ): CodexPortableTokenStorage | JsonRecord {
@@ -430,7 +430,7 @@ function toCockpitToolsPortableStorage(
   return toPortableTokenStorage(account, options);
 }
 
-export function parseCockpitToolsCodexExport(rawJson: string): CodexAccount[] {
+export function parseaiswitchToolsCodexExport(rawJson: string): CodexAccount[] {
   const parsed = JSON.parse(rawJson) as unknown;
   if (Array.isArray(parsed)) {
     return parsed as CodexAccount[];
@@ -443,7 +443,7 @@ export function parseCockpitToolsCodexExport(rawJson: string): CodexAccount[] {
 
 export function hasCodexExportSensitiveNotes(rawJson: string): boolean {
   try {
-    return parseCockpitToolsCodexExport(rawJson).some(hasSensitiveNoteFields);
+    return parseaiswitchToolsCodexExport(rawJson).some(hasSensitiveNoteFields);
   } catch {
     return false;
   }
@@ -451,7 +451,7 @@ export function hasCodexExportSensitiveNotes(rawJson: string): boolean {
 
 export function hasCodexExportAgentIdentity(rawJson: string): boolean {
   try {
-    return parseCockpitToolsCodexExport(rawJson).some(hasAgentIdentity);
+    return parseaiswitchToolsCodexExport(rawJson).some(hasAgentIdentity);
   } catch {
     return false;
   }
@@ -462,11 +462,11 @@ export function transformCodexExportJson(
   format: CodexExportFormat,
   options: CodexExportBuildOptions = {},
 ): string {
-  const accounts = parseCockpitToolsCodexExport(rawJson);
+  const accounts = parseaiswitchToolsCodexExport(rawJson);
 
-  if (format === 'cockpit_tools') {
+  if (format === 'aiswitch') {
     return JSON.stringify(
-      accounts.map((account) => toCockpitToolsPortableStorage(account, options)),
+      accounts.map((account) => toaiswitchToolsPortableStorage(account, options)),
       null,
       2,
     );
@@ -496,7 +496,7 @@ export function buildCodexExportFileNameBase(
   baseName: string,
   format: CodexExportFormat,
 ): string {
-  if (format === 'cockpit_tools') {
+  if (format === 'aiswitch') {
     return baseName;
   }
   return `${baseName}_${format}`;
@@ -534,7 +534,7 @@ export function buildCodexExportContent(
   options: CodexExportBuildOptions = {},
 ): CodexExportContent {
   const fileNameBase = buildCodexExportFileNameBase(baseName, format);
-  const accounts = parseCockpitToolsCodexExport(rawJson);
+  const accounts = parseaiswitchToolsCodexExport(rawJson);
 
   if (format !== 'cpa' || accounts.length <= 1) {
     return {

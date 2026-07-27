@@ -74,7 +74,7 @@ fn now_unix_seconds() -> i64 {
 fn get_codex_batch_delete_jobs_dir() -> PathBuf {
     let data_dir = account::get_data_dir()
         .or_else(|_| account::resolve_data_dir())
-        .unwrap_or_else(|_| PathBuf::from(".antigravity_cockpit"));
+        .unwrap_or_else(|_| PathBuf::from(".aiswitch"));
     data_dir.join(CODEX_BATCH_DELETE_JOBS_DIR)
 }
 
@@ -1691,7 +1691,7 @@ pub async fn fetch_codex_account_note_mail_url(
     let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(12))
         .redirect(reqwest::redirect::Policy::limited(5))
-        .user_agent("CockpitTools-MailPreview/1.0")
+        .user_agent("aiswitchTools-MailPreview/1.0")
         .build()
         .map_err(|e| format!("MAIL_PREVIEW_CLIENT_FAILED: {}", e))?;
     let response = client

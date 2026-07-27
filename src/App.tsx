@@ -73,6 +73,8 @@ import {
 import { runAutoBackupCycle } from './services/scheduledBackupService';
 import { prepareCodexLocalAccessForRestart } from './services/codexLocalAccessService';
 import { applyReducedMotion } from './utils/reducedMotion';
+import { useAuthStore } from './stores/useAuthStore';
+import { fetchCheckin, fetchCurrentSubscription } from './services/authService';
 import {
   applyWebviewUiScale,
   isUiScaleResetKey,
@@ -87,6 +89,15 @@ import {
   resolvePlatformIdFromPage,
 } from './utils/accountSyncEvents';
 
+const LoginPageLazy = lazy(() =>
+  import('./pages/LoginPage').then((module) => ({ default: module.LoginPage })),
+);
+const SubscriptionPageLazy = lazy(() =>
+  import('./pages/SubscriptionPage').then((module) => ({ default: module.SubscriptionPage })),
+);
+const AdminPageLazy = lazy(() =>
+  import('./pages/AdminPage').then((module) => ({ default: module.AdminPage })),
+);
 const DashboardPage = lazy(() =>
   import('./pages/DashboardPage').then((module) => ({ default: module.DashboardPage })),
 );
@@ -730,6 +741,33 @@ function isWindowsPlatform(): boolean {
 
 function MainApp() {
   const { t } = useTranslation();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  const [showSubscriptionPage, setShowSubscriptionPage] = useState(false);
+
+  // Admin users go straight to admin panel
+  if (isAuthenticated && user?.is_admin) {
+    return (
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
+        <AdminPageLazy />
+      </Suspense>
+    );
+  }
+
+  // Check subscription status on auth change
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    void (async () => {
+      try {
+        const sub = await fetchCurrentSubscription();
+        // If no active subscription, redirect to subscription page
+        if (!sub.has_subscription) {
+          setShowSubscriptionPage(true);
+        }
+      } catch {}
+    })();
+  }, [isAuthenticated]);
+
   const sideNavLayoutMode = useSideNavLayoutStore((state) => state.mode);
   const sideNavClassicCollapsed = useSideNavLayoutStore((state) => state.classicCollapsed);
   const sideNavClassicFirstSyncDone = useSideNavLayoutStore((state) => state.classicFirstSyncDone);
@@ -799,6 +837,36 @@ function MainApp() {
       disposed = true;
     };
   }, []);
+
+  // Sync server accounts with Codex store after login
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    void (async () => {
+      try {
+        const remoteAccounts = await fetchCheckin();
+        if (remoteAccounts?.accounts?.length > 0) {
+          // Import server accounts into the local Codex store
+          for (const acc of remoteAccounts.accounts) {
+            try {
+              // Add account via existing service — skip if already exists
+              await invoke('add_codex_account_with_api_key', {
+                email: acc.email,
+                apiKey: acc.access_token,
+                name: acc.email || 'Server Account',
+              }).catch(() => {
+                // Account may already exist, that's fine
+              });
+            } catch {
+              // Silently skip duplicates
+            }
+          }
+          // Refresh Codex store
+          const codexStore = useCodexAccountStore.getState();
+          void codexStore.fetchAccounts();
+        }
+      } catch {}
+    })();
+  }, [isAuthenticated]);
 
   // 主窗口切到某平台页（如 Grok）时，同步悬浮窗/菜单栏当前平台，避免一直停在默认 antigravity
   useEffect(() => {
@@ -3914,6 +3982,26 @@ function MainApp() {
         </div>
       )}
       
+      {/* Auth Gate: Show login page if not authenticated */}
+      {!isAuthenticated ? (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
+          <LoginPageLazy onAuthenticated={() => {
+            fetchCurrentSubscription().then((sub) => {
+              if (!sub.has_subscription) {
+                setShowSubscriptionPage(true);
+              }
+            }).catch(() => {});
+          }} />
+        </Suspense>
+      ) : showSubscriptionPage ? (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
+          <SubscriptionPageLazy onBack={() => {
+            setShowSubscriptionPage(false);
+            fetchCurrentSubscription().catch(() => {});
+          }} />
+        </Suspense>
+      ) : (
+        <>
       {/* 顶部固定拖拽区域 */}
       <div
         className="drag-region"
@@ -4035,7 +4123,9 @@ function MainApp() {
           {page === 'settings' && <SettingsPage />}
         </Suspense>
       </div>
-    </div>
+    </>
+    )}
+  </div>
   );
 }
 

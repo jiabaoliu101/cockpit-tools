@@ -19,7 +19,7 @@ const DEFAULT_INSTANCE_ID: &str = "__default__";
 const DEFAULT_INSTANCE_NAME: &str = "默认实例";
 const SESSION_INDEX_FILE: &str = "session_index.jsonl";
 const SESSION_DIRS: [&str; 2] = ["sessions", "archived_sessions"];
-const SESSION_TRASH_ROOT_DIR: &str = "cockpit-tools-codex-session-trash";
+const SESSION_TRASH_ROOT_DIR: &str = "aiswitch-codex-session-trash";
 const SESSION_EXPORT_KIND: &str = "codex-session-export";
 const SESSION_EXPORT_VERSION: u32 = 1;
 pub const SESSION_TRANSFER_PROGRESS_EVENT: &str = "codex:session-transfer-progress";
@@ -1770,7 +1770,7 @@ fn read_session_export_manifest(
     let manifest = serde_json::from_str::<SessionExportManifest>(&content)
         .map_err(|error| format!("解析会话包清单失败: {}", error))?;
     if manifest.kind != SESSION_EXPORT_KIND {
-        return Err("这不是 Cockpit Tools Codex 会话包".to_string());
+        return Err("这不是 AISwitch Codex 会话包".to_string());
     }
     if manifest.package_version == 0 || manifest.package_version > SESSION_EXPORT_VERSION {
         return Err(format!("不支持的会话包版本: {}", manifest.package_version));
@@ -1860,7 +1860,7 @@ fn write_imported_rollout_from_archive(
         .ok_or_else(|| format!("无法解析目标会话目录: {}", target_path.display()))?;
     fs::create_dir_all(parent)
         .map_err(|error| format!("创建目标会话目录失败 ({}): {}", parent.display(), error))?;
-    let temp_path = parent.join(format!(".cockpit-session-import-{}.tmp", Uuid::new_v4()));
+    let temp_path = parent.join(format!(".aiswitch-session-import-{}.tmp", Uuid::new_v4()));
     let mut output = File::create(&temp_path)
         .map_err(|error| format!("创建临时会话文件失败 ({}): {}", temp_path.display(), error))?;
     let mut hasher = Sha256::new();

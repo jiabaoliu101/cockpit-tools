@@ -4113,7 +4113,7 @@ async fn request_trae_json(
     let mut request = client
         .request(method, url)
         .header("Accept", "application/json")
-        .header("User-Agent", "Trae/1.0.0 antigravity-cockpit-tools")
+        .header("User-Agent", "Trae/1.0.0 antigravity-aiswitch")
         .header("Authorization", format!("Bearer {}", access_token))
         .header("x-cloudide-token", access_token);
 
@@ -4177,7 +4177,7 @@ async fn request_trae_pay_json(
     let mut request = client
         .request(method, url)
         .header("Accept", "application/json")
-        .header("User-Agent", "Trae/1.0.0 antigravity-cockpit-tools")
+        .header("User-Agent", "Trae/1.0.0 antigravity-aiswitch")
         .header("Authorization", format!("Cloud-IDE-JWT {}", access_token));
 
     if let Some(cookie_header) = cookie.and_then(|value| normalize_non_empty(Some(value))) {
@@ -4324,7 +4324,7 @@ fn usage_response_payload_root(response: &Value) -> &Value {
 fn mark_trae_usage_source(response: &mut Value, source: &str) {
     if let Some(object) = response.as_object_mut() {
         object.insert(
-            "_cockpit_source".to_string(),
+            "_aiswitch_source".to_string(),
             Value::String(source.to_string()),
         );
         for key in [
@@ -4337,7 +4337,7 @@ fn mark_trae_usage_source(response: &mut Value, source: &str) {
         ] {
             if let Some(inner) = object.get_mut(key).and_then(|value| value.as_object_mut()) {
                 inner.insert(
-                    "_cockpit_source".to_string(),
+                    "_aiswitch_source".to_string(),
                     Value::String(source.to_string()),
                 );
             }

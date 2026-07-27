@@ -64,7 +64,7 @@ const DEFAULT_TRANSFER_SELECTION: DataTransferSelection = {
 };
 
 const BACKUP_FILE_NAME_REGEX =
-  /^cockpit_(auto|manual)_backup_(full|accounts|config)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.(json|zip)$/i;
+  /^aiswitch_(auto|manual)_backup_(full|accounts|config)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.(json|zip)$/i;
 
 function normalizeError(error: unknown): string {
   return String(error).replace(/^Error:\s*/, '');
@@ -192,7 +192,7 @@ export function SettingsAccountTransferSection() {
   );
 
   const exportModal = useExportJsonModal({
-    exportFilePrefix: 'cockpit_data_backup',
+    exportFilePrefix: 'aiswitch_data_backup',
     exportJsonByIds: async () => exportDataTransferJson(exportSelection),
     onError: setExportFailed,
   });

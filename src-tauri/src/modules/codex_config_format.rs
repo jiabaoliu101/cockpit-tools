@@ -149,7 +149,7 @@ fn is_projects_table_header(trimmed_line: &str) -> bool {
 }
 
 fn header_parses_as_toml_table(trimmed_line: &str) -> bool {
-    format!("{}\n__cockpit_probe = true\n", trimmed_line)
+    format!("{}\n__aiswitch_probe = true\n", trimmed_line)
         .parse::<Document>()
         .is_ok()
 }
@@ -498,7 +498,7 @@ features = true
             .expect("system time should be after unix epoch")
             .as_nanos();
         let dir = std::env::temp_dir().join(format!(
-            "cockpit-codex-config-format-{}-{}",
+            "aiswitch-codex-config-format-{}-{}",
             std::process::id(),
             unique
         ));

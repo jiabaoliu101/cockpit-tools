@@ -123,7 +123,7 @@ mod tests {
 
     fn temp_data_dir(name: &str) -> PathBuf {
         let dir = std::env::temp_dir().join(format!(
-            "cockpit-provider-current-{}-{}",
+            "aiswitch-provider-current-{}-{}",
             name,
             std::process::id()
         ));
@@ -140,8 +140,8 @@ mod tests {
     impl DataDirGuard {
         fn new(name: &str) -> Self {
             let dir = temp_data_dir(name);
-            let previous_data_dir = std::env::var("COCKPIT_TOOLS_DATA_DIR").ok();
-            std::env::set_var("COCKPIT_TOOLS_DATA_DIR", &dir);
+            let previous_data_dir = std::env::var("AISWITCH_DATA_DIR").ok();
+            std::env::set_var("AISWITCH_DATA_DIR", &dir);
             Self {
                 dir,
                 previous_data_dir,
@@ -152,8 +152,8 @@ mod tests {
     impl Drop for DataDirGuard {
         fn drop(&mut self) {
             match self.previous_data_dir.as_ref() {
-                Some(value) => std::env::set_var("COCKPIT_TOOLS_DATA_DIR", value),
-                None => std::env::remove_var("COCKPIT_TOOLS_DATA_DIR"),
+                Some(value) => std::env::set_var("AISWITCH_DATA_DIR", value),
+                None => std::env::remove_var("AISWITCH_DATA_DIR"),
             }
             let _ = fs::remove_dir_all(&self.dir);
         }

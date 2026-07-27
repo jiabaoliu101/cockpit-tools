@@ -7204,7 +7204,7 @@ export function SettingsPage() {
         {/* === Network Tab === */}
         {activeTab === 'network' && (
           <>
-            <div className="group-title">Antigravity Cockpit API</div>
+            <div className="group-title">Antigravity aiswitch API</div>
             <div className="settings-group">
               <div className="settings-row">
                 <div className="row-label">
@@ -7549,19 +7549,19 @@ export function SettingsPage() {
               </button>
               
               
-              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/cockpit-tools')}>
+              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/aiswitch')}>
                 <div className="credit-icon" style={{ color: '#0f172a' }}><Github size={24} /></div>
                 <h3>{t('settings.about.github')}</h3>
-                <p>cockpit-tools</p>
+                <p>aiswitch</p>
               </button>
 
-              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/cockpit-tools/blob/main/docs/DONATE.md')}>
+              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/aiswitch/blob/main/docs/DONATE.md')}>
                 <div className="credit-icon" style={{ color: '#ef4444' }}><Heart size={24} /></div>
                 <h3>{t('settings.about.sponsor')}</h3>
                 <p>{t('settings.about.sponsorDesc', 'Donate')}</p>
               </button>
 
-              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/cockpit-tools/issues')}>
+              <button className="credit-item" onClick={() => openLink('https://github.com/jlcodes99/aiswitch/issues')}>
                 <div className="credit-icon" style={{ color: '#3b82f6' }}><MessageSquare size={24} /></div>
                 <h3>{t('settings.about.feedback', '意见反馈')}</h3>
                 <p>{t('settings.about.feedbackDesc', 'Issues')}</p>

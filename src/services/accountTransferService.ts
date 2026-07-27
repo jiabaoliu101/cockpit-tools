@@ -130,7 +130,7 @@ const PLATFORM_ADAPTERS: Partial<Record<PlatformId, TransferAdapter>> = {
   },
 };
 
-export const ACCOUNT_TRANSFER_SCHEMA = 'cockpit-tools.account-transfer';
+export const ACCOUNT_TRANSFER_SCHEMA = 'aiswitch.account-transfer';
 export const ACCOUNT_TRANSFER_VERSION = 1;
 
 export interface AccountTransferPlatformPayload {

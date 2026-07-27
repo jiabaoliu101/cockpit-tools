@@ -144,7 +144,7 @@ jobs:
         run: |
           set -euo pipefail
           TAG="v${{ steps.app_version.outputs.VERSION }}"
-          TITLE="Cockpit Tools v${{ steps.app_version.outputs.VERSION }}"
+          TITLE="AISwitch v${{ steps.app_version.outputs.VERSION }}"
           if gh release view "${TAG}" > /dev/null 2>&1; then
             gh release edit "${TAG}" \
               --title "${TITLE}" \
@@ -198,8 +198,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4
@@ -321,8 +321,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4
@@ -425,8 +425,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4
@@ -531,8 +531,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4
@@ -616,8 +616,8 @@ jobs:
       - name: Go setup
         uses: actions/setup-go@v5
         with:
-          go-version-file: sidecars/cockpit-cliproxy/go.mod
-          cache-dependency-path: sidecars/cockpit-cliproxy/go.sum
+          go-version-file: sidecars/aiswitch-proxy/go.mod
+          cache-dependency-path: sidecars/aiswitch-proxy/go.sum
 
       - name: Node.js setup
         uses: actions/setup-node@v4
@@ -865,10 +865,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/Cockpit.Tools_${VERSION}_universal.dmg"
+          URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/aiswitch.Tools_${VERSION}_universal.dmg"
           echo "Downloading: ${URL}"
           for i in $(seq 1 30); do
-            if curl -fL --retry 3 --retry-delay 1 -o cockpit-tools.dmg "${URL}"; then
+            if curl -fL --retry 3 --retry-delay 1 -o aiswitch.dmg "${URL}"; then
               exit 0
             fi
             echo "Asset not ready yet (attempt $i/30). Sleeping 10s..."
@@ -881,14 +881,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          SHA256="$(sha256sum cockpit-tools.dmg | awk '{print $1}')"
+          SHA256="$(sha256sum aiswitch.dmg | awk '{print $1}')"
           echo "SHA256=${SHA256}" >> "$GITHUB_ENV"
 
       - name: Update Cask file
         shell: bash
         run: |
           set -euo pipefail
-          FILE="Casks/cockpit-tools.rb"
+          FILE="Casks/aiswitch.rb"
           if [ ! -f "${FILE}" ]; then
             echo "Missing ${FILE}. Create it first."
             exit 1

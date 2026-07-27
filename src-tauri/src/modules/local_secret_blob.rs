@@ -14,7 +14,7 @@ use std::path::Path;
 const PREFIX: &str = "cpt1:";
 
 fn machine_key() -> [u8; 32] {
-    let mut material = String::from("cockpit-tools-local-secret-v1");
+    let mut material = String::from("aiswitch-local-secret-v1");
     if let Some(home) = dirs::home_dir() {
         material.push('|');
         material.push_str(&home.display().to_string());

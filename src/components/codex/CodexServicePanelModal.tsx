@@ -58,14 +58,14 @@ export function CodexServicePanelModal({
   return (
     <div className="modal-overlay">
       <div
-        className="modal-content cockpit-api-panel-modal"
+        className="modal-content aiswitch-api-panel-modal"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="modal-header cockpit-api-panel-header">
+        <div className="modal-header aiswitch-api-panel-header">
           <div>
             <h2>{title}</h2>
             {subtitle ? (
-              <span className="cockpit-api-panel-subtitle">{subtitle}</span>
+              <span className="aiswitch-api-panel-subtitle">{subtitle}</span>
             ) : null}
           </div>
           <button
@@ -77,14 +77,14 @@ export function CodexServicePanelModal({
           </button>
         </div>
 
-        <div className="cockpit-api-panel-body">
-          <section className="cockpit-api-connection-card">
-            <div className="cockpit-api-connection-row">
+        <div className="aiswitch-api-panel-body">
+          <section className="aiswitch-api-connection-card">
+            <div className="aiswitch-api-connection-row">
               <span>{t("codex.localAccess.baseUrl", "地址")}</span>
               <code title={baseUrl}>{baseUrl}</code>
               <button
                 type="button"
-                className="folder-icon-btn cockpit-api-icon-btn"
+                className="folder-icon-btn aiswitch-api-icon-btn"
                 onClick={() =>
                   void navigator.clipboard.writeText(baseUrl).catch(() => {})
                 }
@@ -93,16 +93,16 @@ export function CodexServicePanelModal({
                 <Copy size={14} />
               </button>
             </div>
-            <div className="cockpit-api-connection-row">
+            <div className="aiswitch-api-connection-row">
               <span>{t("codex.localAccess.apiKey", "密钥")}</span>
               <code title={apiKeyVisible ? rawApiKey || "" : ""}>
                 {apiKeyDisplay}
               </code>
-              <div className="cockpit-api-connection-actions">
+              <div className="aiswitch-api-connection-actions">
                 {onToggleApiKeyVisible ? (
                   <button
                     type="button"
-                    className="folder-icon-btn cockpit-api-icon-btn"
+                    className="folder-icon-btn aiswitch-api-icon-btn"
                     onClick={onToggleApiKeyVisible}
                     title={
                       apiKeyVisible
@@ -115,7 +115,7 @@ export function CodexServicePanelModal({
                 ) : null}
                 <button
                   type="button"
-                  className="folder-icon-btn cockpit-api-icon-btn"
+                  className="folder-icon-btn aiswitch-api-icon-btn"
                   onClick={() =>
                     void navigator.clipboard.writeText(rawApiKey || "").catch(() => {})
                   }
@@ -129,44 +129,44 @@ export function CodexServicePanelModal({
             {connectionExtra}
           </section>
 
-          <section className="cockpit-api-summary-grid compact">
+          <section className="aiswitch-api-summary-grid compact">
             {coreMetrics.map((item) => (
               <div
-                className="cockpit-api-stat-card cockpit-api-stat-card-center"
+                className="aiswitch-api-stat-card aiswitch-api-stat-card-center"
                 key={item.key}
               >
-                <span className="cockpit-api-card-label">{item.label}</span>
+                <span className="aiswitch-api-card-label">{item.label}</span>
                 <strong>{item.value}</strong>
                 {item.meta ? <small>{item.meta}</small> : null}
               </div>
             ))}
           </section>
 
-          <section className="cockpit-api-panel-section">
-            <div className="cockpit-api-section-head">
+          <section className="aiswitch-api-panel-section">
+            <div className="aiswitch-api-section-head">
               <strong>
                 {t("codex.modelProviders.usage.rawFields", "服务数据")}
               </strong>
             </div>
-            <div className="cockpit-api-usage-card-grid">
+            <div className="aiswitch-api-usage-card-grid">
               {detailMetrics.length > 0 ? (
                 detailMetrics.map((item) => (
-                  <div className="cockpit-api-usage-card" key={item.key}>
-                    <span className="cockpit-api-card-label">{item.label}</span>
+                  <div className="aiswitch-api-usage-card" key={item.key}>
+                    <span className="aiswitch-api-card-label">{item.label}</span>
                     <strong>{item.value}</strong>
                     {item.rawKey ? <small>{item.rawKey}</small> : null}
                   </div>
                 ))
               ) : (
-                <div className="cockpit-api-empty-row">
-                  {emptyDetailText || t("codex.cockpitApi.noStats", "暂无统计")}
+                <div className="aiswitch-api-empty-row">
+                  {emptyDetailText || t("codex.aiswitchApi.noStats", "暂无统计")}
                 </div>
               )}
             </div>
           </section>
         </div>
 
-        <div className="modal-footer cockpit-api-panel-footer">
+        <div className="modal-footer aiswitch-api-panel-footer">
           {actions.map((action) => (
             <button
               key={action.key}

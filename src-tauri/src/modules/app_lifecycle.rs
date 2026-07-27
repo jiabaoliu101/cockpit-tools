@@ -47,7 +47,7 @@ pub fn install_system_shutdown_listener() -> Result<(), String> {
 
     let (shutdown_tx, shutdown_rx) = sync_channel::<()>(1);
     std::thread::Builder::new()
-        .name("cockpit-system-shutdown-cleanup".to_string())
+        .name("aiswitch-system-shutdown-cleanup".to_string())
         .spawn(move || {
             if shutdown_rx.recv().is_ok() {
                 crate::modules::logger::log_info(
@@ -59,7 +59,7 @@ pub fn install_system_shutdown_listener() -> Result<(), String> {
         .map_err(|error| format!("启动 Windows 关机清理线程失败: {}", error))?;
 
     std::thread::Builder::new()
-        .name("cockpit-system-shutdown-listener".to_string())
+        .name("aiswitch-system-shutdown-listener".to_string())
         .spawn(move || {
             if let Err(error) = run_windows_shutdown_message_loop(shutdown_tx) {
                 crate::modules::logger::log_warn(&format!(
@@ -125,10 +125,10 @@ fn run_windows_shutdown_message_loop(
         .set(shutdown_tx)
         .map_err(|_| "Windows 关机监听已初始化".to_string())?;
 
-    let class_name = format!("CockpitToolsShutdownListener-{}\0", std::process::id())
+    let class_name = format!("aiswitchToolsShutdownListener-{}\0", std::process::id())
         .encode_utf16()
         .collect::<Vec<_>>();
-    let window_name = "Cockpit Tools Shutdown Listener\0"
+    let window_name = "AISwitch Shutdown Listener\0"
         .encode_utf16()
         .collect::<Vec<_>>();
 

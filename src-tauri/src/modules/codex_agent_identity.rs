@@ -195,7 +195,7 @@ pub(crate) async fn register_agent_identity_with_base_url(
     let client = reqwest::Client::builder()
         .timeout(AGENT_IDENTITY_REGISTRATION_TIMEOUT)
         .connect_timeout(Duration::from_secs(10))
-        .user_agent(format!("cockpit-tools/{}", env!("CARGO_PKG_VERSION")))
+        .user_agent(format!("aiswitch/{}", env!("CARGO_PKG_VERSION")))
         .build()
         .map_err(|error| format!("创建 Agent Identity runtime 注册客户端失败: {}", error))?;
     let url = format!("{}/v1/agent/register", base_url.trim_end_matches('/'));

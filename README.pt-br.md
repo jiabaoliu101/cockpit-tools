@@ -1,11 +1,11 @@
-# Cockpit Tools
+# AISwitch
 
 [English](README.en.md)  · Portuguese (BR) · [简体中文](README.md)
 
-[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/cockpit-tools?style=flat&color=gold)](https://github.com/jlcodes99/cockpit-tools)
-[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/cockpit-tools/total?style=flat&color=blue)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/cockpit-tools?style=flat)](https://github.com/jlcodes99/cockpit-tools/releases)
-[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/cockpit-tools)](https://github.com/jlcodes99/cockpit-tools/issues)
+[![GitHub stars](https://img.shields.io/github/stars/jlcodes99/aiswitch?style=flat&color=gold)](https://github.com/jlcodes99/aiswitch)
+[![GitHub downloads](https://img.shields.io/github/downloads/jlcodes99/aiswitch/total?style=flat&color=blue)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub release](https://img.shields.io/github/v/release/jlcodes99/aiswitch?style=flat)](https://github.com/jlcodes99/aiswitch/releases)
+[![GitHub issues](https://img.shields.io/github/issues/jlcodes99/aiswitch)](https://github.com/jlcodes99/aiswitch/issues)
 
 Uma **ferramenta universal de gerenciamento de contas para IDEs de IA**, atualmente compatível com **Antigravity IDE**, **Codex**, **GitHub Copilot**, **Windsurf**, **Kiro**, **Cursor**, **CodeBuddy**, **CodeBuddy CN**, **Qoder**, **Trae** e **Zed**, com fluxos de trabalho paralelos em múltiplas instâncias.
 
@@ -220,12 +220,12 @@ Estas são as perguntas de segurança mais comuns respondidas diretamente:
 
 - **Esta é uma ferramenta para desktop local**: ela não requer uma conta de nuvem separada para este projeto e não depende do armazenamento em nuvem hospedado pelo projeto.
 - **Os dados são armazenados principalmente em sua máquina**:
-  - `~/.antigravity_cockpit`: Contas do Antigravity IDE, configurações, status do WebSocket, etc.
+  - `~/.aiswitch`: Contas do Antigravity IDE, configurações, status do WebSocket, etc.
   - `~/.codex`: Arquivo `auth.json` de login atual do Codex
-  - Pasta de dados do aplicativo local em `com.antigravity.cockpit-tools`: Dados de índice de múltiplas contas do Codex / GitHub Copilot / Windsurf / Kiro / Cursor / CodeBuddy / CodeBuddy CN / Qoder / Trae / Zed, etc.
+  - Pasta de dados do aplicativo local em `com.antigravity.aiswitch`: Dados de índice de múltiplas contas do Codex / GitHub Copilot / Windsurf / Kiro / Cursor / CodeBuddy / CodeBuddy CN / Qoder / Trae / Zed, etc.
 - **O WebSocket é somente local por padrão**: vincula-se a `127.0.0.1`, porta padrão `19528`; você pode desativá-lo ou alterar a porta em Configurações.
 - **Quando ocorre acesso à rede**: login OAuth, atualização de token, obtenção de cota, verificações de atualização e outras solicitações oficiais da API.
-**Solicitações de permissão de privacidade do macOS**: após iniciar o Codex/agente a partir do Cockpit Tools, se um comando do shell executado pelo agente acessar pastas protegidas, como Área de Trabalho, Documentos, Downloads ou Fotos, o macOS poderá exibir a solicitação como "O Cockpit Tools gostaria de acessar...". Isso ocorre porque esses comandos são processos filhos iniciados pelo Cockpit Tools, portanto, o macOS atribui a solicitação ao aplicativo host; isso não significa, por si só, que o processo principal do Cockpit Tools esteja ativamente verificando essas pastas. Conceda acesso somente se você confiar na tarefa atual do agente e nos comandos que ela executará. Em caso de dúvida, negue a solicitação ou execute o projeto a partir de um diretório de trabalho normal primeiro.
+**Solicitações de permissão de privacidade do macOS**: após iniciar o Codex/agente a partir do AISwitch, se um comando do shell executado pelo agente acessar pastas protegidas, como Área de Trabalho, Documentos, Downloads ou Fotos, o macOS poderá exibir a solicitação como "O AISwitch gostaria de acessar...". Isso ocorre porque esses comandos são processos filhos iniciados pelo AISwitch, portanto, o macOS atribui a solicitação ao aplicativo host; isso não significa, por si só, que o processo principal do AISwitch esteja ativamente verificando essas pastas. Conceda acesso somente se você confiar na tarefa atual do agente e nos comandos que ela executará. Em caso de dúvida, negue a solicitação ou execute o projeto a partir de um diretório de trabalho normal primeiro.
 - **Dicas práticas de segurança**:
   1. Se você não precisa da integração de plugins, desative o WebSocket.
   2. Não compartilhe seu diretório de usuários completo diretamente; oculte os arquivos de token antes de fazer backup/compartilhar.
@@ -285,7 +285,7 @@ Observações:
 
 ### Opção A: Download Manual (Recomendado)
 
-Acesse a [página de lançamentos do GitHub](https://github.com/jlcodes99/cockpit-tools/releases) para baixar o pacote para o seu sistema:
+Acesse a [página de lançamentos do GitHub](https://github.com/jlcodes99/aiswitch/releases) para baixar o pacote para o seu sistema:
 
 *   **macOS**: `.dmg` (Apple Silicon & Intel)
 *   **Windows**: `.msi` (Recommended) or `.exe`
@@ -297,27 +297,27 @@ Acesse a [página de lançamentos do GitHub](https://github.com/jlcodes99/cockpi
 
 
 ```bash
-brew tap jlcodes99/cockpit-tools https://github.com/jlcodes99/cockpit-tools
-brew install --cask cockpit-tools
+brew tap jlcodes99/aiswitch https://github.com/jlcodes99/aiswitch
+brew install --cask aiswitch
 ```
 
 Se você se deparar com o aviso "O aplicativo está danificado" do macOS, também poderá instalar com a opção `--no-quarantine`:
 
 ```bash
-brew install --cask --no-quarantine cockpit-tools
+brew install --cask --no-quarantine aiswitch
 ```
 
-Se o Homebrew disser que o aplicativo já existe (por exemplo, `já existe um aplicativo em '/Applications/Cockpit Tools.app'`), remova o aplicativo antigo e instale-o novamente:
+Se o Homebrew disser que o aplicativo já existe (por exemplo, `já existe um aplicativo em '/Applications/AISwitch.app'`), remova o aplicativo antigo e instale-o novamente:
 
 ```bash
-rm -rf "/Applications/Cockpit Tools.app"
-brew install --cask cockpit-tools
+rm -rf "/Applications/AISwitch.app"
+brew install --cask aiswitch
 ```
 
 Ou force a sobrescrita do aplicativo existente:
 
 ```bash
-brew install --cask --force cockpit-tools
+brew install --cask --force aiswitch
 ```
 
 ### 🛠️ Solução de problemas
@@ -328,7 +328,7 @@ Devido aos mecanismos de segurança do macOS, apps que não foram baixados da Ap
 1.  **Correção via linha de comando** (Recomendado):
     Abra o Terminal e execute o seguinte comando:
     ```bash
-    sudo xattr -rd com.apple.quarantine "/Applications/Cockpit Tools.app"
+    sudo xattr -rd com.apple.quarantine "/Applications/AISwitch.app"
     ```
     > **Observação**: Se você alterou o nome do aplicativo, ajuste o caminho no comando de acordo.
 
@@ -366,7 +366,7 @@ npm run tauri build
 
 ## Histórico do Star
 
-[![Gráfico do Histórico do Star](https://api.star-history.com/svg?repos=jlcodes99/cockpit-tools&type=Date)](https://star-history.com/#jlcodes99/cockpit-tools&Date)
+[![Gráfico do Histórico do Star](https://api.star-history.com/svg?repos=jlcodes99/aiswitch&type=Date)](https://star-history.com/#jlcodes99/aiswitch&Date)
 
 ---
 

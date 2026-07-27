@@ -578,7 +578,7 @@ fn read_powershell_json_for_antigravity_exe(
             "-Command",
             script,
         ])
-        .env("COCKPIT_ANTIGRAVITY_EXE_PATH", exe_path.as_os_str())
+        .env("aiswitch_ANTIGRAVITY_EXE_PATH", exe_path.as_os_str())
         .output()
         .ok()?;
     if !output.status.success() {
@@ -626,7 +626,7 @@ function Normalize-RegistryPath([string]$value) {
   try { return [System.IO.Path]::GetFullPath($clean) } catch { return $clean }
 }
 
-$exe = [Environment]::GetEnvironmentVariable('COCKPIT_ANTIGRAVITY_EXE_PATH', 'Process')
+$exe = [Environment]::GetEnvironmentVariable('aiswitch_ANTIGRAVITY_EXE_PATH', 'Process')
 if ([string]::IsNullOrWhiteSpace($exe)) { exit 3 }
 $exe = [System.IO.Path]::GetFullPath($exe)
 
@@ -667,7 +667,7 @@ fn read_antigravity_windows_exe_metadata(root: &Path) -> Option<AntigravityInsta
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
-$p = [Environment]::GetEnvironmentVariable('COCKPIT_ANTIGRAVITY_EXE_PATH', 'Process')
+$p = [Environment]::GetEnvironmentVariable('aiswitch_ANTIGRAVITY_EXE_PATH', 'Process')
 if ([string]::IsNullOrWhiteSpace($p)) { exit 3 }
 if (-not (Test-Path -LiteralPath $p -PathType Leaf)) { exit 2 }
 $v = (Get-Item -LiteralPath $p).VersionInfo
@@ -1714,7 +1714,7 @@ fn build_auto_backup_zip_bytes(file_name: &str, content: &str) -> Result<Vec<u8>
         .map_err(|err| format!("自动备份 JSON 解析失败，无法生成 ZIP: {}", err))?;
     let platforms = collect_auto_backup_platforms_from_value(&root);
     let manifest = serde_json::json!({
-        "schema": "cockpit-tools.auto-backup-archive",
+        "schema": "aiswitch.auto-backup-archive",
         "version": 1,
         "source_file_name": file_name,
         "platforms": &platforms,
@@ -2878,7 +2878,7 @@ pub fn codex_ssh_sync_current(id: String) -> Result<String, String> {
 /// Managed provider id for local API LB (#980 vertical slice).
 #[tauri::command]
 pub fn codex_managed_lb_provider_id() -> String {
-    "cockpit-codex-lb".to_string()
+    "aiswitch-codex-lb".to_string()
 }
 
 #[tauri::command]

@@ -1,4 +1,4 @@
-export const APIKEY_FUN_REGISTER_URL = 'https://apikey.fun/register?aff=cockpit';
+export const APIKEY_FUN_REGISTER_URL = 'https://apikey.fun/register?aff=aiswitch';
 export const APIKEY_FUN_DOCS_URL = 'https://apikey.fun/docs';
 export const APIKEY_FUN_GLOBAL_ENDPOINT = 'https://api.apikey.fun';
 export const APIKEY_FUN_DIRECT_ENDPOINT = 'https://slb.apikey.fun';

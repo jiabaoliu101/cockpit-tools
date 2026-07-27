@@ -8,7 +8,7 @@ use super::config;
 use super::logger;
 
 const REMOTE_CONFIG_URL: &str =
-    "https://raw.githubusercontent.com/jlcodes99/cockpit-tools/main/remote-config.json";
+    "https://raw.githubusercontent.com/jlcodes99/aiswitch/main/remote-config.json";
 const REMOTE_CONFIG_CACHE_FILE: &str = "remote_config_cache.json";
 const REMOTE_CONFIG_LOCAL_OVERRIDE_FILE: &str = "remote-config.local.json";
 const CACHE_TTL_MS: i64 = 3_600_000;
@@ -224,7 +224,7 @@ async fn fetch_remote_config() -> Result<RemoteConfigPayload, String> {
     logger::log_info("[RemoteConfig] 从远端拉取配置");
 
     let client = reqwest::Client::builder()
-        .user_agent("Cockpit-Tools")
+        .user_agent("aiswitch-Tools")
         .timeout(std::time::Duration::from_secs(10))
         .build()
         .map_err(|e| format!("创建远端配置 HTTP 客户端失败: {}", e))?;

@@ -111,9 +111,9 @@ final class NativeMenuPopoverController: NSObject, ObservableObject, NSMenuDeleg
             guard let platform = self.selectedPlatform else { return }
             self.closeMenu()
             dispatchRustMenuAction(action: "view_all_accounts", platformId: platform.id)
-        case .openCockpitTools:
+        case .openaiswitchTools:
             self.closeMenu()
-            dispatchRustMenuAction(action: "open_cockpit_tools")
+            dispatchRustMenuAction(action: "open_aiswitch")
         case .settings:
             self.closeMenu()
             dispatchRustMenuAction(action: "settings")
@@ -172,8 +172,8 @@ final class NativeMenuPopoverController: NSObject, ObservableObject, NSMenuDeleg
         self.dispatch(action: .openDetails)
     }
 
-    @objc private func handleOpenCockpitTools(_: Any?) {
-        self.dispatch(action: .openCockpitTools)
+    @objc private func handleOpenaiswitchTools(_: Any?) {
+        self.dispatch(action: .openaiswitchTools)
     }
 
     @objc private func handleViewAllAccounts(_: Any?) {
@@ -286,9 +286,9 @@ final class NativeMenuPopoverController: NSObject, ObservableObject, NSMenuDeleg
             menu.addItem(.separator())
         }
         menu.addItem(self.makeActionMenuItem(
-            title: snapshot.strings.open_cockpit_tools,
+            title: snapshot.strings.open_aiswitch,
             systemName: "macwindow",
-            action: #selector(self.handleOpenCockpitTools(_:))
+            action: #selector(self.handleOpenaiswitchTools(_:))
         ))
         menu.addItem(self.makeActionMenuItem(
             title: snapshot.strings.settings,
@@ -430,7 +430,7 @@ enum NativeRustAction {
     case switchAccount
     case openDetails
     case viewAllAccounts
-    case openCockpitTools
+    case openaiswitchTools
     case settings
     case quit
 }

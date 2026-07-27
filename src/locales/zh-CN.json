@@ -226,7 +226,7 @@
       "loginSuccess": "登录成功",
       "switchAccount": "切换账号"
     },
-    "appName": "Cockpit Tools",
+    "appName": "AISwitch",
     "collapse": "收起",
     "confirmDelete": "确认删除",
     "confirmDeleteTag": "确认删除标签",
@@ -258,7 +258,7 @@
       "backToCurrent": "返回",
       "switchToThisAccount": "切换",
       "openDetails": "打开详情页",
-      "openCockpitTools": "打开 Cockpit Tools"
+      "openaiswitchTools": "打开 AISwitch"
     },
     "empty": {
       "title": "暂无账号",
@@ -325,17 +325,17 @@
   },
   "sponsors": {
     "pageTitle": "赞助商",
-    "pageDesc": "感谢以下赞助商支持 Cockpit Tools。",
+    "pageDesc": "感谢以下赞助商支持 AISwitch。",
     "loading": "正在加载赞助商...",
     "emptyTitle": "暂无赞助商",
     "emptyDesc": "当前远端未开启赞助商模块。",
     "listAriaLabel": "赞助商列表",
-    "defaultDescription": "感谢支持 Cockpit Tools。",
+    "defaultDescription": "感谢支持 AISwitch。",
     "openSponsor": "查看"
   },
   "relay": {
     "pageTitle": "专属中转站",
-    "pageDesc": "为 Cockpit Tools 用户提供的合作 API 服务，可用于 Codex API Key 账号。",
+    "pageDesc": "为 AISwitch 用户提供的合作 API 服务，可用于 Codex API Key 账号。",
     "loading": "正在加载中转站...",
     "emptyTitle": "中转站未开启",
     "emptyDesc": "当前远端配置未开启专属中转站。",
@@ -365,7 +365,7 @@
   "apiKeyFun": {
     "eyebrow": "中转站",
     "title": "APIKEY.FUN 中转站",
-    "description": "Cockpit 官方合作中转站，为用户提供稳定、开放、高性价比的大模型 API 接入服务。支持 Claude、OpenAI、Gemini 等主流模型，适合在 Codex、Gemini CLI、Claude Code 及其他开发工具中统一配置使用。通过 Cockpit 专属链接注册，可享受最高充值永久 95 折优惠。",
+    "description": "aiswitch 官方合作中转站，为用户提供稳定、开放、高性价比的大模型 API 接入服务。支持 Claude、OpenAI、Gemini 等主流模型，适合在 Codex、Gemini CLI、Claude Code 及其他开发工具中统一配置使用。通过 aiswitch 专属链接注册，可享受最高充值永久 95 折优惠。",
     "register": "专属注册链接",
     "docs": "官方文档",
     "viewNow": "立即查看",
@@ -771,7 +771,7 @@
   },
   "settings": {
     "title": "应用设置",
-    "subtitle": "个性化您的 Cockpit Tools 体验。",
+    "subtitle": "个性化您的 AISwitch 体验。",
     "tabs": {
       "general": "通用",
       "network": "网络服务",
@@ -891,7 +891,7 @@
       "passwordSavedPlaceholder": "已保存，留空保持不变",
       "clearPassword": "清除",
       "remoteDirTitle": "远端目录",
-      "remoteDirDesc": "只管理该目录下的 Cockpit 备份文件。",
+      "remoteDirDesc": "只管理该目录下的 aiswitch 备份文件。",
       "retentionTitle": "云端保留天数",
       "retentionDesc": "云端超过天数的备份会在下次同步时自动清理。",
       "retentionUnit": "天",
@@ -905,7 +905,7 @@
       "syncAction": "同步配置",
       "syncLatestConfirm": "确认拉取最新的远端备份 {{name}} 并同步到本地？此操作将覆盖本地现有数据。",
       "remoteListTitle": "远端备份",
-      "remoteListDesc": "仅显示匹配 Cockpit 自动/手动备份命名的 JSON 与 ZIP 文件。",
+      "remoteListDesc": "仅显示匹配 aiswitch 自动/手动备份命名的 JSON 与 ZIP 文件。",
       "emptyTitle": "暂无远端备份",
       "emptyDesc": "保存设置后可以生成并上传一份备份。",
       "unknownTime": "未知",
@@ -995,7 +995,7 @@
       "floatingCardStartupDesc": "应用启动后默认展示悬浮账号卡片",
       "floatingCardAlwaysOnTop": "悬浮卡片默认置顶",
       "floatingCardAlwaysOnTopDesc": "新打开的悬浮卡片窗口默认保持置顶",
-      "appAutoLaunch": "开机自启动 Cockpit Tools",
+      "appAutoLaunch": "开机自启动 AISwitch",
       "appAutoLaunchDesc": "系统登录后自动启动应用",
       "startupWakeupDisabled": "关闭",
       "startupWakeupImmediate": "立即唤醒",
@@ -1027,7 +1027,7 @@
       "codexSyncWsl": "同步 Codex 到 WSL",
       "codexSyncWslDesc": "切换默认 Codex 账号后，同时把 auth.json 和 config.toml 写入 WSL 的 Codex 配置目录。",
       "codexAppUiInjection": "显示 API 服务额度",
-      "codexAppUiInjectionDesc": "重启 Codex 实例后，在输入框下方显示 Cockpit Tools API 服务的账号数、周额度和 5h 额度。需保持 Cockpit Tools 在后台运行；完全退出或网络不可用时，额度不会继续刷新。",
+      "codexAppUiInjectionDesc": "重启 Codex 实例后，在输入框下方显示 AISwitch API 服务的账号数、周额度和 5h 额度。需保持 AISwitch 在后台运行；完全退出或网络不可用时，额度不会继续刷新。",
       "codexAppUiInjectionPoolLabel": "账号",
       "codexAppUiInjectionWeeklyLabel": "周",
       "codexAppUiInjectionFiveHourLabel": "5h",
@@ -1240,7 +1240,7 @@
       "firewallHint": "如果访问不了，请检查系统防火墙设置。",
       "proxyTitle": "全局代理",
       "proxyEnabled": "启用全局代理",
-      "proxyEnabledDesc": "对 Cockpit 启动的受管平台进程统一注入代理环境变量",
+      "proxyEnabledDesc": "对 aiswitch 启动的受管平台进程统一注入代理环境变量",
       "proxyUrl": "代理地址",
       "proxyUrlDesc": "示例：http://127.0.0.1:7890 或 socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "例如：http://127.0.0.1:7890",
@@ -1250,7 +1250,7 @@
       "proxyUrlRequired": "启用全局代理时，代理地址不能为空。"
     },
     "about": {
-      "appName": "Cockpit Tools",
+      "appName": "AISwitch",
       "slogan": "专业账号管理解决方案",
       "author": "主作者",
       "wechat": "微信公众号",
@@ -1608,7 +1608,7 @@
       "importBtn": "导入",
       "oauthAction": "OAuth 授权",
       "fromExtension": "从插件导入",
-      "syncBadge": "同步 Antigravity Cockpit 插件账号",
+      "syncBadge": "同步 Antigravity aiswitch 插件账号",
       "fromLocalDB": "从本地数据库导入",
       "localDBDesc": "读取本机 Antigravity IDE 客户端登录账号",
       "toolsDescMigrate": "从 ~/.antigravity_tools/ 迁移历史账号",
@@ -2062,10 +2062,10 @@
     },
     "exportFormat": {
       "label": "导出格式",
-      "cockpitTools": "Cockpit Tools",
+      "aiswitchTools": "AISwitch",
       "sub2api": "sub2api 格式",
       "cpa": "cpa 格式",
-      "agentIdentityCpaUnsupported": "Agent Identity 账号不支持 cpa 格式，请使用 Cockpit Tools 或 sub2api 格式导出。",
+      "agentIdentityCpaUnsupported": "Agent Identity 账号不支持 cpa 格式，请使用 AISwitch 或 sub2api 格式导出。",
       "agentIdentityPrivateKeyNotice": "导出内容包含 Agent Identity 私钥，可用于在其他设备恢复账号。请像密码一样妥善保管。",
       "downloadAll": "一键下载全部",
       "cpaCardTitle": "账号 {{index}}",
@@ -2209,8 +2209,8 @@
       "testAuthFailed": "服务可达，但鉴权失败：{{detail}}。请检查 API 服务密钥或账号登录状态。",
       "testServiceUnavailable": "服务可达，但当前不可用：{{detail}}。请检查服务是否启用、账号集合是否为空或账号是否可用。",
       "gatewayErrors": {
-        "authUnavailable": "账号池当前没有可调度账号；账号可能正在冷却、授权失效或额度受限，请在 Cockpit Tools 的 API 服务页查看账号状态。",
-        "authNotFound": "账号池当前没有已配置的可用账号，请在 Cockpit Tools 的 API 服务页添加或启用账号。"
+        "authUnavailable": "账号池当前没有可调度账号；账号可能正在冷却、授权失效或额度受限，请在 AISwitch 的 API 服务页查看账号状态。",
+        "authNotFound": "账号池当前没有已配置的可用账号，请在 AISwitch 的 API 服务页添加或启用账号。"
       },
       "testRateLimited": "服务可达，但上游限流或额度不足：{{detail}}。",
       "testHttpFailed": "服务可达，但请求返回 HTTP {{status}}：{{detail}}。",
@@ -2482,7 +2482,7 @@
         "placeholder": "每行填写一个模型 ID，也可以使用逗号分隔。",
         "editHint": "上游结果仅填入当前草稿，可在保存前删除、补充或调整模型。",
         "syncToggle": "同步供应商模型到 Codex",
-        "syncDescription": "保存后使用当前模型列表生成 Cockpit 受管的 Codex 模型目录，不覆盖用户自定义目录。",
+        "syncDescription": "保存后使用当前模型列表生成 aiswitch 受管的 Codex 模型目录，不覆盖用户自定义目录。",
         "fetchCredentialsRequired": "请先填写 API Key 和 Base URL。",
         "fetchEmpty": "上游未返回可用模型，已保留当前列表。",
         "fetchFailed": "获取上游模型失败：{{error}}",
@@ -2502,8 +2502,8 @@
         "getApiKey": "获取秘钥"
       },
       "providers": {
-        "cockpit_api": {
-          "name": "Cockpit Api"
+        "aiswitch_api": {
+          "name": "aiswitch Api"
         },
         "openai_official": {
           "name": "OpenAI Official"
@@ -2598,8 +2598,8 @@
         }
       }
     },
-    "cockpitApi": {
-      "panelTitle": "Cockpit Api 服务面板",
+    "aiswitchApi": {
+      "panelTitle": "aiswitch Api 服务面板",
       "servicePanel": "服务面板",
       "balance": "额度",
       "requests": "请求",
@@ -4859,14 +4859,14 @@
     "search": "搜索 ZCode 账号...",
     "flowNotice": {
       "title": "ZCode 账号管理说明",
-      "desc": "Cockpit 按 ZCode 官方格式管理 OAuth 凭据与 API Key，用于真实切号与实例绑定。",
+      "desc": "aiswitch 按 ZCode 官方格式管理 OAuth 凭据与 API Key，用于真实切号与实例绑定。",
       "permission": "本地范围：~/.zcode/v2/credentials.json、config.json、setting.json 与受管实例目录。",
-      "network": "网络范围：OAuth、用户信息、订阅与配额接口；不会将账号上传到 Cockpit 服务。"
+      "network": "网络范围：OAuth、用户信息、订阅与配额接口；不会将账号上传到 aiswitch 服务。"
     },
     "empty": "暂无 ZCode 账号",
     "addAccount": "添加 ZCode 账号",
     "oauth": {
-      "desc": "关闭 ZCode 后，在 Cockpit 授权窗口完成登录；回调将由 Cockpit 直接接收。",
+      "desc": "关闭 ZCode 后，在 aiswitch 授权窗口完成登录；回调将由 aiswitch 直接接收。",
       "title": "ZCode 授权登录",
       "item1": "支持 Z.ai 与 BigModel 官方登录。",
       "item2": "授权后自动保存账号并刷新套餐与模型额度。",
@@ -4878,7 +4878,7 @@
       "success": "ZCode OAuth 登录成功"
     },
     "token": {
-      "desc": "粘贴由 Cockpit 导出的 ZCode 账号 JSON。"
+      "desc": "粘贴由 aiswitch 导出的 ZCode 账号 JSON。"
     },
     "apiKey": {
       "tab": "API 密钥",
@@ -5311,7 +5311,7 @@
       "title": "Grok CLI 账号管理说明",
       "desc": "默认使用独立 GROK_HOME；开启“切号同步官方登录”后，默认实例切换 OAuth 账号会写入官方 ~/.grok/auth.json，多开实例仍保持隔离。",
       "permission": "本地范围：可读取默认 ~/.grok/auth.json 用于导入；仅在开关开启且默认实例切换 OAuth 账号时写入该文件，API Key 不会覆盖官方登录。",
-      "network": "网络范围：OAuth 授权、凭据刷新及账号用量查询；不会上传凭据到 Cockpit 服务。"
+      "network": "网络范围：OAuth 授权、凭据刷新及账号用量查询；不会上传凭据到 aiswitch 服务。"
     },
     "empty": "暂无 Grok CLI 账号",
     "addAccount": "添加 Grok CLI 账号",

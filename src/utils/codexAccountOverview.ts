@@ -375,11 +375,11 @@ export function createCodexOverviewAccountComparator({
       return right.created_at - left.created_at;
     }
 
-    const cockpitApiPriority =
+    const aiswitchApiPriority =
       Number(!isCodexNewApiAccount(left)) -
       Number(!isCodexNewApiAccount(right));
-    if (cockpitApiPriority !== 0) {
-      return cockpitApiPriority;
+    if (aiswitchApiPriority !== 0) {
+      return aiswitchApiPriority;
     }
 
     const currentFirstDiff = compareCurrentAccountFirst(

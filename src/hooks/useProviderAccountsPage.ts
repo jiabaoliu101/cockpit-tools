@@ -220,10 +220,10 @@ type ExternalImportBundleParseMessages = {
 };
 
 const CODEX_REFRESH_TOKEN_PATTERN = /rt_[A-Za-z0-9._-]+/g;
-const COCKPIT_API_PROVIDER_ID = 'cockpit_api';
-const COCKPIT_API_PROVIDER_NAME = 'Cockpit Api';
-const COCKPIT_TOOLS_IMPORT_PATH_MARKERS = [
-  '/api/cockpit-tools/import/',
+const aiswitch_API_PROVIDER_ID = 'aiswitch_api';
+const aiswitch_API_PROVIDER_NAME = 'aiswitch Api';
+const AISWITCH_IMPORT_PATH_MARKERS = [
+  '/api/aiswitch/import/',
   '/user/api/toolsimport/',
 ];
 
@@ -454,37 +454,37 @@ const deriveApiBaseUrlFromImportUrl = (importUrl?: string | null): string | null
   }
 };
 
-const isCockpitToolsImportUrl = (importUrl?: string | null): boolean => {
+const isaiswitchToolsImportUrl = (importUrl?: string | null): boolean => {
   const trimmed = (importUrl || '').trim();
   if (!trimmed) return false;
   try {
     const parsed = new URL(trimmed);
     const pathname = parsed.pathname.toLowerCase();
-    return COCKPIT_TOOLS_IMPORT_PATH_MARKERS.some((marker) => pathname.includes(marker));
+    return AISWITCH_IMPORT_PATH_MARKERS.some((marker) => pathname.includes(marker));
   } catch {
     return false;
   }
 };
 
-const isCockpitApiImportItem = (item: Record<string, unknown>): boolean => {
+const isaiswitchApiImportItem = (item: Record<string, unknown>): boolean => {
   const providerId = readRecordString(item, ['api_provider_id', 'apiProviderId']);
-  if (providerId?.toLowerCase() === COCKPIT_API_PROVIDER_ID) return true;
+  if (providerId?.toLowerCase() === aiswitch_API_PROVIDER_ID) return true;
 
   const candidates = [
     readRecordString(item, ['api_provider_name', 'apiProviderName']),
     readRecordString(item, ['plan_type', 'planType']),
     readRecordString(item, ['account_note', 'accountNote']),
   ];
-  const expected = COCKPIT_API_PROVIDER_NAME.toLowerCase();
+  const expected = aiswitch_API_PROVIDER_NAME.toLowerCase();
   return candidates.some(
     (value) => value?.trim().toLowerCase().includes(expected),
   );
 };
 
-const withCockpitApiBaseUrl = (
+const withaiswitchApiBaseUrl = (
   item: unknown,
   apiBaseUrl: string | null,
-  isCockpitToolsImport: boolean,
+  isaiswitchToolsImport: boolean,
 ): unknown => {
   if (!apiBaseUrl || !item || typeof item !== 'object' || Array.isArray(item)) {
     return item;
@@ -495,7 +495,7 @@ const withCockpitApiBaseUrl = (
   if (authMode?.toLowerCase() !== 'apikey' || !apiKey) {
     return item;
   }
-  if (!isCockpitToolsImport && !isCockpitApiImportItem(payload)) {
+  if (!isaiswitchToolsImport && !isaiswitchApiImportItem(payload)) {
     return item;
   }
 
@@ -506,16 +506,16 @@ const withCockpitApiBaseUrl = (
     api_provider_mode:
       readRecordString(payload, ['api_provider_mode', 'apiProviderMode']) ?? 'custom',
     api_provider_id:
-      readRecordString(payload, ['api_provider_id', 'apiProviderId']) ?? COCKPIT_API_PROVIDER_ID,
+      readRecordString(payload, ['api_provider_id', 'apiProviderId']) ?? aiswitch_API_PROVIDER_ID,
     api_provider_name:
       readRecordString(payload, ['api_provider_name', 'apiProviderName']) ??
-      COCKPIT_API_PROVIDER_NAME,
+      aiswitch_API_PROVIDER_NAME,
     plan_type:
-      readRecordString(payload, ['plan_type', 'planType']) ?? COCKPIT_API_PROVIDER_NAME,
+      readRecordString(payload, ['plan_type', 'planType']) ?? aiswitch_API_PROVIDER_NAME,
   };
 };
 
-const applyCockpitApiBaseUrlToExternalImportItems = (
+const applyaiswitchApiBaseUrlToExternalImportItems = (
   items: unknown[],
   request: ExternalProviderImportPayload,
 ): unknown[] => {
@@ -524,9 +524,9 @@ const applyCockpitApiBaseUrlToExternalImportItems = (
     deriveApiBaseUrlFromImportUrl(request.importUrl);
   if (!apiBaseUrl) return items;
 
-  const isCockpitToolsImport =
-    Boolean(request.apiBaseUrl?.trim()) || isCockpitToolsImportUrl(request.importUrl);
-  return items.map((item) => withCockpitApiBaseUrl(item, apiBaseUrl, isCockpitToolsImport));
+  const isaiswitchToolsImport =
+    Boolean(request.apiBaseUrl?.trim()) || isaiswitchToolsImportUrl(request.importUrl);
+  return items.map((item) => withaiswitchApiBaseUrl(item, apiBaseUrl, isaiswitchToolsImport));
 };
 
 const buildInitialExternalImportProgress = (): ExternalImportProgressState => ({
@@ -1571,7 +1571,7 @@ export function useProviderAccountsPage<TAccount extends ProviderAccountBase>(
           });
           const items =
             platformId === 'codex'
-              ? applyCockpitApiBaseUrlToExternalImportItems(resolvedItems, request)
+              ? applyaiswitchApiBaseUrlToExternalImportItems(resolvedItems, request)
               : resolvedItems;
 
           let success = 0;

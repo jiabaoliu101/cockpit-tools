@@ -34,10 +34,10 @@ function agentIdentityAccount(): CodexAccount {
   };
 }
 
-test('Cockpit Tools export preserves portable Agent Identity credentials', () => {
+test('AISwitch export preserves portable Agent Identity credentials', () => {
   const raw = JSON.stringify([agentIdentityAccount()]);
   const exported = JSON.parse(
-    transformCodexExportJson(raw, 'cockpit_tools'),
+    transformCodexExportJson(raw, 'aiswitch'),
   ) as Array<Record<string, unknown>>;
   const account = exported[0];
   const identity = account.agent_identity as Record<string, unknown>;
@@ -75,7 +75,7 @@ test('CPA export rejects Agent Identity instead of producing empty tokens', () =
   );
 });
 
-test('regular token accounts keep their existing Cockpit Tools export shape', () => {
+test('regular token accounts keep their existing AISwitch export shape', () => {
   const account: CodexAccount = {
     id: 'codex-token-fixture',
     email: 'token@example.com',
@@ -89,7 +89,7 @@ test('regular token accounts keep their existing Cockpit Tools export shape', ()
     last_used: 1,
   };
   const exported = JSON.parse(
-    transformCodexExportJson(JSON.stringify([account]), 'cockpit_tools'),
+    transformCodexExportJson(JSON.stringify([account]), 'aiswitch'),
   ) as Array<Record<string, unknown>>;
 
   assert.equal(exported[0].access_token, 'access-token-fixture');

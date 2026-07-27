@@ -79,7 +79,7 @@ fn store_path() -> Result<PathBuf, String> {
     let dir = dirs::data_local_dir()
         .or_else(dirs::data_dir)
         .ok_or("无法定位应用数据目录")?;
-    Ok(dir.join("cockpit-tools").join(STORE_FILE))
+    Ok(dir.join("aiswitch").join(STORE_FILE))
 }
 
 fn load_store() -> Result<CodexSshStore, String> {
@@ -226,9 +226,9 @@ pub fn test_connection(id: &str) -> Result<String, String> {
         .ok_or_else(|| format!("未找到 SSH 服务器: {id}"))?;
     let mut args = ssh_base_args(server);
     args.push("echo".to_string());
-    args.push("cockpit-ssh-ok".to_string());
+    args.push("aiswitch-ssh-ok".to_string());
     let out = run_hidden("ssh", &args)?;
-    if !out.contains("cockpit-ssh-ok") {
+    if !out.contains("aiswitch-ssh-ok") {
         return Err(format!("意外输出: {out}"));
     }
     Ok("连接成功".to_string())

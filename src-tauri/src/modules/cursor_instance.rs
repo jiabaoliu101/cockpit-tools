@@ -84,20 +84,20 @@ pub fn get_default_instances_root_dir() -> Result<PathBuf, String> {
     #[cfg(target_os = "macos")]
     {
         let home = dirs::home_dir().ok_or("无法获取用户主目录")?;
-        return Ok(home.join(".antigravity_cockpit/instances/cursor"));
+        return Ok(home.join(".aiswitch/instances/cursor"));
     }
 
     #[cfg(target_os = "windows")]
     {
         let appdata =
             std::env::var("APPDATA").map_err(|_| "无法获取 APPDATA 环境变量".to_string())?;
-        return Ok(PathBuf::from(appdata).join(".antigravity_cockpit\\instances\\cursor"));
+        return Ok(PathBuf::from(appdata).join(".aiswitch\\instances\\cursor"));
     }
 
     #[cfg(target_os = "linux")]
     {
         let home = dirs::home_dir().ok_or("无法获取用户主目录")?;
-        return Ok(home.join(".antigravity_cockpit/instances/cursor"));
+        return Ok(home.join(".aiswitch/instances/cursor"));
     }
 
     #[allow(unreachable_code)]
@@ -510,7 +510,7 @@ fn is_helper_process(name: &str, args_line: &str) -> bool {
 }
 
 fn command_trace_enabled() -> bool {
-    if let Ok(value) = std::env::var("COCKPIT_COMMAND_TRACE") {
+    if let Ok(value) = std::env::var("aiswitch_COMMAND_TRACE") {
         match value.trim().to_ascii_lowercase().as_str() {
             "1" | "true" | "yes" | "on" => return true,
             "0" | "false" | "no" | "off" => return false,
@@ -1137,7 +1137,7 @@ pub fn ensure_cursor_launch_path_configured() -> Result<(), String> {
 
 #[cfg(target_os = "macos")]
 fn sanitize_macos_gui_launch_env(cmd: &mut Command) {
-    // Avoid inheriting Cockpit bundle identity into child GUI apps.
+    // Avoid inheriting aiswitch bundle identity into child GUI apps.
     cmd.env_remove("__CFBundleIdentifier");
     cmd.env_remove("XPC_SERVICE_NAME");
 }

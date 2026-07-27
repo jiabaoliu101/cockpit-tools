@@ -226,7 +226,7 @@
       "loginSuccess": "Login berhasil",
       "switchAccount": "Ganti Akun"
     },
-    "appName": "Cockpit Tools​",
+    "appName": "AISwitch​",
     "collapse": "Ciutkan",
     "confirmDelete": "Konfirmasi Hapus",
     "confirmDeleteTag": "Konfirmasi Hapus Tag",
@@ -258,7 +258,7 @@
       "backToCurrent": "Kembali",
       "switchToThisAccount": "Ganti",
       "openDetails": "Buka detail",
-      "openCockpitTools": "Buka Cockpit Tools"
+      "openaiswitchTools": "Buka AISwitch"
     },
     "empty": {
       "title": "Belum ada akun",
@@ -325,12 +325,12 @@
   },
   "sponsors": {
     "pageTitle": "Sponsor",
-    "pageDesc": "Terima kasih kepada sponsor berikut yang mendukung Cockpit Tools.",
+    "pageDesc": "Terima kasih kepada sponsor berikut yang mendukung AISwitch.",
     "loading": "Memuat sponsor...",
     "emptyTitle": "Belum ada sponsor",
     "emptyDesc": "Modul sponsor jarak jauh saat ini dinonaktifkan.",
     "listAriaLabel": "Daftar sponsor",
-    "defaultDescription": "Terima kasih telah mendukung Cockpit Tools.",
+    "defaultDescription": "Terima kasih telah mendukung AISwitch.",
     "openSponsor": "Buka"
   },
   "platformLayout": {
@@ -619,7 +619,7 @@
   },
   "settings": {
     "title": "Pengaturan",
-    "subtitle": "Sesuaikan pengalaman Cockpit Tools Anda.",
+    "subtitle": "Sesuaikan pengalaman AISwitch Anda.",
     "tabs": {
       "general": "Umum",
       "network": "Jaringan",
@@ -680,7 +680,7 @@
       "floatingCardStartupDesc": "Tampilkan kartu akun mengambang secara otomatis setelah aplikasi diluncurkan",
       "floatingCardAlwaysOnTop": "Kartu mengambang selalu di atas secara bawaan",
       "floatingCardAlwaysOnTopDesc": "Jendela kartu mengambang baru tetap di atas saat dibuka",
-      "appAutoLaunch": "Jalankan Cockpit Tools saat login",
+      "appAutoLaunch": "Jalankan AISwitch saat login",
       "appAutoLaunchDesc": "Jalankan aplikasi secara otomatis setelah masuk ke sistem",
       "startupWakeupDisabled": "Nonaktif",
       "startupWakeupImmediate": "Bangunkan segera",
@@ -712,7 +712,7 @@
       "codexSyncWsl": "Sinkronkan Codex ke WSL",
       "codexSyncWslDesc": "Setelah mengganti akun Codex default, auth.json dan config.toml juga ditulis ke direktori Codex di WSL.",
       "codexAppUiInjection": "Kuota layanan API",
-      "codexAppUiInjectionDesc": "Setelah instans Codex dimulai ulang, tampilkan jumlah akun serta kuota mingguan dan 5 jam layanan API Cockpit Tools di bawah composer. Cockpit Tools harus tetap berjalan di latar belakang; pembaruan berhenti jika aplikasi ditutup sepenuhnya atau jaringan tidak tersedia.",
+      "codexAppUiInjectionDesc": "Setelah instans Codex dimulai ulang, tampilkan jumlah akun serta kuota mingguan dan 5 jam layanan API AISwitch di bawah composer. AISwitch harus tetap berjalan di latar belakang; pembaruan berhenti jika aplikasi ditutup sepenuhnya atau jaringan tidak tersedia.",
       "codexAppUiInjectionPoolLabel": "Akun",
       "codexAppUiInjectionWeeklyLabel": "Minggu",
       "codexAppUiInjectionFiveHourLabel": "5 jam",
@@ -901,7 +901,7 @@
       "webdavAllowedDomainsDesc": "Pisahkan koma; kosong = tanpa batas"
     },
     "network": {
-      "apiTitle": "API Antigravity Cockpit",
+      "apiTitle": "API Antigravity aiswitch",
       "wsService": "Layanan WebSocket",
       "wsServiceDesc": "Izinkan program eksternal (misalnya ekstensi VS Code) untuk terhubung",
       "preferredPort": "Port yang Diinginkan",
@@ -930,7 +930,7 @@
       "firewallHint": "Jika URL tidak dapat dijangkau, periksa pengaturan firewall sistem Anda.",
       "proxyTitle": "Proxy Global",
       "proxyEnabled": "Aktifkan Proxy Global",
-      "proxyEnabledDesc": "Masukkan variabel lingkungan proxy ke proses platform yang dikelola oleh Cockpit.",
+      "proxyEnabledDesc": "Masukkan variabel lingkungan proxy ke proses platform yang dikelola oleh aiswitch.",
       "proxyUrl": "URL Proxy",
       "proxyUrlDesc": "Contoh: http://127.0.0.1:7890 atau socks5://127.0.0.1:7890",
       "proxyUrlPlaceholder": "http://127.0.0.1:7890​",
@@ -940,7 +940,7 @@
       "proxyUrlRequired": "URL Proxy tidak boleh kosong saat proxy global diaktifkan."
     },
     "about": {
-      "appName": "Cockpit Tools​",
+      "appName": "AISwitch​",
       "slogan": "Solusi Akun Profesional",
       "author": "Pengembang",
       "wechat": "WeChat​",
@@ -1084,7 +1084,7 @@
       "passwordSavedPlaceholder": "Disimpan; biarkan kosong untuk mempertahankan",
       "clearPassword": "Bersihkan",
       "remoteDirTitle": "Folder Jarak Jauh",
-      "remoteDirDesc": "Hanya file cadangan Cockpit di folder ini yang dikelola.",
+      "remoteDirDesc": "Hanya file cadangan aiswitch di folder ini yang dikelola.",
       "statusTitle": "Status Sinkronisasi",
       "statusDesc": "Pemulihan jarak jauh memerlukan pemilihan manual dan tidak pernah menimpa data lokal secara diam-diam.",
       "lastUpload": "Unggahan terakhir: {{time}}",
@@ -1095,7 +1095,7 @@
       "syncAction": "Sinkronisasi Konfigurasi",
       "syncLatestConfirm": "Apakah Anda yakin ingin mengunduh cadangan jarak jauh terbaru {{name}} dan menyinkronkannya secara lokal? Ini akan menimpa data lokal yang ada.",
       "remoteListTitle": "Cadangan Jarak Jauh",
-      "remoteListDesc": "Hanya file JSON dan ZIP yang cocok dengan nama cadangan otomatis/manual Cockpit yang ditampilkan.",
+      "remoteListDesc": "Hanya file JSON dan ZIP yang cocok dengan nama cadangan otomatis/manual aiswitch yang ditampilkan.",
       "emptyTitle": "Tidak ada cadangan jarak jauh",
       "emptyDesc": "Simpan pengaturan, lalu buat dan unggah cadangan.",
       "unknownTime": "Tidak diketahui",
@@ -1456,7 +1456,7 @@
       "importBtn": "Impor",
       "oauthAction": "Otorisasi OAuth",
       "fromExtension": "Impor dari Plugin",
-      "syncBadge": "Sinkronkan akun plugin Antigravity Cockpit",
+      "syncBadge": "Sinkronkan akun plugin Antigravity aiswitch",
       "fromLocalDB": "Impor dari DB Lokal",
       "localDBDesc": "Baca akun login dari Antigravity IDE Client di mesin ini",
       "toolsDescMigrate": "Migrasi akun dari ~/.antigravity_tools/",
@@ -1896,10 +1896,10 @@
     },
     "exportFormat": {
       "label": "Format ekspor",
-      "cockpitTools": "Cockpit Tools​",
+      "aiswitchTools": "AISwitch​",
       "sub2api": "Format sub2api",
       "cpa": "Format cpa",
-      "agentIdentityCpaUnsupported": "Akun Agent Identity tidak dapat diekspor dalam format cpa. Gunakan Cockpit Tools atau sub2api.",
+      "agentIdentityCpaUnsupported": "Akun Agent Identity tidak dapat diekspor dalam format cpa. Gunakan AISwitch atau sub2api.",
       "agentIdentityPrivateKeyNotice": "Ekspor ini berisi kunci privat Agent Identity yang dapat memulihkan akun di perangkat lain. Lindungi seperti kata sandi.",
       "downloadAll": "Unduh semua",
       "cpaCardTitle": "Akun {{index}}",
@@ -1982,8 +1982,8 @@
       "testAuthFailed": "Layanan dapat dijangkau, tetapi autentikasi gagal: {{detail}}. Periksa kunci layanan API atau status masuk akun.",
       "testServiceUnavailable": "Layanan dapat dijangkau, tetapi saat ini tidak tersedia: {{detail}}. Periksa apakah layanan aktif, koleksi akun kosong, atau akun dapat digunakan.",
       "gatewayErrors": {
-        "authUnavailable": "Tidak ada akun yang dapat dirutekan saat ini. Akun mungkin sedang cooldown, tidak terautentikasi, atau dibatasi kuota. Periksa statusnya di layanan API Cockpit Tools.",
-        "authNotFound": "Tidak ada akun yang dapat digunakan di kumpulan akun. Tambahkan atau aktifkan akun di layanan API Cockpit Tools."
+        "authUnavailable": "Tidak ada akun yang dapat dirutekan saat ini. Akun mungkin sedang cooldown, tidak terautentikasi, atau dibatasi kuota. Periksa statusnya di layanan API AISwitch.",
+        "authNotFound": "Tidak ada akun yang dapat digunakan di kumpulan akun. Tambahkan atau aktifkan akun di layanan API AISwitch."
       },
       "testRateLimited": "Layanan dapat dijangkau, tetapi upstream dibatasi atau kuota habis: {{detail}}.",
       "testHttpFailed": "Layanan dapat dijangkau, tetapi permintaan mengembalikan HTTP {{status}}: {{detail}}.",
@@ -2260,7 +2260,7 @@
         "placeholder": "Masukkan satu ID model per baris atau pisahkan ID dengan koma.",
         "editHint": "Model yang diambil hanya dimasukkan ke draf ini. Tinjau dan edit sebelum menyimpan.",
         "syncToggle": "Sinkronkan model penyedia ke Codex",
-        "syncDescription": "Setelah disimpan, daftar ini digunakan untuk membuat katalog model Codex yang dikelola Cockpit. Katalog khusus tidak ditimpa.",
+        "syncDescription": "Setelah disimpan, daftar ini digunakan untuk membuat katalog model Codex yang dikelola aiswitch. Katalog khusus tidak ditimpa.",
         "fetchCredentialsRequired": "Masukkan API Key dan Base URL terlebih dahulu.",
         "fetchEmpty": "Penyedia tidak mengembalikan model. Daftar saat ini tetap dipertahankan.",
         "fetchFailed": "Gagal mengambil model penyedia: {{error}}",
@@ -2340,8 +2340,8 @@
         "siliconflow": {
           "name": "SiliconFlow​"
         },
-        "cockpit_api": {
-          "name": "Cockpit Api​"
+        "aiswitch_api": {
+          "name": "aiswitch Api​"
         }
       },
       "oauthBinding": {
@@ -3284,8 +3284,8 @@
       "saved": "Catatan akun disimpan",
       "saveFailed": "Gagal menyimpan catatan akun: {{error}}"
     },
-    "cockpitApi": {
-      "panelTitle": "Panel layanan Cockpit Api",
+    "aiswitchApi": {
+      "panelTitle": "Panel layanan aiswitch Api",
       "servicePanel": "Panel layanan",
       "balance": "Saldo",
       "requests": "Permintaan",
@@ -4707,14 +4707,14 @@
     "search": "Cari akun ZCode...",
     "flowNotice": {
       "title": "Panduan akun ZCode",
-      "desc": "Cockpit membaca dan menulis ulang kredensial lokal terenkripsi ZCode untuk pergantian akun nyata dan pengikatan instans.",
+      "desc": "aiswitch membaca dan menulis ulang kredensial lokal terenkripsi ZCode untuk pergantian akun nyata dan pengikatan instans.",
       "permission": "Cakupan lokal: ~/.zcode/v2/credentials.json dan direktori instans terkelola.",
-      "network": "Cakupan jaringan: API OAuth, pengguna, langganan, dan kuota. Akun tidak diunggah ke layanan Cockpit."
+      "network": "Cakupan jaringan: API OAuth, pengguna, langganan, dan kuota. Akun tidak diunggah ke layanan aiswitch."
     },
     "empty": "Belum ada akun ZCode",
     "addAccount": "Tambah Akun ZCode",
     "oauth": {
-      "desc": "Tutup ZCode, lalu masuk melalui jendela otorisasi Cockpit; Cockpit akan menerima callback secara langsung.",
+      "desc": "Tutup ZCode, lalu masuk melalui jendela otorisasi aiswitch; aiswitch akan menerima callback secara langsung.",
       "title": "OAuth ZCode",
       "item1": "Login resmi melalui Z.ai dan BigModel.",
       "item2": "Menyimpan akun dan memperbarui paket serta kuota model.",
@@ -4726,7 +4726,7 @@
       "success": "Login OAuth ZCode berhasil"
     },
     "token": {
-      "desc": "Tempel JSON akun ZCode yang diekspor oleh Cockpit."
+      "desc": "Tempel JSON akun ZCode yang diekspor oleh aiswitch."
     },
     "apiKey": {
       "tab": "Kunci API",
@@ -5155,7 +5155,7 @@
   },
   "relay": {
     "pageTitle": "Relay eksklusif",
-    "pageDesc": "Layanan API mitra untuk pengguna Cockpit Tools yang dapat digunakan dengan akun API Key Codex.",
+    "pageDesc": "Layanan API mitra untuk pengguna AISwitch yang dapat digunakan dengan akun API Key Codex.",
     "loading": "Memuat relay...",
     "emptyTitle": "Relay nonaktif",
     "emptyDesc": "Konfigurasi jarak jauh belum mengaktifkan relay eksklusif.",
@@ -5185,7 +5185,7 @@
   "apiKeyFun": {
     "eyebrow": "Perantara",
     "title": "Relay APIKEY.FUN",
-    "description": "Relay mitra resmi Cockpit menyediakan akses API model besar yang stabil, terbuka, dan hemat biaya. Layanan ini mendukung model utama seperti Claude, OpenAI, dan Gemini, serta cocok untuk konfigurasi terpadu di Codex, Gemini CLI, Claude Code, dan alat pengembang lainnya. Dengan mendaftar melalui tautan eksklusif Cockpit, Anda bisa mendapatkan diskon isi ulang permanen hingga 5%.",
+    "description": "Relay mitra resmi aiswitch menyediakan akses API model besar yang stabil, terbuka, dan hemat biaya. Layanan ini mendukung model utama seperti Claude, OpenAI, dan Gemini, serta cocok untuk konfigurasi terpadu di Codex, Gemini CLI, Claude Code, dan alat pengembang lainnya. Dengan mendaftar melalui tautan eksklusif aiswitch, Anda bisa mendapatkan diskon isi ulang permanen hingga 5%.",
     "register": "Tautan eksklusif",
     "docs": "Dokumen resmi",
     "viewNow": "Lihat sekarang",
@@ -5311,7 +5311,7 @@
       "title": "Pengelolaan akun Grok CLI",
       "desc": "Secara bawaan, GROK_HOME terpisah digunakan. Saat sinkronisasi aktif, peralihan OAuth pada instans default menulis ke ~/.grok/auth.json; instans tambahan tetap terisolasi.",
       "permission": "Cakupan lokal: ~/.grok/auth.json dapat dibaca untuk impor dan hanya ditulis saat sinkronisasi aktif pada peralihan OAuth instans default. API Key tidak menimpa login resmi.",
-      "network": "Cakupan jaringan: otorisasi OAuth, penyegaran kredensial, dan kueri penggunaan akun. Kredensial tidak diunggah ke layanan Cockpit."
+      "network": "Cakupan jaringan: otorisasi OAuth, penyegaran kredensial, dan kueri penggunaan akun. Kredensial tidak diunggah ke layanan aiswitch."
     },
     "empty": "Belum ada akun Grok CLI",
     "addAccount": "Tambah akun Grok CLI",

@@ -1,8 +1,8 @@
 [workspace]
 members = [
     "src-tauri",
-    "crates/cockpit-core",
-    "crates/cockpit-cli",
+    "crates/aiswitch-core",
+    "crates/aiswitch-cli",
 ]
 resolver = "2"
 

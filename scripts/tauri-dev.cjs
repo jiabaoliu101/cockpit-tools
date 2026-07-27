@@ -2,9 +2,9 @@ const { spawnSync } = require('node:child_process');
 
 const env = {
   ...process.env,
-  COCKPIT_TOOLS_PROFILE: process.env.COCKPIT_TOOLS_PROFILE || 'dev',
-  COCKPIT_TOOLS_API_PORT: process.env.COCKPIT_TOOLS_API_PORT || '1456',
-  VITE_COCKPIT_TOOLS_PROFILE: process.env.VITE_COCKPIT_TOOLS_PROFILE || 'dev',
+  AISWITCH_PROFILE: process.env.AISWITCH_PROFILE || 'dev',
+  AISWITCH_API_PORT: process.env.AISWITCH_API_PORT || '1456',
+  VITE_AISWITCH_PROFILE: process.env.VITE_AISWITCH_PROFILE || 'dev',
 };
 const extraArgs = process.argv.slice(2);
 

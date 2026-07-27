@@ -90,7 +90,7 @@ pub fn transfer_local_sessions(
         workbuddy_instance::resolve_workbuddy_runtime_dirs(&runtime_dir_string)?;
     let backup_root = config_dir
         .join("Backups")
-        .join("CockpitTools")
+        .join("AISwitchTools")
         .join("WorkBuddySessions")
         .join(operation_id());
 
@@ -356,7 +356,7 @@ mod tests {
         fn new() -> Self {
             let id = TEST_COUNTER.fetch_add(1, Ordering::Relaxed);
             let path = std::env::temp_dir().join(format!(
-                "cockpit-workbuddy-session-transfer-{}-{}-{}",
+                "AISwitch-workbuddy-session-transfer-{}-{}-{}",
                 std::process::id(),
                 operation_id(),
                 id

@@ -30,7 +30,7 @@ mod imp {
         back_to_current: String,
         switch_to_viewed: String,
         refresh: String,
-        open_cockpit_tools: String,
+        open_aiswitch: String,
         open_details: String,
         view_all_accounts: String,
         settings: String,
@@ -377,9 +377,9 @@ mod imp {
                 &[],
             ),
             refresh: modules::i18n::translate(lang, "common.refresh", &[]),
-            open_cockpit_tools: modules::i18n::translate(
+            open_aiswitch: modules::i18n::translate(
                 lang,
-                "floatingCard.actions.openCockpitTools",
+                "floatingCard.actions.openaiswitchTools",
                 &[],
             ),
             open_details: modules::i18n::translate(lang, "accounts.actions.viewDetails", &[]),
@@ -464,7 +464,7 @@ mod imp {
                     open_main_window_page(platform.nav_target());
                 }
             }
-            "open_cockpit_tools" => {
+            "open_aiswitch" => {
                 open_main_window();
             }
             "settings" => {

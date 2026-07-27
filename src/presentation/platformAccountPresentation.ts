@@ -642,7 +642,7 @@ function buildCodexNewApiQuotaItems(
 ): UnifiedQuotaMetric[] {
   const raw = toJsonRecord(account.quota?.raw_data);
   const provider = readString(raw, "provider");
-  if (provider !== "cockpit-api" && provider !== "new-api") {
+  if (provider !== "aiswitch-api" && provider !== "new-api") {
     return [];
   }
   const profile = toJsonRecord(raw?.profile);
