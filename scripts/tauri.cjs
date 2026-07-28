@@ -4,7 +4,31 @@ const os = require('node:os');
 const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
-const goBinPath = 'C:\\Program Files\\Go\\bin';
+
+function findGoBin() {
+  const candidates = [
+    process.env.GOROOT ? path.join(process.env.GOROOT, 'bin') : '',
+    'D:\\DevTools\\go\\bin',
+    'C:\\Program Files\\Go\\bin',
+  ];
+
+  const whereResult = spawnSync('where.exe', ['go.exe'], {
+    encoding: 'utf8',
+    shell: false,
+  });
+  if (whereResult.status === 0) {
+    const goPath = whereResult.stdout.split(/\r?\n/u).find(Boolean);
+    if (goPath) {
+      candidates.unshift(path.dirname(goPath.trim()));
+    }
+  }
+
+  return candidates.find((candidate) => (
+    candidate && fs.existsSync(path.join(candidate, 'go.exe'))
+  )) || '';
+}
+
+const goBinPath = findGoBin();
 
 function withGoPath(options = {}) {
   const currentPath = process.env.PATH || '';
