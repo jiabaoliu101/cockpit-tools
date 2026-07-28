@@ -10,7 +10,7 @@ services:
       DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-aiswitch}?sslmode=disable"
       JWT_SECRET: "${JWT_SECRET:-aiswitch-dev-secret-change-in-production}"
       CARD_CODE_PEPPER: "${CARD_CODE_PEPPER:-aiswitch-dev-secret-change-in-production}"
-      CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS:-http://localhost:1420,tauri://localhost,https://tauri.localhost}"
+      CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS:-http://localhost:1420,http://tauri.localhost,https://tauri.localhost,tauri://localhost}"
     depends_on:
       db:
         condition: service_healthy
