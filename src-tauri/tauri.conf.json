@@ -50,6 +50,7 @@
     "active": true,
     "targets": "all",
     "createUpdaterArtifacts": true,
+    "useLocalToolsDir": true,
     "externalBin": [
       "../sidecars/aiswitch-proxy/bin/aiswitch-proxy"
     ],
