@@ -59,14 +59,55 @@ function runTauriDirect() {
   runFinal('npx.cmd', ['tauri', ...process.argv.slice(2)], { shell: process.platform === 'win32' });
 }
 
+function findVcvars64() {
+  if (process.env.VCVARS64_PATH && fs.existsSync(process.env.VCVARS64_PATH)) {
+    return process.env.VCVARS64_PATH;
+  }
+
+  const vswherePath = path.join(
+    process.env['ProgramFiles(x86)'] || 'C:\\Program Files (x86)',
+    'Microsoft',
+    'Visual Studio',
+    'Installer',
+    'vswhere.exe',
+  );
+
+  if (fs.existsSync(vswherePath)) {
+    const result = spawnSync(vswherePath, [
+      '-latest',
+      '-products',
+      '*',
+      '-requires',
+      'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
+      '-property',
+      'installationPath',
+    ], {
+      encoding: 'utf8',
+      shell: false,
+    });
+
+    const installationPath = result.status === 0 ? result.stdout.trim() : '';
+    const discoveredPath = installationPath
+      ? path.join(installationPath, 'VC', 'Auxiliary', 'Build', 'vcvars64.bat')
+      : '';
+
+    if (discoveredPath && fs.existsSync(discoveredPath)) {
+      return discoveredPath;
+    }
+  }
+
+  const defaultPath = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat';
+  return fs.existsSync(defaultPath) ? defaultPath : '';
+}
+
 if (process.platform !== 'win32') {
   run('npm', ['run', 'sync-version']);
   runFinal('npx', ['tauri', ...process.argv.slice(2)]);
 }
 
-const vcvars64Path = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat';
+const vcvars64Path = findVcvars64();
 
-if (!fs.existsSync(vcvars64Path)) {
+if (!vcvars64Path) {
   console.warn('vcvars64.bat not found, falling back to the existing shell environment.');
   runTauriDirect();
 }
