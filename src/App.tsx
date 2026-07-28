@@ -95,9 +95,6 @@ const LoginPageLazy = lazy(() =>
 const SubscriptionPageLazy = lazy(() =>
   import('./pages/SubscriptionPage').then((module) => ({ default: module.SubscriptionPage })),
 );
-const AdminPageLazy = lazy(() =>
-  import('./pages/AdminPage').then((module) => ({ default: module.AdminPage })),
-);
 const DashboardPage = lazy(() =>
   import('./pages/DashboardPage').then((module) => ({ default: module.DashboardPage })),
 );
@@ -742,7 +739,6 @@ function isWindowsPlatform(): boolean {
 function MainApp() {
   const { t } = useTranslation();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const user = useAuthStore((state) => state.user);
   const [showSubscriptionPage, setShowSubscriptionPage] = useState(false);
 
   // Check subscription status on auth change
@@ -3983,10 +3979,6 @@ function MainApp() {
               }
             }).catch(() => {});
           }} />
-        </Suspense>
-      ) : user?.is_admin ? (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
-          <AdminPageLazy />
         </Suspense>
       ) : showSubscriptionPage ? (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
