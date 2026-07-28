@@ -745,15 +745,6 @@ function MainApp() {
   const user = useAuthStore((state) => state.user);
   const [showSubscriptionPage, setShowSubscriptionPage] = useState(false);
 
-  // Admin users go straight to admin panel
-  if (isAuthenticated && user?.is_admin) {
-    return (
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
-        <AdminPageLazy />
-      </Suspense>
-    );
-  }
-
   // Check subscription status on auth change
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -3992,6 +3983,10 @@ function MainApp() {
               }
             }).catch(() => {});
           }} />
+        </Suspense>
+      ) : user?.is_admin ? (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
+          <AdminPageLazy />
         </Suspense>
       ) : showSubscriptionPage ? (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
