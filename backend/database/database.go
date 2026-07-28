@@ -126,14 +126,6 @@ func Migrate() error {
 		created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 	);
 
-	-- Default subscription plans (prices in CNY fen: 1999 = ¥19.99)
-	INSERT INTO subscription_plans (name, duration_days, max_accounts, price_cents) VALUES
-		('Basic Monthly', 30, 1, 1999),
-		('Pro Monthly', 30, 3, 4999),
-		('Basic Yearly', 365, 1, 19999),
-		('Pro Yearly', 365, 3, 49999)
-	ON CONFLICT DO NOTHING;
-
 	-- Additive changes for databases created before payment plans were bound to orders.
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS plan_id UUID REFERENCES subscription_plans(id);
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS fulfilled_at TIMESTAMPTZ;
@@ -147,6 +139,62 @@ func Migrate() error {
 	CREATE INDEX IF NOT EXISTS idx_redemption_codes_status ON redemption_codes(status, expires_at);
 	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS batch_name VARCHAR(100) NOT NULL DEFAULT '';
 	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS note VARCHAR(500) NOT NULL DEFAULT '';
+
+	-- Older migrations used ON CONFLICT without a unique key, so every restart
+	-- inserted another copy of each default plan. Preserve the oldest plan ID,
+	-- repoint existing references, remove duplicates, and enforce idempotency.
+	WITH ranked AS (
+		SELECT id,
+			FIRST_VALUE(id) OVER (PARTITION BY name ORDER BY created_at, id) AS canonical_id,
+			ROW_NUMBER() OVER (PARTITION BY name ORDER BY created_at, id) AS row_number
+		FROM subscription_plans
+	)
+	UPDATE user_subscriptions us
+	SET plan_id = ranked.canonical_id
+	FROM ranked
+	WHERE ranked.row_number > 1 AND us.plan_id = ranked.id;
+
+	WITH ranked AS (
+		SELECT id,
+			FIRST_VALUE(id) OVER (PARTITION BY name ORDER BY created_at, id) AS canonical_id,
+			ROW_NUMBER() OVER (PARTITION BY name ORDER BY created_at, id) AS row_number
+		FROM subscription_plans
+	)
+	UPDATE payments p
+	SET plan_id = ranked.canonical_id
+	FROM ranked
+	WHERE ranked.row_number > 1 AND p.plan_id = ranked.id;
+
+	WITH ranked AS (
+		SELECT id,
+			FIRST_VALUE(id) OVER (PARTITION BY name ORDER BY created_at, id) AS canonical_id,
+			ROW_NUMBER() OVER (PARTITION BY name ORDER BY created_at, id) AS row_number
+		FROM subscription_plans
+	)
+	UPDATE redemption_codes rc
+	SET plan_id = ranked.canonical_id
+	FROM ranked
+	WHERE ranked.row_number > 1 AND rc.plan_id = ranked.id;
+
+	WITH ranked AS (
+		SELECT id,
+			ROW_NUMBER() OVER (PARTITION BY name ORDER BY created_at, id) AS row_number
+		FROM subscription_plans
+	)
+	DELETE FROM subscription_plans sp
+	USING ranked
+	WHERE ranked.row_number > 1 AND sp.id = ranked.id;
+
+	CREATE UNIQUE INDEX IF NOT EXISTS idx_subscription_plans_name
+		ON subscription_plans(name);
+
+	-- Default subscription plans (prices in CNY fen: 1999 = ¥19.99)
+	INSERT INTO subscription_plans (name, duration_days, max_accounts, price_cents) VALUES
+		('Basic Monthly', 30, 1, 1999),
+		('Pro Monthly', 30, 3, 4999),
+		('Basic Yearly', 365, 1, 19999),
+		('Pro Yearly', 365, 3, 49999)
+	ON CONFLICT (name) DO NOTHING;
 	`
 	_, err := DB.Exec(schema)
 	if err != nil {
