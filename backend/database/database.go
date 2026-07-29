@@ -51,6 +51,9 @@ func Migrate() error {
 		name VARCHAR(100) NOT NULL,
 		duration_days INTEGER NOT NULL DEFAULT 30,
 		max_accounts INTEGER NOT NULL DEFAULT 1,
+		max_devices INTEGER NOT NULL DEFAULT 1,
+		entitlements JSONB NOT NULL DEFAULT '{}',
+		entitlements_initialized BOOLEAN NOT NULL DEFAULT FALSE,
 		price_cents INTEGER NOT NULL DEFAULT 0,
 		is_active BOOLEAN DEFAULT TRUE,
 		created_at TIMESTAMPTZ DEFAULT NOW()
@@ -112,6 +115,27 @@ func Migrate() error {
 		created_at TIMESTAMPTZ DEFAULT NOW()
 	);
 
+	CREATE TABLE IF NOT EXISTS user_entitlement_overrides (
+		user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+		entitlements JSONB NOT NULL DEFAULT '{}',
+		max_accounts_override INTEGER,
+		max_devices_override INTEGER,
+		updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+		updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+	);
+
+	CREATE TABLE IF NOT EXISTS user_devices (
+		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+		user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+		device_id VARCHAR(128) NOT NULL,
+		device_name VARCHAR(255) NOT NULL DEFAULT '',
+		platform VARCHAR(50) NOT NULL DEFAULT '',
+		first_seen_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+		last_seen_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+		revoked_at TIMESTAMPTZ,
+		UNIQUE(user_id, device_id)
+	);
+
 	CREATE TABLE IF NOT EXISTS redemption_codes (
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 		code_hash VARCHAR(64) UNIQUE NOT NULL,
@@ -129,6 +153,9 @@ func Migrate() error {
 	-- Additive changes for databases created before payment plans were bound to orders.
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS plan_id UUID REFERENCES subscription_plans(id);
 	ALTER TABLE payments ADD COLUMN IF NOT EXISTS fulfilled_at TIMESTAMPTZ;
+	ALTER TABLE subscription_plans ADD COLUMN IF NOT EXISTS max_devices INTEGER NOT NULL DEFAULT 1;
+	ALTER TABLE subscription_plans ADD COLUMN IF NOT EXISTS entitlements JSONB NOT NULL DEFAULT '{}';
+	ALTER TABLE subscription_plans ADD COLUMN IF NOT EXISTS entitlements_initialized BOOLEAN NOT NULL DEFAULT FALSE;
 	-- Existing pools used "available". New local-lease accounts must pass through
 	-- revocation verification before they may be returned to "ready".
 	UPDATE account_pool SET status = 'ready' WHERE status = 'available';
@@ -137,6 +164,7 @@ func Migrate() error {
 	CREATE INDEX IF NOT EXISTS idx_account_pool_ready ON account_pool(platform, status, created_at);
 	CREATE INDEX IF NOT EXISTS idx_assignments_user_status ON account_assignments(user_id, status);
 	CREATE INDEX IF NOT EXISTS idx_redemption_codes_status ON redemption_codes(status, expires_at);
+	CREATE INDEX IF NOT EXISTS idx_user_devices_active ON user_devices(user_id, revoked_at);
 	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS batch_name VARCHAR(100) NOT NULL DEFAULT '';
 	ALTER TABLE redemption_codes ADD COLUMN IF NOT EXISTS note VARCHAR(500) NOT NULL DEFAULT '';
 
@@ -195,6 +223,38 @@ func Migrate() error {
 		('Basic Yearly', 365, 1, 19999),
 		('Pro Yearly', 365, 3, 49999)
 	ON CONFLICT (name) DO NOTHING;
+
+	-- Preserve the original desktop behavior for plans created before
+	-- entitlement management existed.
+	UPDATE subscription_plans
+	SET entitlements = '{
+		"feature.local_switch": true,
+		"feature.api_relay": true,
+		"platform.antigravity": true,
+		"platform.antigravity_ide": true,
+		"platform.codex": true,
+		"platform.codex_api_service": true,
+		"platform.claude_manager": true,
+		"platform.zed": true,
+		"platform.github-copilot": true,
+		"platform.windsurf": true,
+		"platform.kiro": true,
+		"platform.cursor": true,
+		"platform.grok": true,
+		"platform.codebuddy": true,
+		"platform.codebuddy_cn": true,
+		"platform.qoder": true,
+		"platform.zcode": true,
+		"platform.trae": true,
+		"platform.trae_solo": true,
+		"platform.trae_cn": true,
+		"platform.trae_solo_cn": true,
+		"platform.workbuddy": true
+	}'::jsonb
+	WHERE entitlements_initialized = FALSE;
+
+	UPDATE subscription_plans SET entitlements_initialized = TRUE
+	WHERE entitlements_initialized = FALSE;
 	`
 	_, err := DB.Exec(schema)
 	if err != nil {

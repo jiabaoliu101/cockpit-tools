@@ -19,6 +19,17 @@ export interface SubscriptionInfo {
   };
 }
 
+export interface EffectiveEntitlements {
+  has_subscription: boolean;
+  is_admin: boolean;
+  plan_id?: string;
+  plan_name?: string;
+  expires_at?: string;
+  max_accounts: number;
+  max_devices: number;
+  features: Record<string, boolean>;
+}
+
 interface AuthState {
   user: AuthUser | null;
   accessToken: string | null;
@@ -26,10 +37,14 @@ interface AuthState {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
   subscription: SubscriptionInfo | null;
+  entitlements: EffectiveEntitlements | null;
+  accessError: string | null;
 
   setAuth: (user: AuthUser, accessToken: string, refreshToken: string) => void;
   logout: () => void;
   setSubscription: (sub: SubscriptionInfo) => void;
+  setEntitlements: (entitlements: EffectiveEntitlements | null) => void;
+  setAccessError: (message: string | null) => void;
   setAuthLoading: (loading: boolean) => void;
 }
 
@@ -58,6 +73,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: !!(stored.token && stored.user),
   isAuthLoading: true,
   subscription: null,
+  entitlements: null,
+  accessError: null,
 
   setAuth: (user, accessToken, refreshToken) => {
     localStorage.setItem(TOKEN_KEY, accessToken);
@@ -69,6 +86,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       refreshToken,
       isAuthenticated: true,
       isAuthLoading: false,
+      entitlements: null,
+      accessError: null,
     });
   },
 
@@ -83,10 +102,14 @@ export const useAuthStore = create<AuthState>((set) => ({
       isAuthenticated: false,
       isAuthLoading: false,
       subscription: null,
+      entitlements: null,
+      accessError: null,
     });
   },
 
   setSubscription: (subscription) => set({ subscription }),
+  setEntitlements: (entitlements) => set({ entitlements }),
+  setAccessError: (accessError) => set({ accessError }),
 
   setAuthLoading: (loading) => set({ isAuthLoading: loading }),
 }));

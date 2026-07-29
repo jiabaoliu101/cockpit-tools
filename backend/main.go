@@ -65,6 +65,7 @@ func main() {
 			protected.POST("/subscriptions/order", handlers.CreateOrder)
 			protected.GET("/subscriptions/status/:order_id", handlers.CheckOrderStatus)
 			protected.POST("/redemption-codes/redeem", handlers.RedeemCode)
+			protected.GET("/entitlements", handlers.GetEntitlements)
 
 			// My accounts
 			protected.GET("/my-accounts", handlers.GetMyAccounts)
@@ -72,6 +73,7 @@ func main() {
 
 			// Client checkin
 			protected.POST("/client/checkin", handlers.Checkin)
+			protected.POST("/client/devices/checkin", handlers.CheckinDevice)
 
 			// Admin routes
 			admin := protected.Group("/admin")
@@ -79,6 +81,15 @@ func main() {
 			{
 				admin.GET("/users", handlers.AdminListUsers)
 				admin.PUT("/users/:id", handlers.AdminUpdateUser)
+				admin.GET("/users/:id/entitlements", handlers.AdminGetUserEntitlements)
+				admin.PUT("/users/:id/entitlements", handlers.AdminUpdateUserEntitlements)
+				admin.GET("/users/:id/devices", handlers.AdminListUserDevices)
+				admin.DELETE("/users/:id/devices/:device_id", handlers.AdminRevokeUserDevice)
+
+				admin.GET("/features", handlers.AdminFeatureCatalog)
+				admin.GET("/plans", handlers.AdminListPlans)
+				admin.POST("/plans", handlers.AdminCreatePlan)
+				admin.PUT("/plans/:id", handlers.AdminUpdatePlan)
 
 				admin.GET("/accounts", handlers.AdminListAccounts)
 				admin.POST("/accounts", handlers.AdminAddAccount)

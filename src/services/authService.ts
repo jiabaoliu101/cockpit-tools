@@ -1,4 +1,9 @@
-import { useAuthStore, type AuthUser, type SubscriptionInfo } from '../stores/useAuthStore';
+import {
+  useAuthStore,
+  type AuthUser,
+  type EffectiveEntitlements,
+  type SubscriptionInfo,
+} from '../stores/useAuthStore';
 
 // Backend API base URL — change this to your production server address
 // Format: https://your-domain.com/api/v1
@@ -129,7 +134,45 @@ export async function logout(): Promise<void> {
 }
 
 export async function fetchCheckin(): Promise<any> {
-  return apiCall('/client/checkin', { method: 'POST' });
+  const data = await apiCall('/client/checkin', { method: 'POST' });
+  if (data.entitlements) {
+    useAuthStore.getState().setEntitlements(data.entitlements);
+  }
+  return data;
+}
+
+const DEVICE_ID_KEY = 'aiswitch.device.id';
+
+function getDeviceId(): string {
+  let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem(DEVICE_ID_KEY, deviceId);
+  }
+  return deviceId;
+}
+
+export async function registerCurrentDevice(): Promise<EffectiveEntitlements> {
+  const navWithUAData = navigator as Navigator & { userAgentData?: { platform?: string } };
+  const platform = navWithUAData.userAgentData?.platform || navigator.platform || 'Desktop';
+  const data = await apiCall('/client/devices/checkin', {
+    method: 'POST',
+    body: JSON.stringify({
+      device_id: getDeviceId(),
+      device_name: platform,
+      platform,
+    }),
+  });
+  const entitlements = data.entitlements as EffectiveEntitlements;
+  useAuthStore.getState().setEntitlements(entitlements);
+  useAuthStore.getState().setAccessError(null);
+  return entitlements;
+}
+
+export async function fetchEntitlements(): Promise<EffectiveEntitlements> {
+  const data = await apiCall('/entitlements');
+  useAuthStore.getState().setEntitlements(data);
+  return data;
 }
 
 export async function fetchMyAccounts(): Promise<any[]> {

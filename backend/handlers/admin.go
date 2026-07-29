@@ -225,11 +225,11 @@ func AdminDeleteAccount(c *gin.Context) {
 // ── Admin: Assignments ──
 
 type assignmentEntry struct {
-	ID         string `json:"id"`
-	UserEmail  string `json:"user_email"`
+	ID           string `json:"id"`
+	UserEmail    string `json:"user_email"`
 	AccountEmail string `json:"account_email"`
-	Status     string `json:"status"`
-	AssignedAt string `json:"assigned_at"`
+	Status       string `json:"status"`
+	AssignedAt   string `json:"assigned_at"`
 }
 
 func AdminListAssignments(c *gin.Context) {
@@ -282,6 +282,22 @@ func AdminAssignAccount(c *gin.Context) {
 	}
 	if status != "ready" {
 		c.JSON(http.StatusConflict, gin.H{"error": "Account is not ready for assignment"})
+		return
+	}
+	entitlements, err := resolveEntitlements(req.UserID)
+	if err != nil || !entitlements.HasSubscription {
+		c.JSON(http.StatusConflict, gin.H{"error": "User has no active subscription"})
+		return
+	}
+	var assignedCount int
+	if err := database.DB.QueryRow(
+		`SELECT COUNT(*) FROM account_assignments WHERE user_id = $1 AND status = 'active'`, req.UserID,
+	).Scan(&assignedCount); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check account limit"})
+		return
+	}
+	if assignedCount >= entitlements.MaxAccounts {
+		c.JSON(http.StatusConflict, gin.H{"error": "User account limit reached"})
 		return
 	}
 
@@ -342,12 +358,12 @@ func AdminDashboard(c *gin.Context) {
 // ── Admin: Payments ──
 
 type paymentEntry struct {
-	ID          string  `json:"id"`
-	UserEmail   string  `json:"user_email"`
-	AmountCents int     `json:"amount_cents"`
-	Status      string  `json:"status"`
+	ID          string     `json:"id"`
+	UserEmail   string     `json:"user_email"`
+	AmountCents int        `json:"amount_cents"`
+	Status      string     `json:"status"`
 	PaidAt      *time.Time `json:"paid_at"`
-	CreatedAt   string  `json:"created_at"`
+	CreatedAt   string     `json:"created_at"`
 }
 
 func AdminListPayments(c *gin.Context) {

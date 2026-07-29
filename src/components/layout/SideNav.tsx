@@ -24,6 +24,8 @@ import { getPlatformLabel, renderPlatformIcon } from '../../utils/platformMeta';
 import { useAntigravityRuntimeTarget } from '../../hooks/useAntigravityRuntimeTarget';
 import { setAntigravityRuntimeTargetFromPlatform } from '../../utils/antigravityRuntimeTarget';
 import { useRemoteConfigStore } from '../../stores/useRemoteConfigStore';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { hasFeature, platformFeatureKey } from '../../utils/entitlements';
 
 interface SideNavProps {
   page: Page;
@@ -184,6 +186,7 @@ export function SideNav({
     apiRelayEntryOrder,
   } = usePlatformLayoutStore();
   const remoteHiddenPlatformIds = useRemoteConfigStore((state) => state.hiddenPlatformIds);
+  const entitlements = useAuthStore((state) => state.entitlements);
 
   const antigravityRuntimeTarget = useAntigravityRuntimeTarget();
   const currentPlatformId = isAntigravitySuitePage(page)
@@ -207,10 +210,16 @@ export function SideNav({
   );
   const isPlatformAvailable = useCallback(
     (platformId: PlatformId) =>
-      isMenuVisiblePlatform(platformId) && !remoteHiddenPlatformSet.has(platformId),
-    [remoteHiddenPlatformSet],
+      isMenuVisiblePlatform(platformId)
+      && !remoteHiddenPlatformSet.has(platformId)
+      && hasFeature(entitlements, 'feature.local_switch')
+      && hasFeature(entitlements, platformFeatureKey(platformId)),
+    [entitlements, remoteHiddenPlatformSet],
   );
-  const apiRelayEntryVisible = sponsorEntryVisible && apiRelaySidebarVisible;
+  const apiRelayEntryVisible =
+    sponsorEntryVisible
+    && apiRelaySidebarVisible
+    && hasFeature(entitlements, 'feature.api_relay');
 
   const orderedEntries = useMemo<SideNavEntry[]>(() => {
     const platformEntries: SideNavEntry[] = orderedEntryIds

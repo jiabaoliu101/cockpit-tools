@@ -74,7 +74,11 @@ import { runAutoBackupCycle } from './services/scheduledBackupService';
 import { prepareCodexLocalAccessForRestart } from './services/codexLocalAccessService';
 import { applyReducedMotion } from './utils/reducedMotion';
 import { useAuthStore } from './stores/useAuthStore';
-import { fetchCheckin, fetchCurrentSubscription } from './services/authService';
+import {
+  fetchCheckin,
+  fetchCurrentSubscription,
+  registerCurrentDevice,
+} from './services/authService';
 import {
   applyWebviewUiScale,
   isUiScaleResetKey,
@@ -88,6 +92,7 @@ import {
   emitActivePlatformFocus,
   resolvePlatformIdFromPage,
 } from './utils/accountSyncEvents';
+import { canAccessPage } from './utils/entitlements';
 
 const LoginPageLazy = lazy(() =>
   import('./pages/LoginPage').then((module) => ({ default: module.LoginPage })),
@@ -739,6 +744,8 @@ function isWindowsPlatform(): boolean {
 function MainApp() {
   const { t } = useTranslation();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const entitlements = useAuthStore((state) => state.entitlements);
+  const accessError = useAuthStore((state) => state.accessError);
   const [showSubscriptionPage, setShowSubscriptionPage] = useState(false);
 
   // Check subscription status on auth change
@@ -750,8 +757,15 @@ function MainApp() {
         // If no active subscription, redirect to subscription page
         if (!sub.has_subscription) {
           setShowSubscriptionPage(true);
+          useAuthStore.getState().setEntitlements(null);
+          return;
         }
-      } catch {}
+        await registerCurrentDevice();
+      } catch (error) {
+        useAuthStore.getState().setAccessError(
+          error instanceof Error ? error.message : '无法验证当前设备权限',
+        );
+      }
     })();
   }, [isAuthenticated]);
 
@@ -801,6 +815,12 @@ function MainApp() {
       console.warn('Failed to save active page to localStorage:', e);
     }
   }, [page]);
+
+  useEffect(() => {
+    if (entitlements && !canAccessPage(entitlements, page)) {
+      setPage('dashboard');
+    }
+  }, [entitlements, page]);
 
   // 冷启动：若设置了固定启动页，则覆盖 localStorage 中的上次页面
   useEffect(() => {
@@ -3980,6 +4000,20 @@ function MainApp() {
             }).catch(() => {});
           }} />
         </Suspense>
+      ) : accessError ? (
+        <div className="min-h-screen flex items-center justify-center bg-base-200 p-6">
+          <div className="card bg-base-100 shadow-xl max-w-md w-full">
+            <div className="card-body">
+              <h2 className="card-title">此设备暂时无法使用</h2>
+              <p>{accessError}</p>
+              <div className="card-actions justify-end">
+                <button className="btn btn-primary" onClick={() => window.location.reload()}>
+                  重新验证
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : showSubscriptionPage ? (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-base-200"><span className="loading loading-spinner loading-lg" /></div>}>
           <SubscriptionPageLazy onBack={() => {

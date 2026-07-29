@@ -15,6 +15,15 @@ import (
 // GetMyAccounts returns the assigned Codex accounts for the current user
 func GetMyAccounts(c *gin.Context) {
 	userID := c.GetString("user_id")
+	entitlements, err := resolveEntitlements(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to resolve entitlements"})
+		return
+	}
+	if !entitlements.HasSubscription || !entitlements.Features["feature.local_switch"] {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Local switching is not included in this subscription"})
+		return
+	}
 
 	rows, err := database.DB.Query(
 		`SELECT ap.id, ap.platform, ap.email, ap.access_token_encrypted, ap.token_expiry
@@ -39,7 +48,13 @@ func GetMyAccounts(c *gin.Context) {
 		if err := rows.Scan(&a.ID, &a.Platform, &a.Email, &a.AccessToken, &a.TokenExpiry); err != nil {
 			continue
 		}
+		if !entitlements.Features[featureForPlatform(a.Platform)] {
+			continue
+		}
 		accounts = append(accounts, a)
+	}
+	if accounts == nil {
+		accounts = []models.UserAccountResponse{}
 	}
 
 	c.JSON(http.StatusOK, accounts)
@@ -49,9 +64,14 @@ func GetMyAccounts(c *gin.Context) {
 func GetMyAccount(c *gin.Context) {
 	userID := c.GetString("user_id")
 	accountID := c.Param("id")
+	entitlements, err := resolveEntitlements(userID)
+	if err != nil || !entitlements.HasSubscription || !entitlements.Features["feature.local_switch"] {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Local switching is not included in this subscription"})
+		return
+	}
 
 	var a models.UserAccountResponse
-	err := database.DB.QueryRow(
+	err = database.DB.QueryRow(
 		`SELECT ap.id, ap.platform, ap.email, ap.access_token_encrypted, ap.token_expiry
 		 FROM account_pool ap
 		 JOIN account_assignments aa ON ap.id = aa.account_id
@@ -66,6 +86,10 @@ func GetMyAccount(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Account not found"})
 		return
 	}
+	if !entitlements.Features[featureForPlatform(a.Platform)] {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Platform is not included in this subscription"})
+		return
+	}
 	c.JSON(http.StatusOK, a)
 }
 
@@ -74,6 +98,11 @@ func GetMyAccount(c *gin.Context) {
 // Checkin validates the subscription and returns fresh account data
 func Checkin(c *gin.Context) {
 	userID := c.GetString("user_id")
+	entitlements, entitlementErr := resolveEntitlements(userID)
+	if entitlementErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to resolve entitlements"})
+		return
+	}
 
 	// Check subscription status
 	var hasActiveSub bool
@@ -112,6 +141,9 @@ func Checkin(c *gin.Context) {
 	for rows.Next() {
 		var a models.UserAccountResponse
 		rows.Scan(&a.ID, &a.Platform, &a.Email, &a.AccessToken, &a.TokenExpiry)
+		if !entitlements.Features["feature.local_switch"] || !entitlements.Features[featureForPlatform(a.Platform)] {
+			continue
+		}
 		accounts = append(accounts, a)
 	}
 
@@ -120,8 +152,9 @@ func Checkin(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"subscription_active": hasActiveSub,
+		"subscription_active":     hasActiveSub,
 		"subscription_expires_at": expiresAt,
-		"accounts": accounts,
+		"accounts":                accounts,
+		"entitlements":            entitlements,
 	})
 }

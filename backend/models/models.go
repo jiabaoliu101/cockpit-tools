@@ -16,12 +16,25 @@ type User struct {
 
 // SubscriptionPlan defines a purchasable subscription tier
 type SubscriptionPlan struct {
-	ID           string `json:"id"`
-	Name         string `json:"name"`
-	DurationDays int    `json:"duration_days"`
-	MaxAccounts  int    `json:"max_accounts"`
-	PriceCents   int    `json:"price_cents"` // in CNY fen
-	IsActive     bool   `json:"is_active"`
+	ID           string          `json:"id"`
+	Name         string          `json:"name"`
+	DurationDays int             `json:"duration_days"`
+	MaxAccounts  int             `json:"max_accounts"`
+	MaxDevices   int             `json:"max_devices"`
+	Entitlements map[string]bool `json:"entitlements"`
+	PriceCents   int             `json:"price_cents"` // in CNY fen
+	IsActive     bool            `json:"is_active"`
+}
+
+type EffectiveEntitlements struct {
+	HasSubscription bool            `json:"has_subscription"`
+	IsAdmin         bool            `json:"is_admin"`
+	PlanID          string          `json:"plan_id,omitempty"`
+	PlanName        string          `json:"plan_name,omitempty"`
+	ExpiresAt       *time.Time      `json:"expires_at,omitempty"`
+	MaxAccounts     int             `json:"max_accounts"`
+	MaxDevices      int             `json:"max_devices"`
+	Features        map[string]bool `json:"features"`
 }
 
 // UserSubscription links a user to an active plan

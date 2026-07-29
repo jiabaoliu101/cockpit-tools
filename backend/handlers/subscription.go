@@ -19,7 +19,7 @@ var ErrInsufficientInventory = errors.New("insufficient ready account inventory"
 
 func GetSubscriptionPlans(c *gin.Context) {
 	rows, err := database.DB.Query(
-		`SELECT id, name, duration_days, max_accounts, price_cents, is_active
+		`SELECT id, name, duration_days, max_accounts, max_devices, entitlements, price_cents, is_active
 		 FROM subscription_plans WHERE is_active = true ORDER BY price_cents`,
 	)
 	if err != nil {
@@ -31,9 +31,11 @@ func GetSubscriptionPlans(c *gin.Context) {
 	var plans []models.SubscriptionPlan
 	for rows.Next() {
 		var p models.SubscriptionPlan
-		if err := rows.Scan(&p.ID, &p.Name, &p.DurationDays, &p.MaxAccounts, &p.PriceCents, &p.IsActive); err != nil {
+		var rawFeatures []byte
+		if err := rows.Scan(&p.ID, &p.Name, &p.DurationDays, &p.MaxAccounts, &p.MaxDevices, &rawFeatures, &p.PriceCents, &p.IsActive); err != nil {
 			continue
 		}
+		p.Entitlements = decodeFeatures(rawFeatures)
 		plans = append(plans, p)
 	}
 	c.JSON(http.StatusOK, plans)
@@ -42,21 +44,24 @@ func GetSubscriptionPlans(c *gin.Context) {
 func GetCurrentSubscription(c *gin.Context) {
 	userID := c.GetString("user_id")
 	var sub struct {
-		ID            string    `json:"id"`
-		PlanName      string    `json:"plan_name"`
-		MaxAccounts   int       `json:"max_accounts"`
-		Status        string    `json:"status"`
-		ExpiresAt     time.Time `json:"expires_at"`
-		AssignedCount int       `json:"assigned_count"`
+		ID            string          `json:"id"`
+		PlanName      string          `json:"plan_name"`
+		MaxAccounts   int             `json:"max_accounts"`
+		MaxDevices    int             `json:"max_devices"`
+		Entitlements  map[string]bool `json:"entitlements"`
+		Status        string          `json:"status"`
+		ExpiresAt     time.Time       `json:"expires_at"`
+		AssignedCount int             `json:"assigned_count"`
 	}
+	var rawEntitlements []byte
 	err := database.DB.QueryRow(
-		`SELECT us.id, sp.name, sp.max_accounts, us.status, us.expires_at
+		`SELECT us.id, sp.name, sp.max_accounts, sp.max_devices, sp.entitlements, us.status, us.expires_at
 		 FROM user_subscriptions us
 		 JOIN subscription_plans sp ON us.plan_id = sp.id
 		 WHERE us.user_id = $1 AND us.status = 'active' AND us.expires_at > NOW()
 		 ORDER BY us.expires_at DESC LIMIT 1`,
 		userID,
-	).Scan(&sub.ID, &sub.PlanName, &sub.MaxAccounts, &sub.Status, &sub.ExpiresAt)
+	).Scan(&sub.ID, &sub.PlanName, &sub.MaxAccounts, &sub.MaxDevices, &rawEntitlements, &sub.Status, &sub.ExpiresAt)
 	if err != nil {
 		// No active subscription
 		c.JSON(http.StatusOK, gin.H{
@@ -65,6 +70,7 @@ func GetCurrentSubscription(c *gin.Context) {
 		})
 		return
 	}
+	sub.Entitlements = decodeFeatures(rawEntitlements)
 
 	// Count assigned accounts
 	database.DB.QueryRow(
@@ -191,10 +197,11 @@ func fulfillOrder(orderID string) error {
 // accounts that are ready. The caller owns the transaction and idempotency key.
 func grantSubscriptionTx(tx *sql.Tx, userID, planID string) error {
 	var durationDays, maxAccounts int
+	var rawEntitlements []byte
 	if err := tx.QueryRow(
-		`SELECT duration_days, max_accounts FROM subscription_plans WHERE id = $1`,
+		`SELECT duration_days, max_accounts, entitlements FROM subscription_plans WHERE id = $1`,
 		planID,
-	).Scan(&durationDays, &maxAccounts); err != nil {
+	).Scan(&durationDays, &maxAccounts, &rawEntitlements); err != nil {
 		return err
 	}
 
@@ -222,6 +229,11 @@ func grantSubscriptionTx(tx *sql.Tx, userID, planID string) error {
 		planID, durationDays, subscriptionID,
 	); err != nil {
 		return err
+	}
+
+	features := decodeFeatures(rawEntitlements)
+	if !features["feature.local_switch"] || !features["platform.codex"] {
+		return nil
 	}
 
 	var assignedCount int
