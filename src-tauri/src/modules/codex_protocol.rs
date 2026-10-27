@@ -751,13 +751,23 @@ fn codex_client_model_template(model_id: &str) -> (Value, bool) {
         }
     }
 
+    // 未知型号借一个条目做能力模板。优先官方兜底型号，但它随时可能被上游下线，
+    // 因此退而取上下文窗口最小的可见条目：对未知模型而言这是最保守的假设，
+    // 不会让它虚报出远超实际的上下文。
     let default_model = models
         .iter()
         .find(|model| {
             model.get("slug").and_then(Value::as_str) == Some(CODEX_MODEL_CATALOG_TEMPLATE_SLUG)
         })
+        .or_else(|| {
+            models
+                .iter()
+                .filter(|model| model.get("context_window").and_then(Value::as_i64).is_some())
+                .min_by_key(|model| model["context_window"].as_i64().unwrap_or(i64::MAX))
+        })
+        .or_else(|| models.first())
         .cloned()
-        .expect("Codex client model templates should include gpt-5.6-sol");
+        .expect("Codex client model catalog should not be empty");
     let Some(model_override) = payload
         .get("model_overrides")
         .and_then(Value::as_array)

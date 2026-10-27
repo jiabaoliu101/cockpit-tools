@@ -321,6 +321,8 @@ fn validate_model(model: &Map<String, Value>, partial: bool) -> Result<(), Strin
     Ok(())
 }
 
+/// 校验目录结构。不要求任何特定型号存在：上游会下线或改名模型，兜底模板由
+/// 协议层从现有条目中挑选，因此这里只校验各条目自身是否完整。
 fn validate_catalog(catalog: &Value) -> Result<(), String> {
     let document = catalog.as_object().ok_or("catalog must be an object")?;
     let models = document
@@ -337,12 +339,6 @@ fn validate_catalog(catalog: &Value) -> Result<(), String> {
             return Err(format!("duplicate model slug {id}"));
         }
     }
-    if !models
-        .iter()
-        .any(|model| model["slug"].as_str() == Some("gpt-5.5"))
-    {
-        return Err("catalog missing canonical gpt-5.5 fallback template".to_string());
-    }
     if let Some(overrides) = document.get("model_overrides") {
         let overrides = overrides
             .as_array()
@@ -357,9 +353,13 @@ fn validate_catalog(catalog: &Value) -> Result<(), String> {
             if !seen.insert(id.clone()) {
                 return Err(format!("duplicate model override slug {id}"));
             }
+            // 覆盖项可以指向目录里没有的型号；此时拿任意一个完整条目做基底，
+            // 只用于补全未声明的必填字段，不依赖具体型号存在。
             let base = by_id
                 .get(&id)
-                .unwrap_or_else(|| by_id.get("gpt-5.5").unwrap());
+                .or_else(|| by_id.get("gpt-5.5"))
+                .or_else(|| by_id.values().next())
+                .ok_or("catalog has no models to validate overrides against")?;
             let mut combined = (*base).clone();
             combined.extend(model.clone());
             validate_model(&combined, false)?;
@@ -419,8 +419,12 @@ thread_local! {
 }
 
 #[cfg(test)]
-pub(crate) fn with_test_catalog<T>(catalog: Value, f: impl FnOnce() -> T) -> T {
-    struct Reset(Option<Arc<Value>>);
+pub(crate) fn parse_and_merge_for_test(bytes: &[u8]) -> Result<Value, String> {
+    parse_and_merge(bytes)
+}
+
+#[cfg(test)]
+pub(crate) fn with_test_catalog<T>(catalog: Value, f: impl FnOnce() -> T) -> T {    struct Reset(Option<Arc<Value>>);
     impl Drop for Reset {
         fn drop(&mut self) {
             TEST_CATALOG.with(|value| *value.borrow_mut() = self.0.take());
@@ -469,6 +473,32 @@ mod tests {
             .clone();
         model["slug"] = json!(slug);
         model
+    }
+
+    /// 上游会下线型号（例如 gpt-5.5 在 2026-10 一度从目录里消失），缺兜底型号
+    /// 不能导致整份目录被拒，否则刷新会永远失败并停在旧目录上。
+    #[test]
+    fn remote_catalog_without_fallback_model_is_still_accepted() {
+        let mut catalog = remote();
+        catalog["models"]
+            .as_array_mut()
+            .unwrap()
+            .retain(|model| model["slug"] != "gpt-5.5");
+        let merged = parse(&catalog).expect("catalog without gpt-5.5 must still merge");
+        let slugs: Vec<&str> = merged["models"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter_map(|model| model["slug"].as_str())
+            .collect();
+        assert!(slugs.contains(&"gpt-6.2-sol"));
+        assert!(!slugs.contains(&"gpt-5.5"), "missing fallback must not be resurrected");
+        assert!(!crate::modules::codex_protocol::build_codex_client_models_response(&[
+            "gpt-6.2-sol".to_string()
+        ])["models"]
+            .as_array()
+            .unwrap()
+            .is_empty());
     }
 
     fn remote() -> Value {
@@ -628,14 +658,12 @@ mod tests {
             .unwrap()
             .push(template("GPT-6.2-SOL"));
         assert!(parse(&duplicate).is_err());
-        for slug in [" GPT-6.2-SOL ", " gpt-5.5", "GPT-5.5"] {
+        for slug in [" GPT-6.2-SOL ", " gpt-6.2-sol ", "GPT-6.2-SOL "] {
             let mut malformed = remote();
-            malformed["models"][0]["slug"] = json!(slug);
-            assert!(parse(&malformed).is_err());
+            malformed["models"][1]["slug"] = json!(slug);
+            assert!(parse(&malformed).is_err(), "{slug:?}");
         }
-        let mut missing_fallback = remote();
-        missing_fallback["models"].as_array_mut().unwrap().remove(0);
-        assert!(parse(&missing_fallback).is_err());
+        // 缺兜底型号不再算错误，见 remote_catalog_without_fallback_model_is_still_accepted。
         assert!(parse_and_merge(b"not json").is_err());
         assert!(parse(&json!({"models":[]})).is_err());
         // Validate before filtering: a malformed retired row cannot be hidden by merge.
