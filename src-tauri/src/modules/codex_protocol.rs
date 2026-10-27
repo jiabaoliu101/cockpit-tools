@@ -285,7 +285,7 @@ fn apply_reasoning_effort_override(object: &mut Map<String, Value>, efforts: &[S
 }
 
 pub(crate) fn managed_codex_model_ids() -> Vec<String> {
-    managed_codex_model_ids_from_catalog(codex_client_model_catalog())
+    managed_codex_model_ids_from_catalog(codex_client_model_catalog().as_ref())
 }
 
 fn managed_codex_model_ids_from_catalog(catalog: &Value) -> Vec<String> {
@@ -1322,8 +1322,7 @@ mod tests {
     use super::*;
 
     fn model_template_for_test(slug: &str) -> Value {
-        let catalog: Value = serde_json::from_str(CODEX_CLIENT_MODEL_TEMPLATES_JSON)
-            .expect("model templates JSON should be valid");
+        let catalog = codex_client_model_catalog();
         catalog["models"].as_array().expect("template models should be an array")
             .iter().find(|model| model["slug"].as_str() == Some(slug))
             .unwrap_or_else(|| panic!("missing model template: {slug}")).clone()
@@ -1332,13 +1331,14 @@ mod tests {
     #[test]
     fn startup_catalog_supplies_future_model_capabilities() {
         let mut catalog = codex_client_model_catalog().as_ref().clone();
-        let future = catalog["models"]
-            .as_array()
-            .unwrap()
+        // 模板来源不绑定具体型号：兜底型号会随上游退役和更替。
+        let models = catalog["models"].as_array().unwrap();
+        let mut future = models
             .iter()
-            .find(|model| model["slug"] == "gpt-5.5")
-            .unwrap();
-        let mut future = future.clone();
+            .find(|model| model["slug"] == CODEX_MODEL_CATALOG_TEMPLATE_SLUG)
+            .or_else(|| models.first())
+            .unwrap()
+            .clone();
         future["slug"] = json!("gpt-6.2-sol");
         future["display_name"] = json!("GPT-6.2 Sol");
         future["context_window"] = json!(512000);

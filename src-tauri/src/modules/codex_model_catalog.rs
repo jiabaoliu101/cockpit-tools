@@ -9,7 +9,10 @@ use reqwest::Client;
 use serde_json::{Map, Value};
 use tokio::sync::OnceCell;
 
-use super::{atomic_write, codex_wakeup::is_codex_model_before_5_5, config, logger};
+use super::{
+    atomic_write, codex_account::is_retired_gpt55_model, codex_wakeup::is_codex_model_before_5_5,
+    config, logger,
+};
 
 const MAX_CATALOG_BYTES: usize = 8 * 1024 * 1024;
 const SOURCE_TIMEOUT: Duration = Duration::from_secs(8);
@@ -384,6 +387,7 @@ pub(crate) fn recommended_models() -> Vec<(String, String)> {
             || !(normalized.starts_with("gpt-") || normalized.starts_with("codex-"))
             || matches!(normalized.as_str(), "gpt-reserve" | "codex-auto-review")
             || normalized.contains("image")
+            || is_retired_gpt55_model(id)
             || is_codex_model_before_5_5(id)
         {
             continue;
@@ -424,7 +428,8 @@ pub(crate) fn parse_and_merge_for_test(bytes: &[u8]) -> Result<Value, String> {
 }
 
 #[cfg(test)]
-pub(crate) fn with_test_catalog<T>(catalog: Value, f: impl FnOnce() -> T) -> T {    struct Reset(Option<Arc<Value>>);
+pub(crate) fn with_test_catalog<T>(catalog: Value, f: impl FnOnce() -> T) -> T {
+    struct Reset(Option<Arc<Value>>);
     impl Drop for Reset {
         fn drop(&mut self) {
             TEST_CATALOG.with(|value| *value.borrow_mut() = self.0.take());
@@ -464,14 +469,18 @@ mod tests {
     }
 
     fn template(slug: &str) -> Value {
-        let mut model = embedded()["models"]
-            .as_array()
-            .unwrap()
+        // 夹具模板来源不绑定具体型号：兜底型号会随上游变化。显示名按 slug 重写，
+        // 避免沿用源条目的名字造成断言困惑。
+        let catalog = embedded();
+        let models = catalog["models"].as_array().unwrap();
+        let mut model = models
             .iter()
             .find(|model| model["slug"] == "gpt-5.5")
+            .or_else(|| models.first())
             .unwrap()
             .clone();
         model["slug"] = json!(slug);
+        model["display_name"] = json!(slug);
         model
     }
 
@@ -492,13 +501,18 @@ mod tests {
             .filter_map(|model| model["slug"].as_str())
             .collect();
         assert!(slugs.contains(&"gpt-6.2-sol"));
-        assert!(!slugs.contains(&"gpt-5.5"), "missing fallback must not be resurrected");
-        assert!(!crate::modules::codex_protocol::build_codex_client_models_response(&[
-            "gpt-6.2-sol".to_string()
-        ])["models"]
-            .as_array()
-            .unwrap()
-            .is_empty());
+        assert!(
+            !slugs.contains(&"gpt-5.5"),
+            "missing fallback must not be resurrected"
+        );
+        assert!(
+            !crate::modules::codex_protocol::build_codex_client_models_response(&[
+                "gpt-6.2-sol".to_string()
+            ])["models"]
+                .as_array()
+                .unwrap()
+                .is_empty()
+        );
     }
 
     fn remote() -> Value {

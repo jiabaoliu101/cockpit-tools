@@ -42,7 +42,9 @@ func hostCodexCatalogFixture(t *testing.T) []byte {
 	var future map[string]any
 	for _, raw := range models {
 		model := raw.(map[string]any)
-		if model["slug"] == "gpt-5.5" {
+		// 用目录里的第一个 GPT 条目做模板来源：兜底型号名称会随上游变化，
+		// 夹具不应绑定某个具体型号。
+		if future == nil && strings.HasPrefix(fmt.Sprint(model["slug"]), "gpt-") {
 			future = make(map[string]any, len(model))
 			for key, value := range model {
 				future[key] = value
@@ -54,7 +56,7 @@ func hostCodexCatalogFixture(t *testing.T) []byte {
 		}
 	}
 	if future == nil {
-		t.Fatal("missing gpt-5.5 fixture template")
+		t.Fatal("embedded catalog has no GPT model to use as fixture template")
 	}
 	future["slug"] = "gpt-6.2-sol"
 	future["display_name"] = "GPT-6.2 Sol Preview"
